@@ -33,11 +33,9 @@ import {
 
 export default function App () {
   return(
-    <Stack>
-          <Text>Sleep</Text>
-                <Progress value={20} size="xs" colorScheme="pink" />
-    </Stack>
 
-
+<Stack>
+  
+</Stack>
   )
 }
