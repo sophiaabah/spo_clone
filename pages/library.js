@@ -34,6 +34,7 @@ import {
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { FaSpotify, FaHeart } from "react-icons/fa";
 import Script from "next/dist/client/script";
 import Layout from "../components/layout";
 import Player from "../components/player";
@@ -51,6 +52,8 @@ export default function App() {
   const [is_paused, setPaused] = useState(false);
   const [is_active, setActive] = useState(false);
   const [current_track, setTrack] = useState(track);
+  const [playlists, setPlaylists] = useState([]);
+  const [recentlyPlayedTracks, setRecentlyPlayedTracks] = useState([]);
 
   useEffect(() => {
     window.onSpotifyWebPlaybackSDKReady = () => {
@@ -101,19 +104,58 @@ export default function App() {
       });
 
       spotify_instance.connect();
-      
+      getUserPlaylists();
+      getRecentlyPlayed();
     };
   }, []);
 
+  async function getUserPlaylists() {
+    const session_token = localStorage.getItem("session_token");
+
+    let userPlaylists = await fetch(`https://api.spotify.com/v1/me/playlists`, {
+      headers: {
+        Authorization: `Bearer ${session_token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    let parsedUserPlaylists = await userPlaylists.json();
+    if (parsedUserPlaylists.error) {
+      throw Error("User authentication for Spotify failed");
+    }
+    setPlaylists(parsedUserPlaylists.items);
+  }
+
+  async function getRecentlyPlayed() {
+    const session_token = localStorage.getItem("session_token");
+
+    let recentlyPlayed = await fetch(
+      `https://api.spotify.com/v1/me/top/tracks`,
+      {
+        headers: {
+          Authorization: `Bearer ${session_token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    let parsedRecentlyPlayed = await recentlyPlayed.json();
+    if (parsedRecentlyPlayed.error) {
+      throw Error("User authentication for Spotify failed");
+    }
+    console.log("recently played songs", parsedRecentlyPlayed);
+    setRecentlyPlayedTracks(parsedRecentlyPlayed.items);
+  }
+
   return (
-    <Layout>
+    <Layout playlists={playlists}>
       <Script
         src="https://sdk.scdn.co/spotify-player.js"
         strategy="afterInteractive"
       ></Script>
       <Stack spacing={12}>
-        <Stack spacing={6}>
-          <Heading fontSize="3xl">Good evening</Heading>
+        <Stack spacing={4}>
+          <Heading pb={3} fontSize="3xl">
+            Good evening
+          </Heading>
           <SimpleGrid columns={3} spacing={6}>
             <Link
               borderRadius="lg"
@@ -128,7 +170,7 @@ export default function App() {
               <Stack spacing={0} alignItems="center" direction="row">
                 <Image
                   boxSize="85px"
-                  src="https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png"
+                  src={recentlyPlayedTracks[0].album.images[0].url}
                   alt="album cover"
                 ></Image>
                 <Stack
@@ -139,7 +181,7 @@ export default function App() {
                   justifyContent="space-between"
                 >
                   <Text fontSize="md" fontWeight="600">
-                    Currents
+                    {recentlyPlayedTracks[0].album.name}
                   </Text>
                   {/* <IconButton
                           variant="ghost"
@@ -164,7 +206,7 @@ export default function App() {
               <Stack spacing={0} alignItems="center" direction="row">
                 <Image
                   boxSize="85px"
-                  src="https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png"
+                  src={recentlyPlayedTracks[4].album.images[0].url}
                   alt="album cover"
                 ></Image>
                 <Stack
@@ -175,7 +217,7 @@ export default function App() {
                   justifyContent="space-between"
                 >
                   <Text fontSize="md" fontWeight="600">
-                    Currents
+                    {recentlyPlayedTracks[4].album.name}
                   </Text>
                   {/* <IconButton
                           variant="ghost"
@@ -200,7 +242,7 @@ export default function App() {
               <Stack spacing={0} alignItems="center" direction="row">
                 <Image
                   boxSize="85px"
-                  src="https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png"
+                  src={recentlyPlayedTracks[6].album.images[0].url}
                   alt="album cover"
                 ></Image>
                 <Stack
@@ -211,7 +253,124 @@ export default function App() {
                   justifyContent="space-between"
                 >
                   <Text fontSize="md" fontWeight="600">
-                    Currents
+                    {recentlyPlayedTracks[6].album.name}
+                  </Text>
+                  {/* <IconButton
+                          variant="ghost"
+                          colorScheme="grey"
+                          fontSize="40px"
+                          icon={<BsFillPlayCircleFill />}
+                        ></IconButton> */}
+                </Stack>
+              </Stack>
+            </Link>
+          </SimpleGrid>
+          <SimpleGrid columns={3} spacing={6}>
+            <Link
+              borderRadius="lg"
+              overflow="hidden"
+              height="100%"
+              bgColor="hsla(0, 0%, 35%, .1)"
+              _hover={{
+                textDecoration: "none",
+                bgColor: "hsla(0, 0%, 45%, .14)",
+              }}
+            >
+              <Stack spacing={0} alignItems="center" direction="row">
+                <Image
+                  boxSize="85px"
+                  src={recentlyPlayedTracks[8].album.images[0].url}
+                  alt="album cover"
+                ></Image>
+                <Stack
+                  px={4}
+                  width="100%"
+                  alignItems="center"
+                  direction="row"
+                  justifyContent="space-between"
+                >
+                  <Text fontSize="md" fontWeight="600">
+                    {recentlyPlayedTracks[8].album.name}
+                  </Text>
+                  {/* <IconButton
+                          variant="ghost"
+                          colorScheme="grey"
+                          fontSize="40px"
+                          icon={<BsFillPlayCircleFill />}
+                        ></IconButton> */}
+                </Stack>
+              </Stack>
+            </Link>
+
+            <Link
+              borderRadius="lg"
+              overflow="hidden"
+              height="100%"
+              bgColor="hsla(0, 0%, 35%, .1)"
+              _hover={{
+                textDecoration: "none",
+                bgColor: "hsla(0, 0%, 45%, .14)",
+              }}
+            >
+              <Stack spacing={0} alignItems="center" direction="row">
+                <Image
+                  boxSize="85px"
+                  src={recentlyPlayedTracks[13].album.images[0].url}
+                  alt="album cover"
+                ></Image>
+                <Stack
+                  px={4}
+                  width="100%"
+                  alignItems="center"
+                  direction="row"
+                  justifyContent="space-between"
+                >
+                  <Text fontSize="md" fontWeight="600">
+                    {recentlyPlayedTracks[13].album.name}
+                  </Text>
+                  {/* <IconButton
+                          variant="ghost"
+                          colorScheme="grey"
+                          fontSize="40px"
+                          icon={<BsFillPlayCircleFill />}
+                        ></IconButton> */}
+                </Stack>
+              </Stack>
+            </Link>
+
+            <Link
+              borderRadius="lg"
+              overflow="hidden"
+              height="100%"
+              bgColor="hsla(0, 0%, 35%, .1)"
+              _hover={{
+                textDecoration: "none",
+                bgColor: "hsla(0, 0%, 45%, .14)",
+              }}
+            >
+              <Stack
+                spacing={0}
+                alignItems="center"
+                justify="center"
+                direction="row"
+              >
+                <Center
+                  borderRadius="sm"
+                  bgColor="purple"
+                  height="85px"
+                  width="113px"
+                >
+                  <Icon fontSize="22px" as={FaHeart} color="white" />
+                </Center>
+                <Stack
+                  px={4}
+                  width="100%"
+                  alignItems="center"
+                  direction="row"
+                  justifyContent="space-between"
+                >
+                  <Text fontSize="md" fontWeight="600">
+                    Liked Songs
                   </Text>
                   {/* <IconButton
                           variant="ghost"

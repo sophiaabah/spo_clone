@@ -53,7 +53,7 @@ import { VscListFlat } from "react-icons/vsc";
 import { RiAddFill } from "react-icons/ri";
 
 
-export default function Layout({ children }) {
+export default function Layout({ children, playlists }) {
   return (
     <Stack spacing={0} color="white">
       <Grid
@@ -151,174 +151,18 @@ export default function Layout({ children }) {
             overflowY="auto"
             spacing={2}
           >
+            {playlists.map((item, index) => {
+              return (
             <Link
+            key={index}
               opacity={0.6}
               _hover={{ textDecoration: "none", opacity: 1 }}
               fontSize="16px"
             >
-              Dance music
+              {item.name}
             </Link>
-            <Link
-              opacity={0.6}
-              _hover={{ textDecoration: "none", opacity: 1 }}
-              fontSize="16px"
-            >
-              Dance music
-            </Link>
-            <Link
-              opacity={0.6}
-              _hover={{ textDecoration: "none", opacity: 1 }}
-              fontSize="16px"
-            >
-              Chill vibes shop
-            </Link>
-            <Link
-              opacity={0.6}
-              _hover={{ textDecoration: "none", opacity: 1 }}
-              fontSize="16px"
-            >
-              Coffee is good
-            </Link>
-            <Link
-              opacity={0.6}
-              _hover={{ textDecoration: "none", opacity: 1 }}
-              fontSize="16px"
-            >
-              Nostalgia lane day
-            </Link>
-            <Link
-              opacity={0.6}
-              _hover={{ textDecoration: "none", opacity: 1 }}
-              fontSize="16px"
-            >
-              Sera
-            </Link>
-            <Link
-              opacity={0.6}
-              _hover={{ textDecoration: "none", opacity: 1 }}
-              fontSize="16px"
-            >
-              Dance music
-            </Link>
-            <Link
-              opacity={0.6}
-              _hover={{ textDecoration: "none", opacity: 1 }}
-              fontSize="16px"
-            >
-              Dance music
-            </Link>
-            <Link
-              opacity={0.6}
-              _hover={{ textDecoration: "none", opacity: 1 }}
-              fontSize="16px"
-            >
-              Dance music
-            </Link>
-            <Link
-              opacity={0.6}
-              _hover={{ textDecoration: "none", opacity: 1 }}
-              fontSize="16px"
-            >
-              Dance music
-            </Link>
-            <Link
-              opacity={0.6}
-              _hover={{ textDecoration: "none", opacity: 1 }}
-              fontSize="16px"
-            >
-              Dance music
-            </Link>
-            <Link
-              opacity={0.6}
-              _hover={{ textDecoration: "none", opacity: 1 }}
-              fontSize="16px"
-            >
-              Dance music
-            </Link>
-            <Link
-              opacity={0.6}
-              _hover={{ textDecoration: "none", opacity: 1 }}
-              fontSize="16px"
-            >
-              Dance music
-            </Link>
-            <Link
-              opacity={0.6}
-              _hover={{ textDecoration: "none", opacity: 1 }}
-              fontSize="16px"
-            >
-              Dance music
-            </Link>
-            <Link
-              opacity={0.6}
-              _hover={{ textDecoration: "none", opacity: 1 }}
-              fontSize="16px"
-            >
-              Dance music
-            </Link>
-            <Link
-              opacity={0.6}
-              _hover={{ textDecoration: "none", opacity: 1 }}
-              fontSize="16px"
-            >
-              Lane boy
-            </Link>
-            <Link
-              opacity={0.6}
-              _hover={{ textDecoration: "none", opacity: 1 }}
-              fontSize="16px"
-            >
-              Dance music
-            </Link>
-            <Link
-              opacity={0.6}
-              _hover={{ textDecoration: "none", opacity: 1 }}
-              fontSize="16px"
-            >
-              Lane boy
-            </Link>
-            <Link
-              opacity={0.6}
-              _hover={{ textDecoration: "none", opacity: 1 }}
-              fontSize="16px"
-            >
-              Dance music
-            </Link>
-            <Link
-              opacity={0.6}
-              _hover={{ textDecoration: "none", opacity: 1 }}
-              fontSize="16px"
-            >
-              Lane boy
-            </Link>
-            <Link
-              opacity={0.6}
-              _hover={{ textDecoration: "none", opacity: 1 }}
-              fontSize="16px"
-            >
-              Lane boy
-            </Link>{" "}
-            <Link
-              opacity={0.6}
-              _hover={{ textDecoration: "none", opacity: 1 }}
-              fontSize="16px"
-            >
-              Lane boy
-            </Link>{" "}
-            <Link
-              opacity={0.6}
-              _hover={{ textDecoration: "none", opacity: 1 }}
-              fontSize="16px"
-            >
-              Lane boy
-            </Link>{" "}
-            <Link
-              opacity={0.6}
-              _hover={{ textDecoration: "none", opacity: 1 }}
-              fontSize="16px"
-            >
-              new playlist
-            </Link>{" "}
+              );
+            })}
           </Stack>
         </GridItem>
 

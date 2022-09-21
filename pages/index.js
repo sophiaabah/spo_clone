@@ -38,7 +38,6 @@ import password from "secure-random-password";
 import PopupWindow, { toQuery } from "../lib/popup";
 
 
-
 var spotifyOauth = {
   response_type: "code",
   client_id: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID,
@@ -46,7 +45,17 @@ var spotifyOauth = {
   state: password.randomString({ length: 16 }),
   scope: "streaming \
           user-read-email \
-          user-read-private",
+          user-read-private \
+          user-read-recently-played \
+          user-top-read \
+          user-read-playback-position \
+          user-library-modify \
+          user-library-read \
+          playlist-read-private \
+          playlist-read-private \
+          playlist-modify-private \
+          playlist-modify-public \
+          ",
 };
 
 export default function App() {
