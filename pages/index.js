@@ -34,666 +34,80 @@ import {
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { AiFillHome, AiOutlineFullscreen, AiFillHeart } from "react-icons/ai";
-import { FiSearch, FiHeart } from "react-icons/fi";
-import { BiLibrary } from "react-icons/bi";
-import { FaSpotify, FaHeart } from "react-icons/fa";
-import {
-  IoIosArrowBack,
-  IoIosArrowForward,
-  IoIosSkipBackward,
-  IoIosSkipForward,
-  IoIosShuffle,
-} from "react-icons/io";
-import { MdAddBox } from "react-icons/md";
-import { BsFillPlayCircleFill, BsVolumeDownFill } from "react-icons/bs";
-import { TiArrowShuffle } from "react-icons/ti";
-import { TbMicrophone2, TbRepeat } from "react-icons/tb";
-import { VscListFlat } from "react-icons/vsc";
-import { RiAddFill } from "react-icons/ri";
+import password from "secure-random-password";
+import PopupWindow, { toQuery } from "../lib/popup";
+
+
+
+var spotifyOauth = {
+  response_type: "code",
+  client_id: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID,
+  redirect_uri: process.env.NEXT_PUBLIC_SPOTIFY_REDIRECT_URI,
+  state: password.randomString({ length: 16 }),
+  scope: "streaming \
+          user-read-email \
+          user-read-private",
+};
 
 export default function App() {
+    const router = useRouter();
+    async function onLogin() {
+        const access_data = await spotifyLogin();
+        console.log(access_data);
+        localStorage.setItem("session_token", access_data.access_token);
+
+        router.push({
+          pathname: "/library",
+          // query: { pid: linkInput, inputPlatform: platform },
+        });
+      }
+    
+
+
+    const spotifyLogin = async () => {
+      try {
+        const data = await PopupWindow.open(
+          "spotify-oauth-auth",
+          `https://accounts.spotify.com/authorize?${toQuery({
+            client_id: spotifyOauth.client_id,
+            response_type: "token",
+            redirect_uri: spotifyOauth.redirect_uri,
+            scope: spotifyOauth.scope,
+          })}`,
+          {
+            height: 800,
+            width: 600,
+          }
+        );
+        console.log(data)
+        return data;
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
   return (
-    <Stack spacing={12}>
-      <Stack spacing={6}>
-        <Heading fontSize="3xl">Good evening</Heading>
-        <SimpleGrid columns={3} spacing={6}>
-          <Link
-            borderRadius="lg"
-            overflow="hidden"
-            height="100%"
-            bgColor="hsla(0, 0%, 35%, .1)"
-            _hover={{
-              textDecoration: "none",
-              bgColor: "hsla(0, 0%, 45%, .14)",
-            }}
-          >
-            <Stack spacing={0} alignItems="center" direction="row">
-              <Image
-                boxSize="85px"
-                src="https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png"
-                alt="album cover"
-              ></Image>
-              <Stack
-                px={4}
-                width="100%"
-                alignItems="center"
-                direction="row"
-                justifyContent="space-between"
-              >
-                <Text fontSize="md" fontWeight="600">
-                  Currents
-                </Text>
-                {/* <IconButton
-                        variant="ghost"
-                        colorScheme="grey"
-                        fontSize="40px"
-                        icon={<BsFillPlayCircleFill />}
-                      ></IconButton> */}
-              </Stack>
-            </Stack>
-          </Link>
-
-          <Link
-            borderRadius="lg"
-            overflow="hidden"
-            height="100%"
-            bgColor="hsla(0, 0%, 35%, .1)"
-            _hover={{
-              textDecoration: "none",
-              bgColor: "hsla(0, 0%, 45%, .14)",
-            }}
-          >
-            <Stack spacing={0} alignItems="center" direction="row">
-              <Image
-                boxSize="85px"
-                src="https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png"
-                alt="album cover"
-              ></Image>
-              <Stack
-                px={4}
-                width="100%"
-                alignItems="center"
-                direction="row"
-                justifyContent="space-between"
-              >
-                <Text fontSize="md" fontWeight="600">
-                  Currents
-                </Text>
-                {/* <IconButton
-                        variant="ghost"
-                        colorScheme="grey"
-                        fontSize="40px"
-                        icon={<BsFillPlayCircleFill />}
-                      ></IconButton> */}
-              </Stack>
-            </Stack>
-          </Link>
-
-          <Link
-            borderRadius="lg"
-            overflow="hidden"
-            height="100%"
-            bgColor="hsla(0, 0%, 35%, .1)"
-            _hover={{
-              textDecoration: "none",
-              bgColor: "hsla(0, 0%, 45%, .14)",
-            }}
-          >
-            <Stack spacing={0} alignItems="center" direction="row">
-              <Image
-                boxSize="85px"
-                src="https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png"
-                alt="album cover"
-              ></Image>
-              <Stack
-                px={4}
-                width="100%"
-                alignItems="center"
-                direction="row"
-                justifyContent="space-between"
-              >
-                <Text fontSize="md" fontWeight="600">
-                  Currents
-                </Text>
-                {/* <IconButton
-                        variant="ghost"
-                        colorScheme="grey"
-                        fontSize="40px"
-                        icon={<BsFillPlayCircleFill />}
-                      ></IconButton> */}
-              </Stack>
-            </Stack>
-          </Link>
-        </SimpleGrid>
-      </Stack>
-
-      <Stack spacing={6}>
-        <Stack alignItems="baseline" direction="row" justify="space-between">
-          <Heading fontSize="xl">Recently played</Heading>
-          <Link
-            fontSize="sm"
-            color="whiteAlpha.700"
-            fontWeight={500}
-            textTransform="uppercase"
-          >
-            See All
-          </Link>
-        </Stack>
-
-        <SimpleGrid columns={6} spacing={8}>
-          <Link
-            borderRadius="lg"
-            overflow="hidden"
-            height="100%"
-            width="11.25rem"
-            bgColor="hsla(0, 0%, 30%, .1)"
-            _hover={{
-              textDecoration: "none",
-              bgColor: "hsla(0, 0%, 43%, .14)",
-            }}
-          >
-            <Stack p={4} pb={8} spacing={3} alignItems="center">
-              <Image
-                width="170px"
-                borderRadius="md"
-                src="https://e.snmc.io/i/600/w/e41c576ef01080b0ae24d1076bab9908/7006611/still-woozy-wolfcat-Cover-Art.jpg"
-                alt="album cover"
-              />
-              <Stack spacing={1} alignSelf="start">
-                <Text fontSize="md" fontWeight="600">
-                  Window
-                </Text>
-                <Text fontSize="sm" fontWeight="400" color="whiteAlpha.600">
-                  Still Woozy
-                </Text>
-              </Stack>
-            </Stack>
-          </Link>
-          <Link
-            borderRadius="lg"
-            overflow="hidden"
-            height="100%"
-            width="11.25rem"
-            bgColor="hsla(0, 0%, 30%, .1)"
-            _hover={{
-              textDecoration: "none",
-              bgColor: "hsla(0, 0%, 43%, .14)",
-            }}
-          >
-            <Stack p={4} pb={8} spacing={3} alignItems="center">
-              <Image
-                width="170px"
-                borderRadius="md"
-                src="https://e.snmc.io/i/600/w/e41c576ef01080b0ae24d1076bab9908/7006611/still-woozy-wolfcat-Cover-Art.jpg"
-                alt="album cover"
-              />
-              <Stack spacing={1} alignSelf="start">
-                <Text fontSize="md" fontWeight="600">
-                  Window
-                </Text>
-                <Text fontSize="sm" fontWeight="400" color="whiteAlpha.600">
-                  Still Woozy
-                </Text>
-              </Stack>
-            </Stack>
-          </Link>
-          <Link
-            borderRadius="lg"
-            overflow="hidden"
-            height="100%"
-            width="11.25rem"
-            bgColor="hsla(0, 0%, 30%, .1)"
-            _hover={{
-              textDecoration: "none",
-              bgColor: "hsla(0, 0%, 43%, .14)",
-            }}
-          >
-            <Stack p={4} pb={8} spacing={3} alignItems="center">
-              <Image
-                width="170px"
-                borderRadius="md"
-                src="https://e.snmc.io/i/600/w/e41c576ef01080b0ae24d1076bab9908/7006611/still-woozy-wolfcat-Cover-Art.jpg"
-                alt="album cover"
-              />
-              <Stack spacing={1} alignSelf="start">
-                <Text fontSize="md" fontWeight="600">
-                  Window
-                </Text>
-                <Text fontSize="sm" fontWeight="400" color="whiteAlpha.600">
-                  Still Woozy
-                </Text>
-              </Stack>
-            </Stack>
-          </Link>
-          <Link
-            borderRadius="lg"
-            overflow="hidden"
-            height="100%"
-            width="11.25rem"
-            bgColor="hsla(0, 0%, 30%, .1)"
-            _hover={{
-              textDecoration: "none",
-              bgColor: "hsla(0, 0%, 43%, .14)",
-            }}
-          >
-            <Stack p={4} pb={8} spacing={3} alignItems="center">
-              <Image
-                width="170px"
-                borderRadius="md"
-                src="https://e.snmc.io/i/600/w/e41c576ef01080b0ae24d1076bab9908/7006611/still-woozy-wolfcat-Cover-Art.jpg"
-                alt="album cover"
-              />
-              <Stack spacing={1} alignSelf="start">
-                <Text fontSize="md" fontWeight="600">
-                  Window
-                </Text>
-                <Text fontSize="sm" fontWeight="400" color="whiteAlpha.600">
-                  Still Woozy
-                </Text>
-              </Stack>
-            </Stack>
-          </Link>
-          <Link
-            borderRadius="lg"
-            overflow="hidden"
-            height="100%"
-            width="11.25rem"
-            bgColor="hsla(0, 0%, 30%, .1)"
-            _hover={{
-              textDecoration: "none",
-              bgColor: "hsla(0, 0%, 43%, .14)",
-            }}
-          >
-            <Stack p={4} pb={8} spacing={3} alignItems="center">
-              <Image
-                width="170px"
-                borderRadius="md"
-                src="https://e.snmc.io/i/600/w/e41c576ef01080b0ae24d1076bab9908/7006611/still-woozy-wolfcat-Cover-Art.jpg"
-                alt="album cover"
-              />
-              <Stack spacing={1} alignSelf="start">
-                <Text fontSize="md" fontWeight="600">
-                  Window
-                </Text>
-                <Text fontSize="sm" fontWeight="400" color="whiteAlpha.600">
-                  Still Woozy
-                </Text>
-              </Stack>
-            </Stack>
-          </Link>
-          <Link
-            borderRadius="lg"
-            overflow="hidden"
-            height="100%"
-            width="11.25rem"
-            bgColor="hsla(0, 0%, 30%, .1)"
-            _hover={{
-              textDecoration: "none",
-              bgColor: "hsla(0, 0%, 43%, .14)",
-            }}
-          >
-            <Stack p={4} pb={8} spacing={3} alignItems="center">
-              <Image
-                width="170px"
-                borderRadius="md"
-                src="https://e.snmc.io/i/600/w/e41c576ef01080b0ae24d1076bab9908/7006611/still-woozy-wolfcat-Cover-Art.jpg"
-                alt="album cover"
-              />
-              <Stack spacing={1} alignSelf="start">
-                <Text fontSize="md" fontWeight="600">
-                  Window
-                </Text>
-                <Text fontSize="sm" fontWeight="400" color="whiteAlpha.600">
-                  Still Woozy
-                </Text>
-              </Stack>
-            </Stack>
-          </Link>
-        </SimpleGrid>
-
-        <SimpleGrid columns={6} spacing={8}>
-          <Link
-            borderRadius="lg"
-            overflow="hidden"
-            height="100%"
-            width="11.25rem"
-            bgColor="hsla(0, 0%, 30%, .1)"
-            _hover={{
-              textDecoration: "none",
-              bgColor: "hsla(0, 0%, 43%, .14)",
-            }}
-          >
-            <Stack p={4} pb={8} spacing={3} alignItems="center">
-              <Image
-                width="170px"
-                borderRadius="md"
-                src="https://e.snmc.io/i/600/w/e41c576ef01080b0ae24d1076bab9908/7006611/still-woozy-wolfcat-Cover-Art.jpg"
-                alt="album cover"
-              />
-              <Stack spacing={1} alignSelf="start">
-                <Text fontSize="md" fontWeight="600">
-                  Window
-                </Text>
-                <Text fontSize="sm" fontWeight="400" color="whiteAlpha.600">
-                  Still Woozy
-                </Text>
-              </Stack>
-            </Stack>
-          </Link>
-          <Link
-            borderRadius="lg"
-            overflow="hidden"
-            height="100%"
-            width="11.25rem"
-            bgColor="hsla(0, 0%, 30%, .1)"
-            _hover={{
-              textDecoration: "none",
-              bgColor: "hsla(0, 0%, 43%, .14)",
-            }}
-          >
-            <Stack p={4} pb={8} spacing={3} alignItems="center">
-              <Image
-                width="170px"
-                borderRadius="md"
-                src="https://e.snmc.io/i/600/w/e41c576ef01080b0ae24d1076bab9908/7006611/still-woozy-wolfcat-Cover-Art.jpg"
-                alt="album cover"
-              />
-              <Stack spacing={1} alignSelf="start">
-                <Text fontSize="md" fontWeight="600">
-                  Window
-                </Text>
-                <Text fontSize="sm" fontWeight="400" color="whiteAlpha.600">
-                  Still Woozy
-                </Text>
-              </Stack>
-            </Stack>
-          </Link>
-          <Link
-            borderRadius="lg"
-            overflow="hidden"
-            height="100%"
-            width="11.25rem"
-            bgColor="hsla(0, 0%, 30%, .1)"
-            _hover={{
-              textDecoration: "none",
-              bgColor: "hsla(0, 0%, 43%, .14)",
-            }}
-          >
-            <Stack p={4} pb={8} spacing={3} alignItems="center">
-              <Image
-                width="170px"
-                borderRadius="md"
-                src="https://e.snmc.io/i/600/w/e41c576ef01080b0ae24d1076bab9908/7006611/still-woozy-wolfcat-Cover-Art.jpg"
-                alt="album cover"
-              />
-              <Stack spacing={1} alignSelf="start">
-                <Text fontSize="md" fontWeight="600">
-                  Window
-                </Text>
-                <Text fontSize="sm" fontWeight="400" color="whiteAlpha.600">
-                  Still Woozy
-                </Text>
-              </Stack>
-            </Stack>
-          </Link>
-          <Link
-            borderRadius="lg"
-            overflow="hidden"
-            height="100%"
-            width="11.25rem"
-            bgColor="hsla(0, 0%, 30%, .1)"
-            _hover={{
-              textDecoration: "none",
-              bgColor: "hsla(0, 0%, 43%, .14)",
-            }}
-          >
-            <Stack p={4} pb={8} spacing={3} alignItems="center">
-              <Image
-                width="170px"
-                borderRadius="md"
-                src="https://e.snmc.io/i/600/w/e41c576ef01080b0ae24d1076bab9908/7006611/still-woozy-wolfcat-Cover-Art.jpg"
-                alt="album cover"
-              />
-              <Stack spacing={1} alignSelf="start">
-                <Text fontSize="md" fontWeight="600">
-                  Window
-                </Text>
-                <Text fontSize="sm" fontWeight="400" color="whiteAlpha.600">
-                  Still Woozy
-                </Text>
-              </Stack>
-            </Stack>
-          </Link>
-          <Link
-            borderRadius="lg"
-            overflow="hidden"
-            height="100%"
-            width="11.25rem"
-            bgColor="hsla(0, 0%, 30%, .1)"
-            _hover={{
-              textDecoration: "none",
-              bgColor: "hsla(0, 0%, 43%, .14)",
-            }}
-          >
-            <Stack p={4} pb={8} spacing={3} alignItems="center">
-              <Image
-                width="170px"
-                borderRadius="md"
-                src="https://e.snmc.io/i/600/w/e41c576ef01080b0ae24d1076bab9908/7006611/still-woozy-wolfcat-Cover-Art.jpg"
-                alt="album cover"
-              />
-              <Stack spacing={1} alignSelf="start">
-                <Text fontSize="md" fontWeight="600">
-                  Window
-                </Text>
-                <Text fontSize="sm" fontWeight="400" color="whiteAlpha.600">
-                  Still Woozy
-                </Text>
-              </Stack>
-            </Stack>
-          </Link>
-          <Link
-            borderRadius="lg"
-            overflow="hidden"
-            height="100%"
-            width="11.25rem"
-            bgColor="hsla(0, 0%, 30%, .1)"
-            _hover={{
-              textDecoration: "none",
-              bgColor: "hsla(0, 0%, 43%, .14)",
-            }}
-          >
-            <Stack p={4} pb={8} spacing={3} alignItems="center">
-              <Image
-                width="170px"
-                borderRadius="md"
-                src="https://e.snmc.io/i/600/w/e41c576ef01080b0ae24d1076bab9908/7006611/still-woozy-wolfcat-Cover-Art.jpg"
-                alt="album cover"
-              />
-              <Stack spacing={1} alignSelf="start">
-                <Text fontSize="md" fontWeight="600">
-                  Window
-                </Text>
-                <Text fontSize="sm" fontWeight="400" color="whiteAlpha.600">
-                  Still Woozy
-                </Text>
-              </Stack>
-            </Stack>
-          </Link>
-        </SimpleGrid>
-
-        <SimpleGrid columns={6} spacing={8}>
-          <Link
-            borderRadius="lg"
-            overflow="hidden"
-            height="100%"
-            width="11.25rem"
-            bgColor="hsla(0, 0%, 30%, .1)"
-            _hover={{
-              textDecoration: "none",
-              bgColor: "hsla(0, 0%, 43%, .14)",
-            }}
-          >
-            <Stack p={4} pb={8} spacing={3} alignItems="center">
-              <Image
-                width="170px"
-                borderRadius="md"
-                src="https://e.snmc.io/i/600/w/e41c576ef01080b0ae24d1076bab9908/7006611/still-woozy-wolfcat-Cover-Art.jpg"
-                alt="album cover"
-              />
-              <Stack spacing={1} alignSelf="start">
-                <Text fontSize="md" fontWeight="600">
-                  Window
-                </Text>
-                <Text fontSize="sm" fontWeight="400" color="whiteAlpha.600">
-                  Still Woozy
-                </Text>
-              </Stack>
-            </Stack>
-          </Link>
-          <Link
-            borderRadius="lg"
-            overflow="hidden"
-            height="100%"
-            width="11.25rem"
-            bgColor="hsla(0, 0%, 30%, .1)"
-            _hover={{
-              textDecoration: "none",
-              bgColor: "hsla(0, 0%, 43%, .14)",
-            }}
-          >
-            <Stack p={4} pb={8} spacing={3} alignItems="center">
-              <Image
-                width="170px"
-                borderRadius="md"
-                src="https://e.snmc.io/i/600/w/e41c576ef01080b0ae24d1076bab9908/7006611/still-woozy-wolfcat-Cover-Art.jpg"
-                alt="album cover"
-              />
-              <Stack spacing={1} alignSelf="start">
-                <Text fontSize="md" fontWeight="600">
-                  Window
-                </Text>
-                <Text fontSize="sm" fontWeight="400" color="whiteAlpha.600">
-                  Still Woozy
-                </Text>
-              </Stack>
-            </Stack>
-          </Link>
-          <Link
-            borderRadius="lg"
-            overflow="hidden"
-            height="100%"
-            width="11.25rem"
-            bgColor="hsla(0, 0%, 30%, .1)"
-            _hover={{
-              textDecoration: "none",
-              bgColor: "hsla(0, 0%, 43%, .14)",
-            }}
-          >
-            <Stack p={4} pb={8} spacing={3} alignItems="center">
-              <Image
-                width="170px"
-                borderRadius="md"
-                src="https://e.snmc.io/i/600/w/e41c576ef01080b0ae24d1076bab9908/7006611/still-woozy-wolfcat-Cover-Art.jpg"
-                alt="album cover"
-              />
-              <Stack spacing={1} alignSelf="start">
-                <Text fontSize="md" fontWeight="600">
-                  Window
-                </Text>
-                <Text fontSize="sm" fontWeight="400" color="whiteAlpha.600">
-                  Still Woozy
-                </Text>
-              </Stack>
-            </Stack>
-          </Link>
-          <Link
-            borderRadius="lg"
-            overflow="hidden"
-            height="100%"
-            width="11.25rem"
-            bgColor="hsla(0, 0%, 30%, .1)"
-            _hover={{
-              textDecoration: "none",
-              bgColor: "hsla(0, 0%, 43%, .14)",
-            }}
-          >
-            <Stack p={4} pb={8} spacing={3} alignItems="center">
-              <Image
-                width="170px"
-                borderRadius="md"
-                src="https://e.snmc.io/i/600/w/e41c576ef01080b0ae24d1076bab9908/7006611/still-woozy-wolfcat-Cover-Art.jpg"
-                alt="album cover"
-              />
-              <Stack spacing={1} alignSelf="start">
-                <Text fontSize="md" fontWeight="600">
-                  Window
-                </Text>
-                <Text fontSize="sm" fontWeight="400" color="whiteAlpha.600">
-                  Still Woozy
-                </Text>
-              </Stack>
-            </Stack>
-          </Link>
-          <Link
-            borderRadius="lg"
-            overflow="hidden"
-            height="100%"
-            width="11.25rem"
-            bgColor="hsla(0, 0%, 30%, .1)"
-            _hover={{
-              textDecoration: "none",
-              bgColor: "hsla(0, 0%, 43%, .14)",
-            }}
-          >
-            <Stack p={4} pb={8} spacing={3} alignItems="center">
-              <Image
-                width="170px"
-                borderRadius="md"
-                src="https://e.snmc.io/i/600/w/e41c576ef01080b0ae24d1076bab9908/7006611/still-woozy-wolfcat-Cover-Art.jpg"
-                alt="album cover"
-              />
-              <Stack spacing={1} alignSelf="start">
-                <Text fontSize="md" fontWeight="600">
-                  Window
-                </Text>
-                <Text fontSize="sm" fontWeight="400" color="whiteAlpha.600">
-                  Still Woozy
-                </Text>
-              </Stack>
-            </Stack>
-          </Link>
-          <Link
-            borderRadius="lg"
-            overflow="hidden"
-            height="100%"
-            width="11.25rem"
-            bgColor="hsla(0, 0%, 30%, .1)"
-            _hover={{
-              textDecoration: "none",
-              bgColor: "hsla(0, 0%, 43%, .14)",
-            }}
-          >
-            <Stack p={4} pb={8} spacing={3} alignItems="center">
-              <Image
-                width="170px"
-                borderRadius="md"
-                src="https://e.snmc.io/i/600/w/e41c576ef01080b0ae24d1076bab9908/7006611/still-woozy-wolfcat-Cover-Art.jpg"
-                alt="album cover"
-              />
-              <Stack spacing={1} alignSelf="start">
-                <Text fontSize="md" fontWeight="600">
-                  Window
-                </Text>
-                <Text fontSize="sm" fontWeight="400" color="whiteAlpha.600">
-                  Still Woozy
-                </Text>
-              </Stack>
-            </Stack>
-          </Link>
-        </SimpleGrid>
-      </Stack>
-    </Stack>
+    <Center
+      height="100vh"
+      bgImage=" linear-gradient(1.35deg, rgba(0, 0, 0, 0.85) 10.36%, rgba(0, 0, 0, 0.7) 52.28%, rgba(0, 0, 0, 0.3) 95.58%), url('/images/bgImage.jpg')"
+    >
+      
+      <Button
+        borderRadius="full"
+        px={8}
+        py={7}
+        fontWeight={700}
+        lineHeight="1.25rem"
+        fontSize="1rem"
+        bgColor="#1ed760"
+        color="black"
+        textTransform="uppercase"
+        onClick={onLogin}
+        letterSpacing="1.5px"
+      >
+        Login to your Spotify
+      </Button>
+    </Center>
   );
+
 }
