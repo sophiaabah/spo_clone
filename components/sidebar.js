@@ -38,18 +38,26 @@ import { AiFillHome } from "react-icons/ai";
 import { FiSearch } from "react-icons/fi";
 import { BiLibrary } from "react-icons/bi";
 import { RiAddFill } from "react-icons/ri";
+import { getPlaylists } from "../lib/api";
 
 export default function Sidebar() {
+  const [playlists, setPlaylists] = useState([]);
+  useEffect(() => {
+    getPlaylists().then((data) => {
+      setPlaylists(data);
+    });
+  }, []);
+
   return (
-    <Stack px={6}>
-      <Stack pb={8} alignItems="center" spacing={3} direction="row">
+    <>
+      <Stack px={6} pb={8} alignItems="center" spacing={3} direction="row">
         <Icon w={10} h={10} as={FaSpotify}></Icon>
         <Text fontWeight={600} fontSize="2xl">
           Spotify
         </Text>
       </Stack>
 
-      <Stack spacing={4}>
+      <Stack px={6} pb={4} spacing={4}>
         <Link opacity={0.6} _hover={{ textDecoration: "none", opacity: 1 }}>
           <Stack spacing={4} alignItems="center" direction="row">
             <Icon as={AiFillHome} w={7} h={7} />
@@ -77,7 +85,13 @@ export default function Sidebar() {
         </Link>
       </Stack>
 
-      <Stack pt={6} spacing={3} alignItems="flex-start" justifyContent="center">
+      <Stack
+        px={6}
+        pt={6}
+        spacing={3}
+        alignItems="flex-start"
+        justifyContent="center"
+      >
         <Link opacity={0.6} _hover={{ textDecoration: "none", opacity: 1 }}>
           <Stack spacing={4} alignItems="center" direction="row">
             <Center borderRadius="sm" bgColor="white" boxSize={7}>
@@ -99,8 +113,8 @@ export default function Sidebar() {
             </Text>
           </Stack>
         </Link>
+        <Divider pt={2} h="0.3px" borderColor="whiteAlpha.400" />
       </Stack>
-      <Divider pt={4} h="0.3px" borderColor="whiteAlpha.400" />
 
       <Stack
         sx={{
@@ -109,21 +123,26 @@ export default function Sidebar() {
             backgroundColor: "gray",
           },
         }}
-        pt={1}
+        pl={6}
+        py={3}
         height="54vh"
         overflowY="auto"
         spacing={2}
       >
-        <Link
-          // key={index}
-          opacity={0.6}
-          _hover={{ textDecoration: "none", opacity: 1 }}
-          fontSize="16px"
-        >
-          {/* {playlist.name} */}
-          Text
-        </Link>
+        {playlists.map((playlist) => {
+          return (
+            <Link
+              key={playlist.id}
+              opacity={0.6}
+              _hover={{ textDecoration: "none", opacity: 1 }}
+              fontSize="16px"
+            >
+              {playlist.name}
+              {/* Text */}
+            </Link>
+          );
+        })}
       </Stack>
-    </Stack>
+    </>
   );
 }

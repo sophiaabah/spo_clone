@@ -57,39 +57,39 @@ export default function Player() {
 
   useEffect(() => {
     window.onSpotifyWebPlaybackSDKReady = () => {
-      const session_token = localStorage.getItem("session_token");
+      const token = localStorage.getItem("token");
 
-      const spotify_instance = new window.Spotify.Player({
+      const spotifyInstance = new window.Spotify.Player({
         name: "Web Playback SDK",
         getOAuthToken: (cb) => {
-          cb(session_token);
+          cb(token);
         },
         volume: 0.5,
       });
 
-      setPlayer(spotify_instance);
+      setPlayer(spotifyInstance);
 
-      spotify_instance.addListener("ready", ({ device_id }) => {
+      spotifyInstance.addListener("ready", ({ device_id }) => {
         console.log("Ready with Device ID", device_id);
       });
 
-      spotify_instance.addListener("not_ready", ({ device_id }) => {
+      spotifyInstance.addListener("not_ready", ({ device_id }) => {
         console.log("Device ID has gone offline", device_id);
       });
 
-      spotify_instance.addListener("initialization_error", ({ message }) => {
+      spotifyInstance.addListener("initialization_error", ({ message }) => {
         console.error(message);
       });
 
-      spotify_instance.addListener("authentication_error", ({ message }) => {
+      spotifyInstance.addListener("authentication_error", ({ message }) => {
         console.error(message);
       });
 
-      spotify_instance.addListener("account_error", ({ message }) => {
+      spotifyInstance.addListener("account_error", ({ message }) => {
         console.error(message);
       });
 
-      spotify_instance.addListener("player_state_changed", (state) => {
+      spotifyInstance.addListener("player_state_changed", (state) => {
         if (!state) {
           console.log(state);
           return;
@@ -98,15 +98,15 @@ export default function Player() {
         setTrack(state.track_window.current_track);
         setPaused(state.paused);
 
-        spotify_instance.getCurrentState().then((state) => {
+        spotifyInstance.getCurrentState().then((state) => {
           !state ? setActive(false) : setActive(true);
         });
       });
 
-      spotify_instance.connect();
+      spotifyInstance.connect();
 
       // return (
-      //   spotify_instance.removeListener()
+      //   spotifyInstance.removeListener()
       // );
     };
   }, []);

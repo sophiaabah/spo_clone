@@ -41,7 +41,7 @@ const spotifyOauth = {
   response_type: "code",
   client_id: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID,
   redirect_uri: process.env.NEXT_PUBLIC_SPOTIFY_REDIRECT_URI,
-  state: password.randomString({ length: 16 }),
+  // state: password.randomString({ length: 16 }),
   scope:
     "streaming \
           user-read-email \
@@ -59,11 +59,14 @@ const spotifyOauth = {
 };
 
 export default function App() {
+  const [isLoading, setLoading] = useState(false);
+
   const router = useRouter();
   async function onLogin() {
+    setLoading(true);
     const access_data = await spotifyLogin();
     console.log(access_data);
-    localStorage.setItem("session_token", access_data.access_token);
+    localStorage.setItem("token", access_data.access_token);
 
     router.push({
       pathname: "/library",
@@ -99,6 +102,8 @@ export default function App() {
       bgImage=" linear-gradient(1.35deg, rgba(0, 0, 0, 0.85) 10.36%, rgba(0, 0, 0, 0.7) 52.28%, rgba(0, 0, 0, 0.3) 95.58%), url('/images/bgImage.jpg')"
     >
       <Button
+        isLoading={isLoading}
+        loadingText="Logging in"
         borderRadius="full"
         px={8}
         py={7}
