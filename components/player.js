@@ -54,6 +54,7 @@ export default function Player() {
   const [is_paused, setPaused] = useState(false);
   const [is_active, setActive] = useState(false);
   const [current_track, setTrack] = useState(track);
+  const [playbackState, setPlaybackState] = useState({});
 
   useEffect(() => {
     window.onSpotifyWebPlaybackSDKReady = () => {
@@ -94,12 +95,16 @@ export default function Player() {
           console.log(state);
           return;
         }
-
+        console.log(state);
         setTrack(state.track_window.current_track);
         setPaused(state.paused);
-
-        spotifyInstance.getCurrentState().then((state) => {
-          !state ? setActive(false) : setActive(true);
+        setPlaybackState({
+          context: state.context,
+          duration: state.duration,
+          position: state.position,
+          repeatMode: state.repeat_mode,
+          shuffle: state.shuffle,
+          timestap: state.timestamp,
         });
       });
 
@@ -114,6 +119,33 @@ export default function Player() {
       };
     };
   }, []);
+
+  function timeToString(time) {
+    let diffInMin = time / 60000;
+    let mm = Math.floor(diffInMin);
+
+    let diffInSec = (diffInMin - mm) * 60;
+    let ss = Math.floor(diffInSec);
+    let formattedSS = ss.toString().padStart(2, "0");
+    return `${mm}:${formattedSS}`;
+  }
+
+  useEffect(() => {
+    if (is_paused === false) {
+      const interval = setInterval(() => {
+        setPlaybackState((prev) => ({
+          ...prev,
+          position: prev.position + 1000,
+        }));
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [player, is_paused]);
+
+  // async function handleSeek(e) {
+  //   let newPosition = playbackState.duration * (e.target.value / 1000);
+  //   player.seek(newPosition);
+  // }
 
   return (
     <Stack
@@ -217,14 +249,25 @@ export default function Player() {
             icon={<TbRepeat />}
           ></IconButton>
         </Stack>
-        <Stack alignItems="center" direction="row">
+        <Stack width="" alignItems="center" direction="row">
           <Text fontSize="xs" fontWeight="400" color="whiteAlpha.600">
-            0:00
+            {/* 0:00 */}
+            {timeToString(playbackState.position) || "0:00"}
           </Text>
-
-          <Progress w="100%" value={0} size="xs" color="grey" />
+          <input
+            style={{ width: "100%" }}
+            type="range"
+            value={playbackState.position / 1000}
+            min="0"
+            readOnly
+            max={playbackState.duration / 1000}
+            // onChange={(e) => {
+            //   handleSeek(e)
+            // }}
+          ></input>
           <Text fontSize="xs" fontWeight="400" color="whiteAlpha.600">
-            2:56
+            {/* 2:56 */}
+            {timeToString(playbackState.duration) || "0:00"}
           </Text>
         </Stack>
       </Stack>
