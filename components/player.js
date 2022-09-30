@@ -105,9 +105,13 @@ export default function Player() {
 
       spotifyInstance.connect();
 
-      // return (
-      //   spotifyInstance.removeListener()
-      // );
+      return () => {
+        spotifyInstance.removeListener("ready");
+        spotifyInstance.removeListener("not_ready");
+        spotifyInstance.removeListener("initialization_error");
+        spotifyInstance.removeListener("account_error");
+        spotifyInstance.removeListener("player_state_changed");
+      };
     };
   }, []);
 

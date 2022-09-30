@@ -35,6 +35,7 @@ import React, { useEffect, useState } from "react";
 
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Sidebar from "../components/sidebar";
+import Player from "../components/player";
 
 export default function Layout({ children }) {
   return (
@@ -47,7 +48,9 @@ export default function Layout({ children }) {
         gridTemplateRows={"1fr 70px"}
         gridTemplateColumns={"240px 1fr"}
         height="100vh"
+        position="relative"
       >
+        {/* sidebar */}
         <GridItem
           height="100vh"
           overflow="none"
@@ -58,9 +61,10 @@ export default function Layout({ children }) {
           <Sidebar />
         </GridItem>
 
+        {/* main */}
         <GridItem
           marginBottom="90px"
-          height="90vh"
+          height="90%"
           overflowY="auto"
           sx={{
             "::-webkit-scrollbar": {
@@ -68,11 +72,13 @@ export default function Layout({ children }) {
               backgroundColor: "gray",
             },
           }}
-          py={4}
-          bgColor="#121212"
+          py={6}
           px={9}
           area={"main"}
+          position="relative"
+          bgColor="#121212"
         >
+          {/* floating topbar */}
           <Stack pb={5} spacing={3} direction="row">
             <IconButton
               borderRadius="full"
@@ -87,8 +93,11 @@ export default function Layout({ children }) {
               icon={<IoIosArrowForward />}
             ></IconButton>
           </Stack>
+
           {children}
         </GridItem>
+
+        <Player />
       </Grid>
     </Stack>
   );

@@ -135,7 +135,7 @@ export default function Sidebar() {
               key={playlist.id}
               opacity={0.6}
               _hover={{ textDecoration: "none", opacity: 1 }}
-              fontSize="16px"
+              fontSize="15px"
             >
               {playlist.name}
               {/* Text */}
