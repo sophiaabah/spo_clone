@@ -30,6 +30,7 @@ import {
   IconButton,
   Container,
   Wrap,
+  Skeleton,
   WrapItem,
   chakra,
   FormControl,
@@ -44,6 +45,7 @@ import { BsFillPlayCircleFill, BsVolumeDownFill } from "react-icons/bs";
 import { TiArrowShuffle } from "react-icons/ti";
 import { TbMicrophone2, TbRepeat } from "react-icons/tb";
 import { VscListFlat } from "react-icons/vsc";
+import { MdPauseCircleFilled } from "react-icons/md";
 
 const track = {
   name: "",
@@ -55,7 +57,7 @@ const track = {
 
 export default function Player() {
   const [player, setPlayer] = useState(undefined);
-  const [is_paused, setPaused] = useState(false);
+  const [is_paused, setPaused] = useState(true);
   const [is_active, setActive] = useState(false);
   const [current_track, setTrack] = useState(track);
   const [playbackState, setPlaybackState] = useState({});
@@ -163,19 +165,31 @@ export default function Player() {
         src="https://sdk.scdn.co/spotify-player.js"
         strategy="afterInteractive"
       ></Script>
+      {/* <Skeleton isLoaded={!current_track}> */}
       <Stack flex={1} px={5} spacing={4} alignItems="center" direction="row">
-        <Image
-          width="55px"
-          src={current_track.album.images[0].url || ""}
-          alt="album cover"
-        />
-        <Stack spacing="0.1rem">
-          <Link fontSize="sm" fontWeight="600">
-            {current_track.name || "dummy track"}
-          </Link>
-          <Link fontSize="xs" fontWeight="400" color="whiteAlpha.600">
-            {current_track.artists[0].name || "dummy link"}
-          </Link>
+        <Skeleton height="55px" isLoaded={current_track.album.images[0].url}>
+          <Image
+            width="55px"
+            src={current_track.album.images[0].url || ""}
+            alt="album cover"
+          />
+        </Skeleton>
+        <Stack spacing="0.5rem">
+          <Skeleton height="12px" isLoaded={current_track.name}>
+            <Link fontSize="sm" fontWeight="600">
+              {current_track.name || "dummy track"}
+            </Link>
+          </Skeleton>
+          <Skeleton height="12px" isLoaded={current_track.artists[0].name}>
+            <Link
+              // pt="20px"
+              fontSize="xs"
+              fontWeight="400"
+              color="whiteAlpha.600"
+            >
+              {current_track.artists[0].name || "dummy link"}
+            </Link>
+          </Skeleton>
         </Stack>
         <IconButton
           _hover={{
@@ -186,6 +200,7 @@ export default function Player() {
           icon={<FiHeart />}
         ></IconButton>
       </Stack>
+      {/* </Skeleton> */}
       <Stack flex={1}>
         <Stack alignSelf="center" spacing={1} direction="row">
           <IconButton
@@ -221,7 +236,9 @@ export default function Player() {
               variant="ghost"
               color="whiteAlpha.800"
               fontSize="40px"
-              icon={<BsFillPlayCircleFill />}
+              icon={
+                is_paused ? <BsFillPlayCircleFill /> : <MdPauseCircleFilled />
+              }
             ></IconButton>
             <IconButton
               onClick={() => {
@@ -251,8 +268,11 @@ export default function Player() {
         <Stack width="" alignItems="center" direction="row">
           <Text fontSize="xs" fontWeight="400" color="whiteAlpha.600">
             {/* 0:00 */}
-            {timeToString(playbackState?.position) || "0:00"}
+            {playbackState.position
+              ? timeToString(playbackState?.position)
+              : "0:00"}
           </Text>
+
           <Slider
             value={
               (playbackState?.position / playbackState.duration) * 100 || 0
@@ -266,13 +286,15 @@ export default function Player() {
             }}
           >
             <SliderTrack bg="gray">
-              <SliderFilledTrack />
+              <SliderFilledTrack bg="white" />
             </SliderTrack>
             <SliderThumb boxSize={2}></SliderThumb>
           </Slider>
           <Text fontSize="xs" fontWeight="400" color="whiteAlpha.600">
             {/* 2:56 */}
-            {timeToString(playbackState?.duration) || "0:00"}
+            {playbackState.position
+              ? timeToString(playbackState?.duration)
+              : "0:00"}
           </Text>
         </Stack>
       </Stack>
