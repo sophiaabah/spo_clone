@@ -4,6 +4,10 @@ import {
   Image,
   Center,
   Spacer,
+  Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  SliderThumb,
   Link,
   List,
   ListItem,
@@ -142,11 +146,6 @@ export default function Player() {
     }
   }, [player, is_paused]);
 
-  // async function handleSeek(e) {
-  //   let newPosition = playbackState.duration * (e.target.value / 1000);
-  //   player.seek(newPosition);
-  // }
-
   return (
     <Stack
       justify="space-between"
@@ -252,22 +251,28 @@ export default function Player() {
         <Stack width="" alignItems="center" direction="row">
           <Text fontSize="xs" fontWeight="400" color="whiteAlpha.600">
             {/* 0:00 */}
-            {timeToString(playbackState.position) || "0:00"}
+            {timeToString(playbackState?.position) || "0:00"}
           </Text>
-          <input
-            style={{ width: "100%" }}
-            type="range"
-            value={playbackState.position / 1000}
-            min="0"
-            readOnly
-            max={playbackState.duration / 1000}
-            // onChange={(e) => {
-            //   handleSeek(e)
-            // }}
-          ></input>
+          <Slider
+            value={
+              (playbackState?.position / playbackState.duration) * 100 || 0
+            }
+            min={0}
+            // max={playbackState?.duration || 0}
+            onChange={(value) => {
+              console.log("value", value);
+              // console.log("argument", playbackState.duration * (value / 100));
+              player.seek(playbackState.duration * (value / 100));
+            }}
+          >
+            <SliderTrack bg="gray">
+              <SliderFilledTrack />
+            </SliderTrack>
+            <SliderThumb boxSize={2}></SliderThumb>
+          </Slider>
           <Text fontSize="xs" fontWeight="400" color="whiteAlpha.600">
             {/* 2:56 */}
-            {timeToString(playbackState.duration) || "0:00"}
+            {timeToString(playbackState?.duration) || "0:00"}
           </Text>
         </Stack>
       </Stack>
