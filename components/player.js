@@ -46,6 +46,7 @@ import { TiArrowShuffle } from "react-icons/ti";
 import { TbMicrophone2, TbRepeat } from "react-icons/tb";
 import { VscListFlat } from "react-icons/vsc";
 import { MdPauseCircleFilled } from "react-icons/md";
+import { timeToString } from "../lib/helpers";
 
 const track = {
   name: "",
@@ -126,15 +127,15 @@ export default function Player() {
     };
   }, []);
 
-  function timeToString(time) {
-    let diffInMin = time / 60000;
-    let mm = Math.floor(diffInMin);
+  // function timeToString(time) {
+  //   let diffInMin = time / 60000;
+  //   let mm = Math.floor(diffInMin);
 
-    let diffInSec = (diffInMin - mm) * 60;
-    let ss = Math.floor(diffInSec);
-    let formattedSS = ss.toString().padStart(2, "0");
-    return `${mm}:${formattedSS}`;
-  }
+  //   let diffInSec = (diffInMin - mm) * 60;
+  //   let ss = Math.floor(diffInSec);
+  //   let formattedSS = ss.toString().padStart(2, "0");
+  //   return `${mm}:${formattedSS}`;
+  // }
 
   useEffect(() => {
     if (is_paused === false) {

@@ -39,6 +39,7 @@ import { FiSearch } from "react-icons/fi";
 import { BiLibrary } from "react-icons/bi";
 import { RiAddFill } from "react-icons/ri";
 import { getPlaylists } from "../lib/api";
+import Heart from "./heart";
 
 export default function Sidebar() {
   const [playlists, setPlaylists] = useState([]);
@@ -105,9 +106,7 @@ export default function Sidebar() {
         <Link opacity={0.6} _hover={{ textDecoration: "none", opacity: 1 }}>
           <Stack spacing={4} alignItems="center" direction="row">
             {/* <Image src="" alt="favorite songs" boxSize="21px"></Image> */}
-            <Center borderRadius="sm" bgColor="purple" boxSize={7}>
-              <Icon as={FaHeart} color="white" />
-            </Center>
+            <Heart borderRadius="sm" boxSize={7} />
             <Text fontWeight={500} fontSize="0.925rem">
               Liked Songs
             </Text>

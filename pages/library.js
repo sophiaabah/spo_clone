@@ -38,21 +38,22 @@ import { getTopTracks, getLikedAlbums, getRelatedArtists } from "../lib/api";
 import Layout from "../components/layout";
 import shuffle from "lodash.shuffle";
 import axios from "axios";
+import { BiCategory } from "react-icons/bi";
+import { useRouter } from "next/router";
 
-export default function Page() {
+export default function Library() {
   const [recentAlbums, setRecentAlbums] = useState([]);
   const [relatedArtists, setRelatedArtists] = useState([]);
   const [likedAlbums, setLikedAlbums] = useState([]);
+  const router = useRouter();
 
-  // axios.interceptors.response.use(
-  //   (res) => res,
-  //   (err) => {
-  //     if (err.response.status === 404) {
-  //       throw new Error(`${err.config.url} not found`);
-  //     }
-  //     throw err;
-  //   }
-  // );
+  function handleRouting(objectId) {
+    console.log("object id", objectId);
+    router.push({
+      pathname: `/album`,
+      query: { id: objectId },
+    });
+  }
 
   useEffect(() => {
     async function fetchSongsFeed() {
@@ -110,6 +111,8 @@ export default function Page() {
                 <Link
                   key={album.id}
                   borderRadius="lg"
+                  // href router: /{album.type}
+                  onClick={() => handleRouting(album.id)}
                   overflow="hidden"
                   height="100%"
                   bgColor="hsla(0, 0%, 35%, .1)"
@@ -153,6 +156,8 @@ export default function Page() {
                   <Link
                     key={index}
                     borderRadius="lg"
+                    // href router: /{artist.type}
+
                     overflow="hidden"
                     height="100%"
                     width="11.25rem"
@@ -162,10 +167,10 @@ export default function Page() {
                       bgColor: "hsla(0, 0%, 43%, .14)",
                     }}
                   >
-                    <Stack p={4} pb={8} spacing={3} alignItems="center">
+                    <Stack p="0.9rem" pb={8} spacing={3} alignItems="center">
                       <Image
                         boxSize="148px"
-                        borderRadius="md"
+                        borderRadius="full"
                         src={artist?.images[0]?.url}
                         // src=""
                         alt="album cover"
@@ -220,6 +225,7 @@ export default function Page() {
               {likedAlbums.map((album, index) => {
                 return (
                   <Link
+                    // href router: /{album.album.type}
                     key={index}
                     borderRadius="lg"
                     overflow="hidden"
