@@ -73,7 +73,7 @@ export default function Layout({ children }) {
             },
           }}
           py={6}
-          px={9}
+          // px={9}
           area={"main"}
           position="relative"
           bgColor="#121212"

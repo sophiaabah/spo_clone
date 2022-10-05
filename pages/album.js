@@ -67,12 +67,12 @@ export default function App() {
 
   return (
     <Layout>
-      <Stack spacing={3}>
+      <Stack px={10} spacing={3}>
         <Stack pt={3} spacing={7} direction="row">
           <Image
             boxSize="232px"
             alt="Album cover"
-            src={albumPage?.image || ""}
+            src={albumPage?.image}
           ></Image>
           <Stack spacing={0} alignSelf="end">
             <Text fontSize="sm" fontWeight={650} textTransform="uppercase">
@@ -84,9 +84,9 @@ export default function App() {
               fontSize="8xl"
               fontWeight={700}
             >
-              {albumPage?.name || ""}
+              {albumPage?.name}
             </Text>
-            <Stack pt={8} spacing={1} alignItems="center" direction="row">
+            <Stack pt={8} spacing={1} alignItems="end" direction="row">
               <Image
                 borderRadius="full"
                 width="1.5rem"
@@ -94,30 +94,40 @@ export default function App() {
                 alt="Album cover"
                 src="https://i.scdn.co/image/ab6761610000e5ebfb7a0fe5a0e33cf5325fcd91"
               ></Image>
-              <Link px="2px" fontWeight={600}>
-                {albumPage?.artist || ""}
-              </Link>
-              <chakra.div
-                bgColor="white"
-                borderRadius="full"
-                width="4px"
-                height="4px"
-              ></chakra.div>
-              <Text px="2px" fontSize="sm" fontWeight={500}>
-                {albumPage?.releaseDate || ""}
-              </Text>
-              <chakra.div
-                bgColor="white"
-                borderRadius="full"
-                width="4px"
-                height="4px"
-              ></chakra.div>
-              <Text px="2px" fontSize="sm" fontWeight={500}>
-                {`${albumPage?.items.length} songs` || ""}
-              </Text>
-              <Text fontSize="sm" fontWeight={500} color="whiteAlpha.700">
-                43 min 57 sec
-              </Text>
+              <Stack spacing={1} alignItems="baseline" direction="row">
+                <Link px="2px" fontWeight={600}>
+                  {albumPage?.artist}
+                </Link>
+                <chakra.div
+                  alignSelf="center"
+                  bgColor="white"
+                  borderRadius="full"
+                  width="4px"
+                  height="4px"
+                ></chakra.div>
+                <Text px="2px" fontSize="sm" fontWeight={500}>
+                  {albumPage?.releaseDate?.slice(0, 4)}
+                </Text>
+                <chakra.div
+                  alignSelf="center"
+                  bgColor="white"
+                  borderRadius="full"
+                  width="4px"
+                  height="4px"
+                ></chakra.div>
+                <Stack direction="row" spacing="1px">
+                  <Text px="2px" fontSize="sm" fontWeight={500}>
+                    {albumPage?.items?.length}
+                  </Text>
+                  <Text px="2px" fontSize="sm" fontWeight={500}>
+                    songs
+                  </Text>
+                </Stack>
+
+                <Text fontSize="sm" fontWeight={500} color="whiteAlpha.700">
+                  43 min 57 sec
+                </Text>
+              </Stack>
             </Stack>
           </Stack>
         </Stack>
@@ -176,7 +186,7 @@ export default function App() {
 
         {/* songs list in this stack */}
         <Stack spacing={0}>
-          {albumPage?.items.map((track, index) => {
+          {albumPage?.items?.map((track, index) => {
             return (
               <Stack
                 key={index}
@@ -196,10 +206,15 @@ export default function App() {
                   <Text>{index + 1}</Text>
                   <Stack spacing={0}>
                     <Text>{track?.name}</Text>
-                    <Link color="whiteAlpha.700" fontSize="sm">
-                      {`${track?.artists[0].name}, ${track?.artists[1].name}` ||
-                        ""}
-                    </Link>
+                    <Stack spacing="1px" direction="row">
+                      <Link color="whiteAlpha.700" fontSize="sm">
+                        {`${track?.artists[0]?.name}` || ""}
+                      </Link>
+
+                      {/* <Link color="whiteAlpha.700" fontSize="sm">
+                        {`, ${track?.artists[1]?.name}` || ""}
+                      </Link> */}
+                    </Stack>
                   </Stack>
                 </Stack>
                 <Stack spacing={4} alignItems="center" direction="row">

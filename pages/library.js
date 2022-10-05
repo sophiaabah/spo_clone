@@ -98,7 +98,7 @@ export default function Library() {
 
   return (
     <Layout>
-      <Stack spacing={12}>
+      <Stack px={10} spacing={12}>
         <Stack spacing={4}>
           <Heading pb={3} fontSize="3xl">
             Good evening
