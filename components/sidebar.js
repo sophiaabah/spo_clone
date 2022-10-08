@@ -33,6 +33,7 @@ import {
 } from "@chakra-ui/react";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { FaSpotify, FaHeart } from "react-icons/fa";
 import { AiFillHome } from "react-icons/ai";
 import { FiSearch } from "react-icons/fi";
@@ -43,6 +44,9 @@ import Heart from "./heart";
 
 export default function Sidebar() {
   const [playlists, setPlaylists] = useState([]);
+  const router = useRouter();
+  const { id } = router.query;
+
   useEffect(() => {
     getPlaylists().then((data) => {
       setPlaylists(data);
@@ -131,6 +135,7 @@ export default function Sidebar() {
         {playlists.map((playlist) => {
           return (
             <Link
+              onClick={() => handleRouting(album.id)}
               key={playlist.id}
               opacity={0.6}
               _hover={{ textDecoration: "none", opacity: 1 }}

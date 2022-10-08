@@ -44,20 +44,15 @@ import Heart from "../components/heart";
 export default function App() {
   return (
     <Layout>
-      <Stack spacing={3}>
-        <Stack spacing={7} direction="row">
-          <Stack
-            width="100%"
-            bgPosition="center"
-            bgRepeat="no-repeat"
-            bgSize="cover"
-            height="300px"
-            bgImage="https://i.scdn.co/image/ab6761610000e5ebfb7a0fe5a0e33cf5325fcd91"
-            spacing={3}
-            justify="end"
-            py={6}
-            px={9}
-          >
+      <Stack px={10} spacing={3}>
+        <Stack pb="24px" spacing={7} direction="row">
+          <Image
+            boxSize="232px"
+            borderRadius="full"
+            alt="track cover"
+            src="https://m.media-amazon.com/images/I/51C8wgVYuQL.jpg"
+          />
+          <Stack alignSelf="end" spacing={3} justify="end" px={3}>
             <Text fontSize="sm" fontWeight={650}>
               Verified Artist
             </Text>
@@ -74,8 +69,8 @@ export default function App() {
             </Text>
           </Stack>
         </Stack>
-        <Stack px={9}>
-          <Stack py={6} spacing={6} direction="row">
+        <Stack>
+          <Stack py="24px" spacing={6} direction="row">
             <IconButton
               _hover={{
                 // fontSize: "42px",
@@ -105,11 +100,11 @@ export default function App() {
               icon={<BsThreeDots />}
             ></IconButton>
           </Stack>
-          <Text py="5px" fontSize="xl" fontWeight={650}>
+          <Text py="5px" fontSize="22px" fontWeight={650}>
             Popular
           </Text>
 
-          <Stack spacing={0}>
+          <Stack pt="8px" spacing={0}>
             <Stack
               borderRadius="md"
               p={2}
@@ -123,7 +118,7 @@ export default function App() {
               alignItems="center"
               direction="row"
             >
-              <Stack alignItems="center" spacing={4} direction="row">
+              <Stack flex={2} alignItems="center" spacing={4} direction="row">
                 <Text>1</Text>
                 <Image
                   boxSize="38px"
@@ -134,6 +129,9 @@ export default function App() {
                   Pompeii
                 </Text>
               </Stack>
+              <Text flex={1} fontSize="sm" color="whiteAlpha.700">
+                112,999,000
+              </Text>
               <Stack spacing={4} alignItems="center" direction="row">
                 <IconButton
                   fontSize="18px"
@@ -161,6 +159,79 @@ export default function App() {
                   icon={<BsThreeDots />}
                 ></IconButton>
               </Stack>
+            </Stack>
+            <Stack
+              borderRadius="md"
+              p={2}
+              // bgColor="hsla(0, 0%, 35%, .1)"
+              _hover={{
+                textDecoration: "none",
+                bgColor: "hsla(0, 0%, 45%, .14)",
+              }}
+              width="100%"
+              justify="space-between"
+              alignItems="center"
+              direction="row"
+            >
+              <Stack flex={2} alignItems="center" spacing={4} direction="row">
+                <Text>1</Text>
+                <Image
+                  boxSize="38px"
+                  src="https://m.media-amazon.com/images/I/51C8wgVYuQL.jpg"
+                  alt="track cover"
+                ></Image>
+                <Text fontSize="16px" fontWeight={450}>
+                  Pompeii
+                </Text>
+              </Stack>
+              <Text flex={1} fontSize="sm" color="whiteAlpha.700">
+                112,999,000
+              </Text>
+              <Stack spacing={4} alignItems="center" direction="row">
+                <IconButton
+                  fontSize="18px"
+                  visibility="hidden"
+                  _hover={{
+                    color: "hsla(0, 0%, 100%, 1)",
+                    visibility: "visible",
+                  }}
+                  variant="ghost"
+                  color="whiteAlpha.700"
+                  icon={<FiHeart />}
+                ></IconButton>
+                <Text fontSize="sm" color="whiteAlpha.700">
+                  3:34
+                </Text>
+                <IconButton
+                  fontSize="18px"
+                  visibility="hidden"
+                  _hover={{
+                    color: "hsla(0, 0%, 100%, 1)",
+                    visibility: "visible",
+                  }}
+                  variant="ghost"
+                  color="whiteAlpha.700"
+                  icon={<BsThreeDots />}
+                ></IconButton>
+              </Stack>
+            </Stack>
+            <Stack
+              pt="16px"
+              align="baseline"
+              direction="row"
+              justify="space-between"
+            >
+              <Text fontSize="22px" fontWeight={650}>
+                Discography
+              </Text>
+              <Text
+                fontWeight={600}
+                color="whiteAlpha.700"
+                textTransform="uppercase"
+                fontSize="14px"
+              >
+                See all
+              </Text>
             </Stack>
           </Stack>
         </Stack>

@@ -37,16 +37,18 @@ import {
   BsThreeDots,
 } from "react-icons/bs";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Layout from "../components/layout";
 import Heart from "../components/heart";
 import { getAlbumInfo } from "../lib/api";
-import { timeToString } from "../lib/helpers";
+import { timeToString, draw, getColors } from "../lib/helpers";
 
 export default function App() {
   const [albumPage, setAlbumPage] = useState({});
+  const [bgColor, setBgColor] = useState("");
 
   const router = useRouter();
+  const imgRef = useRef();
   const { id } = router.query;
 
   useEffect(() => {
@@ -65,11 +67,25 @@ export default function App() {
     loadAlbum(id);
   }, []);
 
+  useEffect(() => {
+    imgRef.current.onload = () => {
+      console.log("my ref", imgRef.current);
+      console.log(draw(imgRef.current));
+      setBgColor(draw(imgRef.current));
+    };
+  }, [albumPage]);
+
   return (
     <Layout>
-      <Stack px={10} spacing={3}>
-        <Stack pt={3} spacing={7} direction="row">
+      <Stack px={10} spacing={5}>
+        <Stack
+          // bgColor={`linear-gradient(transparent 0,rgba(0,0,0,.5) 100%),${bgColor}`}
+          pt={3}
+          spacing={7}
+          direction="row"
+        >
           <Image
+            ref={imgRef}
             boxSize="232px"
             alt="Album cover"
             src={albumPage?.image}
