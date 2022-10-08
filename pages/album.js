@@ -218,7 +218,7 @@ export default function App() {
                 alignItems="center"
                 direction="row"
               >
-                <Stack alignItems="center" spacing={5} direction="row">
+                <Stack pl={2} alignItems="center" spacing={5} direction="row">
                   <Text>{index + 1}</Text>
                   <Stack spacing={0}>
                     <Text>{track?.name}</Text>

@@ -118,7 +118,13 @@ export default function App() {
               alignItems="center"
               direction="row"
             >
-              <Stack flex={2} alignItems="center" spacing={4} direction="row">
+              <Stack
+                pl={2}
+                flex={2}
+                alignItems="center"
+                spacing={4}
+                direction="row"
+              >
                 <Text>1</Text>
                 <Image
                   boxSize="38px"
@@ -160,6 +166,7 @@ export default function App() {
                 ></IconButton>
               </Stack>
             </Stack>
+            {/* extract list item */}
             <Stack
               borderRadius="md"
               p={2}
@@ -173,7 +180,13 @@ export default function App() {
               alignItems="center"
               direction="row"
             >
-              <Stack flex={2} alignItems="center" spacing={4} direction="row">
+              <Stack
+                pl={2}
+                flex={2}
+                alignItems="center"
+                spacing={4}
+                direction="row"
+              >
                 <Text>1</Text>
                 <Image
                   boxSize="38px"

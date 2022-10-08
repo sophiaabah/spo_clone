@@ -219,6 +219,17 @@ export default function App() {
 
         {/* Each track in the album is composed of these griditems */}
         <Grid
+          borderRadius="md"
+          py={1}
+          // bgColor="hsla(0, 0%, 35%, .1)"
+          _hover={{
+            textDecoration: "none",
+            bgColor: "hsla(0, 0%, 45%, .14)",
+          }}
+          // width="100%"
+          // justify="space-between"
+          // alignItems="center"
+          // direction="row"
           alignItems="center"
           templateColumns="2.5fr 1.5fr 1fr 1fr"
           templateRows="54px" // do i need this property?
