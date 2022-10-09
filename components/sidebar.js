@@ -47,6 +47,14 @@ export default function Sidebar() {
   const router = useRouter();
   const { id } = router.query;
 
+  function handleRouting(objectId) {
+    console.log("object id", objectId);
+    router.push({
+      pathname: `/playlist`,
+      query: { id: objectId },
+    });
+  }
+
   useEffect(() => {
     getPlaylists().then((data) => {
       setPlaylists(data);
@@ -135,7 +143,7 @@ export default function Sidebar() {
         {playlists.map((playlist) => {
           return (
             <Link
-              onClick={() => handleRouting(album.id)}
+              onClick={() => handleRouting(playlist.id)}
               key={playlist.id}
               opacity={0.6}
               _hover={{ textDecoration: "none", opacity: 1 }}

@@ -40,6 +40,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState, useRef } from "react";
 import Layout from "../components/layout";
 import Heart from "../components/heart";
+import ActionPanel from "../components/actionPanel";
 import { getAlbumInfo } from "../lib/api";
 import { timeToString, draw, getColors } from "../lib/helpers";
 
@@ -77,10 +78,10 @@ export default function App() {
 
   return (
     <Layout>
-      <Stack px={10} spacing={5}>
+      <Stack px={10} spacing={3}>
         <Stack
           // bgColor={`linear-gradient(transparent 0,rgba(0,0,0,.5) 100%),${bgColor}`}
-          pt={3}
+          py={4}
           spacing={7}
           direction="row"
         >
@@ -120,7 +121,7 @@ export default function App() {
                   borderRadius="full"
                   width="4px"
                   height="4px"
-                ></chakra.div>
+                />
                 <Text px="2px" fontSize="sm" fontWeight={500}>
                   {albumPage?.releaseDate?.slice(0, 4)}
                 </Text>
@@ -130,7 +131,7 @@ export default function App() {
                   borderRadius="full"
                   width="4px"
                   height="4px"
-                ></chakra.div>
+                />
                 <Stack direction="row" spacing="1px">
                   <Text px="2px" fontSize="sm" fontWeight={500}>
                     {albumPage?.items?.length}
@@ -147,36 +148,7 @@ export default function App() {
             </Stack>
           </Stack>
         </Stack>
-        <Stack height="max-content" py={6} spacing={6} direction="row">
-          <IconButton
-            _hover={{
-              fontSize: "53px",
-              color: "hsla(0, 0%, 100%, 1)",
-            }}
-            variant="ghost"
-            color="whiteAlpha.800"
-            fontSize="49px"
-            icon={<BsFillPlayCircleFill />}
-          ></IconButton>
-          <IconButton
-            fontSize="35px"
-            _hover={{
-              color: "hsla(0, 0%, 100%, 1)",
-            }}
-            variant="ghost"
-            color="whiteAlpha.700"
-            icon={<FiHeart />}
-          ></IconButton>
-          <IconButton
-            fontSize="25px"
-            _hover={{
-              color: "hsla(0, 0%, 100%, 1)",
-            }}
-            variant="ghost"
-            color="whiteAlpha.700"
-            icon={<BsThreeDots />}
-          ></IconButton>
-        </Stack>
+        <ActionPanel />
         <Stack spacing={0}>
           <Stack pl={4} direction="row" spacing={4}>
             <Text

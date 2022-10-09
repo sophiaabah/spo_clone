@@ -40,6 +40,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Layout from "../components/layout";
 import Heart from "../components/heart";
+import ActionPanel from "../components/actionPanel";
 
 export default function App() {
   return (
@@ -70,36 +71,8 @@ export default function App() {
           </Stack>
         </Stack>
         <Stack>
-          <Stack py="24px" spacing={6} direction="row">
-            <IconButton
-              _hover={{
-                // fontSize: "42px",
-                color: "hsla(0, 0%, 100%, 1)",
-              }}
-              variant="ghost"
-              color="whiteAlpha.800"
-              fontSize="55px"
-              icon={<BsFillPlayCircleFill />}
-            ></IconButton>
-            <IconButton
-              fontSize="35px"
-              _hover={{
-                color: "hsla(0, 0%, 100%, 1)",
-              }}
-              variant="ghost"
-              color="whiteAlpha.700"
-              icon={<FiHeart />}
-            ></IconButton>
-            <IconButton
-              fontSize="25px"
-              _hover={{
-                color: "hsla(0, 0%, 100%, 1)",
-              }}
-              variant="ghost"
-              color="whiteAlpha.700"
-              icon={<BsThreeDots />}
-            ></IconButton>
-          </Stack>
+          <ActionPanel />
+
           <Text py="5px" fontSize="22px" fontWeight={650}>
             Popular
           </Text>
