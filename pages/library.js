@@ -47,10 +47,10 @@ export default function Library() {
   const [likedAlbums, setLikedAlbums] = useState([]);
   const router = useRouter();
 
-  function handleRouting(objectId) {
-    console.log("object id", objectId);
+  function handleRouting(object, objectId) {
+    console.log("object id", { object, objectId });
     router.push({
-      pathname: `/album`,
+      pathname: `/${object}`,
       query: { id: objectId },
     });
   }
@@ -112,7 +112,7 @@ export default function Library() {
                   key={album.id}
                   borderRadius="lg"
                   // href router: /{album.type}
-                  onClick={() => handleRouting(album.id)}
+                  onClick={() => handleRouting("album", album.id)}
                   overflow="hidden"
                   height="100%"
                   bgColor="hsla(0, 0%, 35%, .1)"
@@ -157,7 +157,7 @@ export default function Library() {
                     key={index}
                     borderRadius="lg"
                     // href router: /{artist.type}
-
+                    onClick={() => handleRouting("artist", artist.id)}
                     overflow="hidden"
                     height="100%"
                     width="11.25rem"
@@ -225,7 +225,7 @@ export default function Library() {
               {likedAlbums.map((album, index) => {
                 return (
                   <Link
-                    // href router: /{album.album.type}
+                    onClick={() => handleRouting("album", album.album.id)}
                     key={index}
                     borderRadius="lg"
                     overflow="hidden"
