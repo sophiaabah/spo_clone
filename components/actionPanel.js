@@ -9,9 +9,10 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 import { FiHeart } from "react-icons/fi";
+import { playNewContext } from "../lib/api";
 import { BsFillPlayCircleFill, BsThreeDots } from "react-icons/bs";
 
-export default function ActionPanel() {
+export default function ActionPanel({ uri }) {
   return (
     <Stack py="24px" spacing={6} direction="row">
       <IconButton
@@ -19,6 +20,7 @@ export default function ActionPanel() {
           // fontSize: "42px",
           color: "hsla(0, 0%, 100%, 1)",
         }}
+        onClick={() => playNewContext(uri)}
         variant="ghost"
         color="whiteAlpha.800"
         fontSize="55px"

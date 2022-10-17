@@ -56,8 +56,10 @@ export default function App() {
   const router = useRouter();
   const { id } = router.query;
 
+  //use Promise.all and maybe check if ur using the right property referencing down there. cuz im sick of the errors
+
   useEffect(() => {
-    async function loadArtist(id) {
+    async function loadArtistInfo(id) {
       console.log("id", id);
       const artistInfo = await getArtist(id);
       console.log("the artist", artistInfo);
@@ -66,14 +68,26 @@ export default function App() {
         image: artistInfo.images[0].url,
         name: artistInfo.name,
       });
+    }
+    loadArtistInfo(id);
+  }, []);
+
+  useEffect(() => {
+    async function loadArtistsTracks(id) {
       const tracks = await getArtistsTopTracks(id);
       console.log("their top tracks", tracks);
       setArtistTracks(tracks.tracks.slice(0, 5));
+    }
+    loadArtistsTracks(id);
+  }, []);
+
+  useEffect(() => {
+    async function loadArtistsAlbums(id) {
       const albums = await getArtistsAlbums(id);
       console.log("their albums", albums);
       setArtistAlbums(albums.items.slice(0, 6));
     }
-    loadArtist(id);
+    loadArtistsAlbums(id);
   }, []);
 
   return (
@@ -108,7 +122,7 @@ export default function App() {
           <Text py="5px" fontSize="22px" fontWeight={650}>
             Popular
           </Text>
-          <Stack pt="8px" spacing={0}>
+          {/* <Stack pt="8px" spacing={0}>
             {artistTracks?.map((track, index) => {
               return (
                 <Stack
@@ -175,7 +189,7 @@ export default function App() {
                 </Stack>
               );
             })}
-          </Stack>
+          </Stack> */}
           <Stack
             pt="16px"
             align="baseline"
@@ -195,17 +209,17 @@ export default function App() {
             </Text>
           </Stack>
           {/* <SimpleGrid columns={6} spacing={8}>
-              {artistAlbums?.map((album, index) => {
-                return (
-                  <AlbumCard
-                    key={index}
-                    src={album?.images[0]?.url}
-                    albumTitle={album?.name}
-                    artist={album?.artists[0]?.name}
-                  />
-                );
-              })}
-            </SimpleGrid> */}
+            {artistAlbums?.map((album, index) => {
+              return (
+                <AlbumCard
+                  key={index}
+                  src={album?.images[0]?.url || ""}
+                  albumTitle={album?.name || ""}
+                  artist={album?.artists[0]?.name || ""}
+                />
+              );
+            })}
+          </SimpleGrid> */}
         </Stack>
       </Stack>
     </Layout>

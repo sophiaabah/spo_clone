@@ -47,7 +47,7 @@ export default function Layout({ children }) {
         `}
         gridTemplateRows={"1fr 70px"}
         gridTemplateColumns={"240px 1fr"}
-        height="100vh"
+        height="90vh"
         position="relative"
       >
         {/* sidebar */}
@@ -96,8 +96,6 @@ export default function Layout({ children }) {
 
           {children}
         </GridItem>
-
-        <Player />
       </Grid>
     </Stack>
   );

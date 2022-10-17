@@ -63,6 +63,7 @@ export default function App() {
         name: album.name,
         releaseDate: album.release_date,
         items: album.tracks.items,
+        uri: album.uri,
       });
     }
     loadAlbum(id);
@@ -148,7 +149,7 @@ export default function App() {
             </Stack>
           </Stack>
         </Stack>
-        <ActionPanel />
+        <ActionPanel uri={albumPage.uri} />
         <Stack spacing={0}>
           <Stack pl={4} direction="row" spacing={4}>
             <Text

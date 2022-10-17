@@ -89,7 +89,9 @@ export default function Library() {
       setRecentAlbums(uniqueAlbums.slice(0, 6));
 
       // fetching users liked albums and slicing the array
+
       const usersLikedAlbums = await getLikedAlbums();
+      console.log("liked albums", usersLikedAlbums);
       setLikedAlbums(usersLikedAlbums.slice(0, 6)); // put this at the bottom
     }
 

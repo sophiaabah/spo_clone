@@ -37,6 +37,7 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { AiOutlineFullscreen } from "react-icons/ai";
 import { FiHeart } from "react-icons/fi";
 import { IoIosSkipBackward, IoIosSkipForward } from "react-icons/io";
@@ -62,6 +63,8 @@ export default function Player() {
   const [is_active, setActive] = useState(false);
   const [current_track, setTrack] = useState(track);
   const [playbackState, setPlaybackState] = useState({});
+
+  const router = useRouter();
 
   useEffect(() => {
     window.onSpotifyWebPlaybackSDKReady = () => {

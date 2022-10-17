@@ -58,7 +58,7 @@ const spotifyOauth = {
           ",
 };
 
-export default function App() {
+function App() {
   const [isLoading, setLoading] = useState(false);
 
   const router = useRouter();
@@ -121,3 +121,6 @@ export default function App() {
     </Center>
   );
 }
+
+App.disablePlayer = true;
+export default App;
