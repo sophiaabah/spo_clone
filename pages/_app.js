@@ -22,8 +22,10 @@ export default function MyApp({ Component, pageProps, ...appProps }) {
 
   return (
     <ChakraProvider>
-      <Component {...pageProps} />
-      <LayoutComponent />
+      <>
+        <Component {...pageProps} />
+        <LayoutComponent />
+      </>
     </ChakraProvider>
   );
 }

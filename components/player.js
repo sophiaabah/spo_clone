@@ -178,16 +178,16 @@ export default function Player() {
             alt="album cover"
           />
         </Skeleton>
-        <Stack spacing="0.5rem">
+        <Stack pb={2} spacing="0.5rem">
           <Skeleton height="12px" isLoaded={current_track.name}>
-            <Link fontSize="sm" fontWeight="600">
+            <Link color="white" fontSize="14px" fontWeight="600">
               {current_track.name || "dummy track"}
             </Link>
           </Skeleton>
           <Skeleton height="12px" isLoaded={current_track.artists[0].name}>
             <Link
               // pt="20px"
-              fontSize="xs"
+              fontSize="11px"
               fontWeight="400"
               color="whiteAlpha.600"
             >
