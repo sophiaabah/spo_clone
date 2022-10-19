@@ -39,56 +39,51 @@ import {
 } from "react-icons/bs";
 import { useRouter } from "next/router";
 import { useEffect, useState, useRef } from "react";
-import Layout from "../components/layout";
-import Heart from "../components/heart";
-import ActionPanel from "../components/actionPanel";
-import AlbumCard from "../components/albumCard";
-import { getArtist, getArtistsAlbums, getArtistsTopTracks } from "../lib/api";
-import { timeToString, draw, getColors } from "../lib/helpers";
+import Layout from "../../components/layout";
+import Heart from "../../components/heart";
+import ActionPanel from "../../components/actionPanel";
+import AlbumCard from "../../components/albumCard";
+import {
+  getArtist,
+  getArtistsAlbums,
+  getArtistsTopTracks,
+} from "../../lib/api";
+import { timeToString, draw, getColors } from "../../lib/helpers";
 
-export default function App() {
+export default function ArtistPage() {
   const [artistInfo, setArtistInfo] = useState({});
-  const [artistTracks, setArtistTracks] = useState({});
-  const [artistAlbums, setArtistAlbums] = useState({});
+  const [artistTracks, setArtistTracks] = useState([]);
+  const [artistAlbums, setArtistAlbums] = useState([]);
 
   // const [bgColor, setBgColor] = useState("");
   // const imgRef = useRef();
   const router = useRouter();
-  const { id } = router.query;
+  const { artistId } = router.query;
 
   //use Promise.all and maybe check if ur using the right property referencing down there. cuz im sick of the errors
 
   useEffect(() => {
+    if (!artistId) return;
+
     async function loadArtistInfo(id) {
-      console.log("id", id);
+      console.log("artist id", id);
       const artistInfo = await getArtist(id);
-      console.log("the artist", artistInfo);
-      setArtistInfo({
-        followers: artistInfo.followers.total,
-        image: artistInfo.images[0].url,
-        name: artistInfo.name,
+      const tracks = await getArtistsTopTracks(id);
+      const albums = await getArtistsAlbums(id);
+
+      Promise.all([artistInfo, tracks, albums]).then((resultsArr) => {
+        console.log(resultsArr);
+        setArtistInfo({
+          followers: resultsArr[0].followers.total,
+          image: resultsArr[0].images[0].url,
+          name: resultsArr[0].name,
+        });
+        setArtistTracks(resultsArr[1].tracks.slice(0, 5));
+        setArtistAlbums(resultsArr[2].items.slice(0, 6));
       });
     }
-    loadArtistInfo(id);
-  }, []);
-
-  useEffect(() => {
-    async function loadArtistsTracks(id) {
-      const tracks = await getArtistsTopTracks(id);
-      console.log("their top tracks", tracks);
-      setArtistTracks(tracks.tracks.slice(0, 5));
-    }
-    loadArtistsTracks(id);
-  }, []);
-
-  useEffect(() => {
-    async function loadArtistsAlbums(id) {
-      const albums = await getArtistsAlbums(id);
-      console.log("their albums", albums);
-      setArtistAlbums(albums.items.slice(0, 6));
-    }
-    loadArtistsAlbums(id);
-  }, []);
+    loadArtistInfo(artistId);
+  }, [artistId]);
 
   return (
     <Layout>
@@ -122,7 +117,8 @@ export default function App() {
           <Text py="5px" fontSize="22px" fontWeight={650}>
             Popular
           </Text>
-          {/* <Stack pt="8px" spacing={0}>
+
+          <Stack pt="8px" spacing={0}>
             {artistTracks?.map((track, index) => {
               return (
                 <Stack
@@ -189,7 +185,8 @@ export default function App() {
                 </Stack>
               );
             })}
-          </Stack> */}
+          </Stack>
+
           <Stack
             pt="16px"
             align="baseline"
@@ -208,18 +205,19 @@ export default function App() {
               See all
             </Text>
           </Stack>
-          {/* <SimpleGrid columns={6} spacing={8}>
+          <SimpleGrid columns={6} spacing={8}>
             {artistAlbums?.map((album, index) => {
               return (
                 <AlbumCard
                   key={index}
+                  albumId={album?.id}
                   src={album?.images[0]?.url || ""}
                   albumTitle={album?.name || ""}
                   artist={album?.artists[0]?.name || ""}
                 />
               );
             })}
-          </SimpleGrid> */}
+          </SimpleGrid>
         </Stack>
       </Stack>
     </Layout>

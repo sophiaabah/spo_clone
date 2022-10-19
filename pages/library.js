@@ -34,26 +34,20 @@ import {
 } from "@chakra-ui/react";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
-import { getTopTracks, getLikedAlbums, getRelatedArtists } from "../lib/api";
-import Layout from "../components/layout";
-import shuffle from "lodash.shuffle";
-import axios from "axios";
-import { BiCategory } from "react-icons/bi";
+import NextLink from "next/link";
 import { useRouter } from "next/router";
+import axios from "axios";
+import shuffle from "lodash.shuffle";
+import { BiCategory } from "react-icons/bi";
+import Layout from "../components/layout";
+import AlbumCard from "../components/albumCard";
+import { getTopTracks, getLikedAlbums, getRelatedArtists } from "../lib/api";
 
 export default function Library() {
   const [recentAlbums, setRecentAlbums] = useState([]);
   const [relatedArtists, setRelatedArtists] = useState([]);
   const [likedAlbums, setLikedAlbums] = useState([]);
   const router = useRouter();
-
-  function handleRouting(object, objectId) {
-    console.log("object id", { object, objectId });
-    router.push({
-      pathname: `/${object}`,
-      query: { id: objectId },
-    });
-  }
 
   useEffect(() => {
     async function fetchSongsFeed() {
@@ -110,40 +104,39 @@ export default function Library() {
           <SimpleGrid columns={3} rows={2} spacing={6}>
             {recentAlbums.map((album) => {
               return (
-                <Link
-                  key={album.id}
-                  borderRadius="lg"
-                  // href router: /{album.type}
-                  onClick={() => handleRouting("album", album.id)}
-                  overflow="hidden"
-                  height="100%"
-                  bgColor="hsla(0, 0%, 35%, .1)"
-                  _hover={{
-                    textDecoration: "none",
-                    bgColor: "hsla(0, 0%, 45%, .14)",
-                  }}
-                >
-                  <Stack spacing={0} alignItems="center" direction="row">
-                    <Image
-                      boxSize="85px"
-                      src={album.images[0]?.url}
-                      // src=""
-                      alt={album.name}
-                    ></Image>
-                    <Stack
-                      px={4}
-                      width="100%"
-                      alignItems="center"
-                      direction="row"
-                      justifyContent="space-between"
-                    >
-                      <Text fontSize="md" fontWeight="600">
-                        {album.name}
-                        {/* Text */}
-                      </Text>
+                <NextLink key={album.id} href={`album/${album.id}`}>
+                  <Link
+                    borderRadius="lg"
+                    overflow="hidden"
+                    height="100%"
+                    bgColor="hsla(0, 0%, 35%, .1)"
+                    _hover={{
+                      textDecoration: "none",
+                      bgColor: "hsla(0, 0%, 45%, .14)",
+                    }}
+                  >
+                    <Stack spacing={0} alignItems="center" direction="row">
+                      <Image
+                        boxSize="85px"
+                        src={album.images[0]?.url}
+                        // src=""
+                        alt={album.name}
+                      ></Image>
+                      <Stack
+                        px={4}
+                        width="100%"
+                        alignItems="center"
+                        direction="row"
+                        justifyContent="space-between"
+                      >
+                        <Text fontSize="md" fontWeight="600">
+                          {album.name}
+                          {/* Text */}
+                        </Text>
+                      </Stack>
                     </Stack>
-                  </Stack>
-                </Link>
+                  </Link>
+                </NextLink>
               );
             })}
           </SimpleGrid>
@@ -153,57 +146,56 @@ export default function Library() {
               Recommended for you
             </Heading>
             <SimpleGrid columns={6} spacing={8}>
-              {relatedArtists.map((artist, index) => {
+              {relatedArtists.map((artist) => {
                 return (
-                  <Link
-                    key={index}
-                    borderRadius="lg"
-                    // href router: /{artist.type}
-                    onClick={() => handleRouting("artist", artist.id)}
-                    overflow="hidden"
-                    height="100%"
-                    width="11.25rem"
-                    bgColor="hsla(0, 0%, 30%, .1)"
-                    _hover={{
-                      textDecoration: "none",
-                      bgColor: "hsla(0, 0%, 43%, .14)",
-                    }}
-                  >
-                    <Stack p="0.9rem" pb={8} spacing={3} alignItems="center">
-                      <Image
-                        boxSize="148px"
-                        borderRadius="full"
-                        src={artist?.images[0]?.url}
-                        // src=""
-                        alt="album cover"
-                      />
-                      <Stack
-                        minWidth="0px"
-                        overflow="hidden"
-                        spacing="3px"
-                        alignSelf="start"
-                      >
-                        <Text
-                          whiteSpace="nowrap"
-                          textOverflow="ellipsis"
-                          fontSize="md"
-                          fontWeight="600"
+                  <NextLink key={artist.id} href={`artist/${artist.id}`}>
+                    <Link
+                      borderRadius="lg"
+                      overflow="hidden"
+                      height="100%"
+                      width="11.25rem"
+                      bgColor="hsla(0, 0%, 30%, .1)"
+                      _hover={{
+                        textDecoration: "none",
+                        bgColor: "hsla(0, 0%, 43%, .14)",
+                      }}
+                    >
+                      <Stack p="0.9rem" pb={8} spacing={3} alignItems="center">
+                        <Image
+                          boxSize="148px"
+                          borderRadius="full"
+                          src={artist?.images[0]?.url}
+                          // src=""
+                          alt="album cover"
+                        />
+                        <Stack
+                          minWidth="0px"
+                          overflow="hidden"
+                          spacing="3px"
+                          alignSelf="start"
                         >
-                          {artist?.name}
-                          {/* Text */}
-                        </Text>
-                        <Text
-                          textTransform="capitalize"
-                          fontSize="sm"
-                          fontWeight="400"
-                          color="whiteAlpha.600"
-                        >
-                          {artist?.genres[0]}
-                          {/* text */}
-                        </Text>
+                          <Text
+                            whiteSpace="nowrap"
+                            textOverflow="ellipsis"
+                            fontSize="md"
+                            fontWeight="600"
+                          >
+                            {artist?.name}
+                            {/* Text */}
+                          </Text>
+                          <Text
+                            textTransform="capitalize"
+                            fontSize="sm"
+                            fontWeight="400"
+                            color="whiteAlpha.600"
+                          >
+                            {artist?.genres[0]}
+                            {/* text */}
+                          </Text>
+                        </Stack>
                       </Stack>
-                    </Stack>
-                  </Link>
+                    </Link>
+                  </NextLink>
                 );
               })}
             </SimpleGrid>
@@ -222,57 +214,16 @@ export default function Library() {
                 See All
               </Link>
             </Stack>
-
             <SimpleGrid columns={6} spacing={8}>
-              {likedAlbums.map((album, index) => {
+              {likedAlbums?.map((album, index) => {
                 return (
-                  <Link
-                    onClick={() => handleRouting("album", album.album.id)}
-                    key={index}
-                    borderRadius="lg"
-                    overflow="hidden"
-                    height="100%"
-                    width="11.25rem"
-                    bgColor="hsla(0, 0%, 30%, .1)"
-                    _hover={{
-                      textDecoration: "none",
-                      bgColor: "hsla(0, 0%, 43%, .14)",
-                    }}
-                  >
-                    <Stack p={4} pb={8} spacing={3} alignItems="center">
-                      <Image
-                        width="170px"
-                        borderRadius="md"
-                        src={album?.album.images[0].url}
-                        // src=""
-                        alt="album cover"
-                      />
-                      <Stack
-                        minWidth="0px"
-                        overflow="hidden"
-                        spacing={1}
-                        alignSelf="start"
-                      >
-                        <Text
-                          whiteSpace="nowrap"
-                          textOverflow="ellipsis"
-                          fontSize="md"
-                          fontWeight="600"
-                        >
-                          {album?.album.name}
-                          {/* text */}
-                        </Text>
-                        <Text
-                          fontSize="sm"
-                          fontWeight="400"
-                          color="whiteAlpha.600"
-                        >
-                          {album?.album.artists[0]?.name}
-                          {/* Text */}
-                        </Text>
-                      </Stack>
-                    </Stack>
-                  </Link>
+                  <AlbumCard
+                    key={album.album.id}
+                    albumId={album.album.id}
+                    src={album?.album.images[0].url}
+                    albumTitle={album?.album.name}
+                    artist={album?.album.artists[0]?.name}
+                  />
                 );
               })}
             </SimpleGrid>

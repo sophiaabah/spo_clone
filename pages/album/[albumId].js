@@ -38,21 +38,22 @@ import {
 } from "react-icons/bs";
 import { useRouter } from "next/router";
 import { useEffect, useState, useRef } from "react";
-import Layout from "../components/layout";
-import Heart from "../components/heart";
-import ActionPanel from "../components/actionPanel";
-import { getAlbumInfo } from "../lib/api";
-import { timeToString, draw, getColors } from "../lib/helpers";
+import Layout from "../../components/layout";
+import Heart from "../../components/heart";
+import ActionPanel from "../../components/actionPanel";
+import { getAlbumInfo } from "../../lib/api";
+import { timeToString, draw, getColors } from "../../lib/helpers";
 
-export default function App() {
+export default function AlbumPage() {
   const [albumPage, setAlbumPage] = useState({});
   const [bgColor, setBgColor] = useState("");
 
   const router = useRouter();
   const imgRef = useRef();
-  const { id } = router.query;
+  const { albumId } = router.query;
 
   useEffect(() => {
+    if (!albumId) return;
     async function loadAlbum(id) {
       console.log("id", id);
       const album = await getAlbumInfo(id);
@@ -66,8 +67,8 @@ export default function App() {
         uri: album.uri,
       });
     }
-    loadAlbum(id);
-  }, []);
+    loadAlbum(albumId);
+  }, [albumId]);
 
   useEffect(() => {
     imgRef.current.onload = () => {
@@ -178,7 +179,7 @@ export default function App() {
           {albumPage?.items?.map((track, index) => {
             return (
               <Stack
-                key={index}
+                key={track.id}
                 borderRadius="md"
                 p={2}
                 // bgColor="hsla(0, 0%, 35%, .1)"

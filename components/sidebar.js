@@ -32,6 +32,7 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import Head from "next/head";
+import NextLink from "next/link";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { FaSpotify, FaHeart } from "react-icons/fa";
@@ -142,16 +143,16 @@ export default function Sidebar() {
       >
         {playlists.map((playlist) => {
           return (
-            <Link
-              onClick={() => handleRouting(playlist.id)}
-              key={playlist.id}
-              opacity={0.6}
-              _hover={{ textDecoration: "none", opacity: 1 }}
-              fontSize="15px"
-            >
-              {playlist.name}
-              {/* Text */}
-            </Link>
+            <NextLink key={playlist.id} href={`playlist/${playlist.id}`}>
+              <Link
+                opacity={0.6}
+                _hover={{ textDecoration: "none", opacity: 1 }}
+                fontSize="15px"
+              >
+                {playlist.name}
+                {/* Text */}
+              </Link>
+            </NextLink>
           );
         })}
       </Stack>

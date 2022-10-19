@@ -38,21 +38,23 @@ import {
 } from "react-icons/bs";
 import { useRouter } from "next/router";
 import { useEffect, useState, useRef } from "react";
-import Layout from "../components/layout";
-import Heart from "../components/heart";
-import ActionPanel from "../components/actionPanel";
-import { getAlbumInfo, getPlaylistInfo } from "../lib/api";
-import { timeToString, draw, getColors } from "../lib/helpers";
+import Layout from "../../components/layout";
+import Heart from "../../components/heart";
+import ActionPanel from "../../components/actionPanel";
+import { getAlbumInfo, getPlaylistInfo } from "../../lib/api";
+import { timeToString, draw, getColors } from "../../lib/helpers";
 
-export default function App() {
+export default function PlaylistPage() {
   const [playlistPage, setPlaylistPage] = useState({});
   // const [bgColor, setBgColor] = useState("");
 
   const router = useRouter();
   const imgRef = useRef();
-  const { id } = router.query;
+  const { playlistId } = router.query;
 
   useEffect(() => {
+    if (!playlistId) return;
+
     async function getPlaylist(id) {
       console.log("id", id);
       const playlist = await getPlaylistInfo(id);
@@ -67,8 +69,8 @@ export default function App() {
       });
     }
 
-    getPlaylist(id);
-  }, [router]);
+    getPlaylist(playlistId);
+  }, [router, playlistId]);
 
   // useEffect(() => {
   //   imgRef.current.onload = () => {
