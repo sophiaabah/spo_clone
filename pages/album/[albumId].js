@@ -70,13 +70,13 @@ export default function AlbumPage() {
     loadAlbum(albumId);
   }, [albumId]);
 
-  useEffect(() => {
-    imgRef.current.onload = () => {
-      console.log("my ref", imgRef.current);
-      console.log(draw(imgRef.current));
-      setBgColor(draw(imgRef.current));
-    };
-  }, [albumPage]);
+  // useEffect(() => {
+  //   imgRef.current.onload = () => {
+  //     console.log("my ref", imgRef.current);
+  //     console.log(draw(imgRef.current));
+  //     setBgColor(draw(imgRef.current));
+  //   };
+  // }, [albumPage]);
 
   return (
     <Layout>

@@ -206,10 +206,10 @@ export default function ArtistPage() {
             </Text>
           </Stack>
           <SimpleGrid columns={6} spacing={8}>
-            {artistAlbums?.map((album, index) => {
+            {artistAlbums?.map((album) => {
               return (
                 <AlbumCard
-                  key={index}
+                  key={album.id}
                   albumId={album?.id}
                   src={album?.images[0]?.url || ""}
                   albumTitle={album?.name || ""}

@@ -44,10 +44,16 @@ import { IoIosSkipBackward, IoIosSkipForward } from "react-icons/io";
 import Script from "next/dist/client/script";
 import { BsFillPlayCircleFill, BsVolumeDownFill } from "react-icons/bs";
 import { TiArrowShuffle } from "react-icons/ti";
-import { TbMicrophone2, TbRepeat } from "react-icons/tb";
+import {
+  TbMicrophone2,
+  TbRepeat,
+  TbRepeatOff,
+  TbRepeatOnce,
+} from "react-icons/tb";
 import { VscListFlat } from "react-icons/vsc";
 import { MdPauseCircleFilled } from "react-icons/md";
 import { timeToString } from "../lib/helpers";
+import { changeRepeatMode } from "../lib/api";
 
 const track = {
   name: "",
@@ -57,14 +63,23 @@ const track = {
   artists: [{ name: "" }],
 };
 
+let deviceId;
+
 export default function Player() {
   const [player, setPlayer] = useState(undefined);
   const [is_paused, setPaused] = useState(true);
   const [is_active, setActive] = useState(false);
   const [current_track, setTrack] = useState(track);
   const [playbackState, setPlaybackState] = useState({});
+  const [repeatMode, setRepeatMode] = useState(undefined);
 
   const router = useRouter();
+
+  const RepeatComponent = {
+    0: <TbRepeatOff />,
+    1: <TbRepeat />,
+    2: <TbRepeatOnce />,
+  };
 
   useEffect(() => {
     window.onSpotifyWebPlaybackSDKReady = () => {
@@ -81,6 +96,7 @@ export default function Player() {
       setPlayer(spotifyInstance);
 
       spotifyInstance.addListener("ready", ({ device_id }) => {
+        deviceId = device_id;
         console.log("Ready with Device ID", device_id);
       });
 
@@ -112,10 +128,11 @@ export default function Player() {
           context: state.context,
           duration: state.duration,
           position: state.position,
-          repeatMode: state.repeat_mode,
+          xxx: state.repeat_mode,
           shuffle: state.shuffle,
           timestap: state.timestamp,
         });
+        setRepeatMode(state.repeat_mode);
       });
 
       spotifyInstance.connect();
@@ -130,16 +147,6 @@ export default function Player() {
     };
   }, []);
 
-  // function timeToString(time) {
-  //   let diffInMin = time / 60000;
-  //   let mm = Math.floor(diffInMin);
-
-  //   let diffInSec = (diffInMin - mm) * 60;
-  //   let ss = Math.floor(diffInSec);
-  //   let formattedSS = ss.toString().padStart(2, "0");
-  //   return `${mm}:${formattedSS}`;
-  // }
-
   useEffect(() => {
     if (is_paused === false) {
       const interval = setInterval(() => {
@@ -150,7 +157,24 @@ export default function Player() {
       }, 1000);
       return () => clearInterval(interval);
     }
-  }, [player, is_paused]);
+  }, [player, is_paused, playbackState]);
+
+  async function repeatModeHandler() {
+    if (!playbackState) return;
+    changeRepeatMode(repeatMode, deviceId).finally(() => {
+      switch (repeatMode) {
+        case 0:
+          setRepeatMode(1);
+          break;
+        case 1:
+          setRepeatMode(2);
+          break;
+        case 2:
+          setRepeatMode(0);
+          break;
+      }
+    });
+  }
 
   return (
     <Stack
@@ -259,14 +283,17 @@ export default function Player() {
             ></IconButton>
           </Stack>
           <IconButton
+            onClick={() => {
+              repeatModeHandler();
+            }}
             _hover={{
               // fontSize: "42px",
               color: "hsla(0, 0%, 100%, 1)",
             }}
             variant="ghost"
             color="whiteAlpha.600"
-            fontSize="20px"
-            icon={<TbRepeat />}
+            fontSize="19px"
+            icon={RepeatComponent[repeatMode]}
           ></IconButton>
         </Stack>
         <Stack width="" alignItems="center" direction="row">

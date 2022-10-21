@@ -215,7 +215,7 @@ export default function Library() {
               </Link>
             </Stack>
             <SimpleGrid columns={6} spacing={8}>
-              {likedAlbums?.map((album, index) => {
+              {likedAlbums?.map((album) => {
                 return (
                   <AlbumCard
                     key={album.album.id}
