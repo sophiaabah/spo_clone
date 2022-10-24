@@ -40,7 +40,7 @@ import { AiFillHome } from "react-icons/ai";
 import { FiSearch } from "react-icons/fi";
 import { BiLibrary } from "react-icons/bi";
 import { RiAddFill } from "react-icons/ri";
-import { getPlaylists } from "../lib/api";
+import { getPlaylists, newPlaylist } from "../lib/api";
 import Heart from "./heart";
 
 export default function Sidebar() {
@@ -55,6 +55,12 @@ export default function Sidebar() {
   //     query: { id: objectId },
   //   });
   // }
+
+  async function createNewPlaylist() {
+    const result = await newPlaylist();
+    console.log("result", result);
+    setPlaylists((prev) => [result, ...prev]);
+  }
 
   useEffect(() => {
     getPlaylists().then((data) => {
@@ -106,7 +112,11 @@ export default function Sidebar() {
         alignItems="flex-start"
         justifyContent="center"
       >
-        <Link opacity={0.6} _hover={{ textDecoration: "none", opacity: 1 }}>
+        <Link
+          onClick={() => createNewPlaylist()}
+          opacity={0.6}
+          _hover={{ textDecoration: "none", opacity: 1 }}
+        >
           <Stack spacing={4} alignItems="center" direction="row">
             <Center borderRadius="sm" bgColor="white" boxSize={7}>
               <Icon as={RiAddFill} color="black" />
@@ -143,7 +153,7 @@ export default function Sidebar() {
       >
         {playlists.map((playlist) => {
           return (
-            <NextLink key={playlist.id} href={`playlist/${playlist.id}`}>
+            <NextLink key={playlist.id} href={`/playlist/${playlist.id}`}>
               <Link
                 opacity={0.6}
                 _hover={{ textDecoration: "none", opacity: 1 }}

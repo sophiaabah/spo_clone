@@ -62,7 +62,7 @@ export default function PlaylistPage() {
       setPlaylistPage({
         description: playlist.description,
         followers: playlist.followers.total,
-        image: playlist.images[0].url,
+        image: playlist?.images[0]?.url || "",
         name: playlist.name,
         owner: playlist.owner.display_name,
         tracks: playlist.tracks.items,
@@ -89,7 +89,7 @@ export default function PlaylistPage() {
           <Image
             boxSize="232px"
             alt="Album cover"
-            src={playlistPage?.image}
+            src={playlistPage?.image || ""}
           ></Image>
           <Stack spacing={1} alignSelf="end">
             <Text

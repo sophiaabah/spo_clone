@@ -36,7 +36,7 @@ import NextLink from "next/link";
 
 export default function AlbumCard({ albumId, src, albumTitle, artist }) {
   return (
-    <NextLink href={`album/${albumId}`}>
+    <NextLink href={`/album/${albumId}`}>
       <Link
         borderRadius="lg"
         overflow="hidden"

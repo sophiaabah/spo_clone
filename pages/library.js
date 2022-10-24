@@ -104,7 +104,7 @@ export default function Library() {
           <SimpleGrid columns={3} rows={2} spacing={6}>
             {recentAlbums.map((album) => {
               return (
-                <NextLink key={album.id} href={`album/${album.id}`}>
+                <NextLink key={album.id} href={`/album/${album.id}`}>
                   <Link
                     borderRadius="lg"
                     overflow="hidden"
@@ -148,7 +148,7 @@ export default function Library() {
             <SimpleGrid columns={6} spacing={8}>
               {relatedArtists.map((artist) => {
                 return (
-                  <NextLink key={artist.id} href={`artist/${artist.id}`}>
+                  <NextLink key={artist.id} href={`/artist/${artist.id}`}>
                     <Link
                       borderRadius="lg"
                       overflow="hidden"
