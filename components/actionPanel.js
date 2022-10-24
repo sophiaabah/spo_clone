@@ -9,10 +9,33 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 import { FiHeart } from "react-icons/fi";
-import { playNewContext } from "../lib/api";
 import { BsFillPlayCircleFill, BsThreeDots } from "react-icons/bs";
+import { useState } from "react";
+import { playNewContext, handlePlay } from "../lib/api";
 
 export default function ActionPanel({ uri }) {
+  const [isContextAvailable, setContextAvailable] = useState(false);
+  const [isPlaying, setPlaying] = useState(true);
+
+  async function handleContextPlay(uri) {
+    const player = JSON.parse(sessionStorage.getItem("player"));
+
+    if (player.length < 1) return; //spot for error handling
+    console.log("player", player);
+    if (!isContextAvailable) {
+      playNewContext(uri);
+      setContextAvailable(true);
+    }
+    if (isContextAvailable && isPlaying) {
+      await handlePlay("pause");
+      setPlaying(false);
+    }
+    if (!isPlaying) {
+      await handlePlay("play");
+      setPlaying(true);
+    }
+  }
+
   return (
     <Stack py="24px" spacing={6} direction="row">
       <IconButton
@@ -20,7 +43,7 @@ export default function ActionPanel({ uri }) {
           // fontSize: "42px",
           color: "hsla(0, 0%, 100%, 1)",
         }}
-        onClick={() => playNewContext(uri)}
+        onClick={() => handleContextPlay(uri)}
         variant="ghost"
         color="whiteAlpha.800"
         fontSize="55px"

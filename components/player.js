@@ -54,6 +54,7 @@ import { VscListFlat } from "react-icons/vsc";
 import { MdPauseCircleFilled } from "react-icons/md";
 import { timeToString } from "../lib/helpers";
 import { changeRepeatMode } from "../lib/api";
+import { useLoadPlayer } from "../lib/hooks";
 
 const track = {
   name: "",
@@ -66,7 +67,6 @@ const track = {
 let deviceId;
 
 export default function Player() {
-  const [player, setPlayer] = useState(undefined);
   const [is_paused, setPaused] = useState(true);
   const [is_active, setActive] = useState(false);
   const [current_track, setTrack] = useState(track);
@@ -74,6 +74,7 @@ export default function Player() {
   const [repeatMode, setRepeatMode] = useState(undefined);
 
   const router = useRouter();
+  const player = useLoadPlayer();
 
   const RepeatComponent = {
     0: <TbRepeatOff />,
@@ -82,41 +83,30 @@ export default function Player() {
   };
 
   useEffect(() => {
-    window.onSpotifyWebPlaybackSDKReady = () => {
-      const token = localStorage.getItem("token");
-
-      const spotifyInstance = new window.Spotify.Player({
-        name: "Web Playback SDK",
-        getOAuthToken: (cb) => {
-          cb(token);
-        },
-        volume: 0.5,
-      });
-
-      setPlayer(spotifyInstance);
-
-      spotifyInstance.addListener("ready", ({ device_id }) => {
+    if (player.length < 1) return;
+    function loadSdk() {
+      player.addListener("ready", ({ device_id }) => {
         deviceId = device_id;
         console.log("Ready with Device ID", device_id);
       });
 
-      spotifyInstance.addListener("not_ready", ({ device_id }) => {
+      player.addListener("not_ready", ({ device_id }) => {
         console.log("Device ID has gone offline", device_id);
       });
 
-      spotifyInstance.addListener("initialization_error", ({ message }) => {
+      player.addListener("initialization_error", ({ message }) => {
         console.error(message);
       });
 
-      spotifyInstance.addListener("authentication_error", ({ message }) => {
+      player.addListener("authentication_error", ({ message }) => {
         console.error(message);
       });
 
-      spotifyInstance.addListener("account_error", ({ message }) => {
+      player.addListener("account_error", ({ message }) => {
         console.error(message);
       });
 
-      spotifyInstance.addListener("player_state_changed", (state) => {
+      player.addListener("player_state_changed", (state) => {
         if (!state) {
           console.log(state);
           return;
@@ -135,17 +125,19 @@ export default function Player() {
         setRepeatMode(state.repeat_mode);
       });
 
-      spotifyInstance.connect();
-
+      player.connect();
+      console.log("player", player);
       return () => {
-        spotifyInstance.removeListener("ready");
-        spotifyInstance.removeListener("not_ready");
-        spotifyInstance.removeListener("initialization_error");
-        spotifyInstance.removeListener("account_error");
-        spotifyInstance.removeListener("player_state_changed");
+        player.removeListener("ready");
+        player.removeListener("not_ready");
+        player.removeListener("initialization_error");
+        player.removeListener("account_error");
+        player.removeListener("player_state_changed");
       };
-    };
-  }, []);
+    }
+    loadSdk();
+    sessionStorage.setItem("player", JSON.stringify(player));
+  }, [player]);
 
   useEffect(() => {
     if (is_paused === false) {

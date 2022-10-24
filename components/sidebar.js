@@ -48,13 +48,13 @@ export default function Sidebar() {
   const router = useRouter();
   const { id } = router.query;
 
-  function handleRouting(objectId) {
-    console.log("object id", objectId);
-    router.push({
-      pathname: `/playlist`,
-      query: { id: objectId },
-    });
-  }
+  // function handleRouting(objectId) {
+  //   console.log("object id", objectId);
+  //   router.push({
+  //     pathname: `/playlist`,
+  //     query: { id: objectId },
+  //   });
+  // }
 
   useEffect(() => {
     getPlaylists().then((data) => {
