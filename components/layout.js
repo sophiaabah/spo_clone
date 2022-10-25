@@ -72,28 +72,10 @@ export default function Layout({ children }) {
               backgroundColor: "gray",
             },
           }}
-          py={6}
-          // px={9}
           area={"main"}
           position="relative"
           bgColor="#121212"
         >
-          {/* floating topbar */}
-          <Stack pb={5} spacing={3} direction="row">
-            <IconButton
-              borderRadius="full"
-              bgColor="black"
-              colorScheme="black"
-              icon={<IoIosArrowBack />}
-            ></IconButton>
-            <IconButton
-              bgColor="black"
-              colorScheme="black"
-              borderRadius="full"
-              icon={<IoIosArrowForward />}
-            ></IconButton>
-          </Stack>
-
           {children}
         </GridItem>
       </Grid>
