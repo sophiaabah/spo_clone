@@ -43,6 +43,7 @@ import Heart from "../../components/heart";
 import ActionPanel from "../../components/actionPanel";
 import { getAlbumInfo } from "../../lib/api";
 import { timeToString, draw, getColors } from "../../lib/helpers";
+import { colorPicker } from "../../lib/color";
 
 export default function AlbumPage() {
   const [albumPage, setAlbumPage] = useState({});
@@ -70,19 +71,23 @@ export default function AlbumPage() {
     loadAlbum(albumId);
   }, [albumId]);
 
-  // useEffect(() => {
-  //   imgRef.current.onload = () => {
-  //     console.log("my ref", imgRef.current);
-  //     console.log(draw(imgRef.current));
-  //     setBgColor(draw(imgRef.current));
-  //   };
-  // }, [albumPage]);
+  useEffect(() => {
+    imgRef.current.onload = () => {
+      console.log("my ref", imgRef.current);
+      // console.log("gradient anchor", draw(imgRef.current));
+
+      const dominantColor = colorPicker(imgRef.current);
+      setBgColor(dominantColor);
+      // console.log("here", dominantColor);
+      // setBgColor(draw(imgRef.current));
+    };
+  }, [albumPage]);
 
   return (
     <Layout>
       <Stack px={10} spacing={3}>
         <Stack
-          // bgColor={`linear-gradient(transparent 0,rgba(0,0,0,.5) 100%),${bgColor}`}
+          background={`-webkit-gradient(linear,left top,left bottom,from(transparent),to(rgba(0,0,0,.5))), ${bgColor}`}
           py={4}
           spacing={7}
           direction="row"
@@ -91,6 +96,7 @@ export default function AlbumPage() {
             ref={imgRef}
             boxSize="232px"
             alt="Album cover"
+            crossOrigin="Anonymous"
             src={albumPage?.image}
           ></Image>
           <Stack spacing={0} alignSelf="end">

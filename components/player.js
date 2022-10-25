@@ -53,7 +53,7 @@ import {
 import { VscListFlat } from "react-icons/vsc";
 import { MdPauseCircleFilled } from "react-icons/md";
 import { timeToString } from "../lib/helpers";
-import { changeRepeatMode } from "../lib/api";
+import { changeRepeatMode, toggleShuffle } from "../lib/api";
 import { useLoadPlayer } from "../lib/hooks";
 
 const track = {
@@ -72,6 +72,7 @@ export default function Player() {
   const [current_track, setTrack] = useState(track);
   const [playbackState, setPlaybackState] = useState({});
   const [repeatMode, setRepeatMode] = useState(undefined);
+  const [isShuffled, setShuffled] = useState(false);
 
   const router = useRouter();
   const player = useLoadPlayer();
@@ -166,6 +167,11 @@ export default function Player() {
           break;
       }
     });
+  }
+
+  async function toggleShuffleHandler(isShuffled) {
+    await toggleShuffle(isShuffled);
+    setShuffled((prev) => !prev);
   }
 
   return (

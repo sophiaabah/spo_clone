@@ -60,8 +60,6 @@ export default function ArtistPage() {
   const router = useRouter();
   const { artistId } = router.query;
 
-  //use Promise.all and maybe check if ur using the right property referencing down there. cuz im sick of the errors
-
   useEffect(() => {
     if (!artistId) return;
 
