@@ -78,14 +78,16 @@ export default function Sidebar() {
       </Stack>
 
       <Stack px={6} pb={4} spacing={4}>
-        <Link opacity={0.6} _hover={{ textDecoration: "none", opacity: 1 }}>
-          <Stack spacing={4} alignItems="center" direction="row">
-            <Icon as={AiFillHome} w={7} h={7} />
-            <Text fontWeight={500} fontSize="0.925rem">
-              Home
-            </Text>
-          </Stack>
-        </Link>
+        <NextLink href="/library">
+          <Link opacity={0.6} _hover={{ textDecoration: "none", opacity: 1 }}>
+            <Stack spacing={4} alignItems="center" direction="row">
+              <Icon as={AiFillHome} w={7} h={7} />
+              <Text fontWeight={500} fontSize="0.925rem">
+                Home
+              </Text>
+            </Stack>
+          </Link>
+        </NextLink>
         <Link opacity={0.6} _hover={{ textDecoration: "none", opacity: 1 }}>
           <Stack spacing={4} alignItems="center" direction="row">
             <Icon w={7} h={7} as={FiSearch} />
