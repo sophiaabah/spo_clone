@@ -32,16 +32,17 @@ import {
   Icon,
   propNames,
 } from "@chakra-ui/react";
+import { BiCategory } from "react-icons/bi";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Head from "next/head";
 import React, { useEffect, useState, useRef } from "react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import axios from "axios";
 import shuffle from "lodash.shuffle";
-import { BiCategory } from "react-icons/bi";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Layout from "../components/layout";
 import AlbumCard from "../components/albumCard";
+import NavButtons from "../components/navButtons";
 import { getTopTracks, getLikedAlbums, getRelatedArtists } from "../lib/api";
 import { colorPicker } from "../lib/color";
 
@@ -127,20 +128,8 @@ export default function Library() {
           <Stack
           // background-image={` linear-gradient(rgba(0,0,0,.6) 0, #121212 100%);`}
           >
-            <Stack pt={6} spacing={3} direction="row">
-              <IconButton
-                borderRadius="full"
-                bgColor="#00000070"
-                fontSize="20px"
-                icon={<IoIosArrowBack />}
-              ></IconButton>
-              <IconButton
-                fontSize="20px"
-                bgColor="#00000070"
-                borderRadius="full"
-                icon={<IoIosArrowForward />}
-              ></IconButton>
-            </Stack>
+            <NavButtons />
+
             <Heading pt={4} pb={3} fontSize="3xl">
               Good evening
             </Heading>

@@ -47,9 +47,12 @@ const spotifyOauth = {
           user-read-email \
           user-read-private \
           user-read-recently-played \
-          user-top-read \
+          user-read-currently-playing \
           user-read-playback-position \
+          user-read-playback-state \
+          user-modify-playback-state \
           user-library-modify \
+          user-top-read \
           user-library-read \
           playlist-read-private \
           playlist-read-private \

@@ -42,6 +42,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Layout from "../../components/layout";
 import Heart from "../../components/heart";
 import ActionPanel from "../../components/actionPanel";
+import NavButtons from "../../components/navButtons";
 import { getAlbumInfo, getPlaylistInfo } from "../../lib/api";
 import { timeToString, draw, getColors } from "../../lib/helpers";
 import { colorPicker } from "../../lib/color";
@@ -94,20 +95,7 @@ export default function PlaylistPage() {
           pb={1}
           background={`-webkit-gradient(linear,left top,left bottom,from(transparent),to(rgba(0.1,0.3,0.5,.65))), ${bgColor}`}
         >
-          <Stack pt={4} pb={0} spacing={3} direction="row">
-            <IconButton
-              borderRadius="full"
-              bgColor="#00000070"
-              fontSize="20px"
-              icon={<IoIosArrowBack />}
-            ></IconButton>
-            <IconButton
-              fontSize="20px"
-              bgColor="#00000070"
-              borderRadius="full"
-              icon={<IoIosArrowForward />}
-            ></IconButton>
-          </Stack>
+          <NavButtons />
           <Stack pt={4} pb={6} spacing={7} direction="row">
             <Image
               crossOrigin="Anonymous"
@@ -266,7 +254,9 @@ export default function PlaylistPage() {
                       boxSize="40px"
                     />
                     <Stack spacing={0}>
-                      <Text>{track?.track?.name}</Text>
+                      <Text fontSize="15.5px" fontWeight={500}>
+                        {track?.track?.name}
+                      </Text>
                       <Link color="whiteAlpha.700" fontSize="14px">
                         {track?.track?.artists[0].name}
                       </Link>

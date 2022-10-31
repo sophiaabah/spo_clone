@@ -38,6 +38,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import NextLink from "next/link";
 import { AiOutlineFullscreen } from "react-icons/ai";
 import { FiHeart } from "react-icons/fi";
 import { IoIosSkipBackward, IoIosSkipForward } from "react-icons/io";
@@ -345,15 +346,18 @@ export default function Player() {
           fontSize="18px"
           icon={<TbMicrophone2 />}
         ></IconButton>
-        <IconButton
-          _hover={{
-            color: "hsla(0, 0%, 100%, 1)",
-          }}
-          variant="ghost"
-          color="whiteAlpha.600"
-          fontSize="20px"
-          icon={<VscListFlat />}
-        ></IconButton>
+        <NextLink href="/queue">
+          <IconButton
+            _hover={{
+              color: "hsla(0, 0%, 100%, 1)",
+            }}
+            as="a"
+            variant="ghost"
+            color="whiteAlpha.600"
+            fontSize="20px"
+            icon={<VscListFlat />}
+          ></IconButton>
+        </NextLink>
         <IconButton
           _hover={{
             color: "hsla(0, 0%, 100%, 1)",

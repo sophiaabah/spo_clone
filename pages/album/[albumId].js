@@ -36,12 +36,13 @@ import {
   BsVolumeDownFill,
   BsThreeDots,
 } from "react-icons/bs";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useRouter } from "next/router";
 import { useEffect, useState, useRef } from "react";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Layout from "../../components/layout";
 import Heart from "../../components/heart";
 import ActionPanel from "../../components/actionPanel";
+import NavButtons from "../../components/navButtons";
 import { getAlbumInfo } from "../../lib/api";
 import { timeToString, draw, getColors } from "../../lib/helpers";
 import { colorPicker } from "../../lib/color";
@@ -92,20 +93,7 @@ export default function AlbumPage() {
           pb={6}
           background={`-webkit-gradient(linear,left top,left bottom,from(transparent),to(rgba(0.1,0.3,0.5,.65))), ${bgColor}`}
         >
-          <Stack pt={4} pb={0} spacing={3} direction="row">
-            <IconButton
-              borderRadius="full"
-              bgColor="#00000070"
-              fontSize="20px"
-              icon={<IoIosArrowBack />}
-            ></IconButton>
-            <IconButton
-              fontSize="20px"
-              bgColor="#00000070"
-              borderRadius="full"
-              icon={<IoIosArrowForward />}
-            ></IconButton>
-          </Stack>
+          <NavButtons />
           <Stack pt={4} spacing={7} direction="row">
             <Image
               ref={imgRef}
@@ -221,7 +209,9 @@ export default function AlbumPage() {
                   <Stack pl={2} alignItems="center" spacing={5} direction="row">
                     <Text>{index + 1}</Text>
                     <Stack spacing={0}>
-                      <Text>{track?.name}</Text>
+                      <Text fontSize="15.5px" fontWeight={500}>
+                        {track?.name}
+                      </Text>
                       <Stack spacing="1px" direction="row">
                         <Link color="whiteAlpha.700" fontSize="sm">
                           {`${track?.artists[0]?.name}` || ""}

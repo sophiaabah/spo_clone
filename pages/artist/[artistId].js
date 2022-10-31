@@ -44,6 +44,7 @@ import Layout from "../../components/layout";
 import Heart from "../../components/heart";
 import ActionPanel from "../../components/actionPanel";
 import AlbumCard from "../../components/albumCard";
+import NavButtons from "../../components/navButtons";
 import {
   getArtist,
   getArtistsAlbums,
@@ -106,20 +107,7 @@ export default function ArtistPage() {
           pb={6}
           background={`-webkit-gradient(linear,left top,left bottom,from(transparent),to(rgba(0.1,0.3,0.5,.65))), ${bgColor}`}
         >
-          <Stack pt={4} spacing={3} direction="row">
-            <IconButton
-              borderRadius="full"
-              bgColor="#00000070"
-              fontSize="20px"
-              icon={<IoIosArrowBack />}
-            ></IconButton>
-            <IconButton
-              fontSize="20px"
-              bgColor="#00000070"
-              borderRadius="full"
-              icon={<IoIosArrowForward />}
-            ></IconButton>
-          </Stack>
+          <NavButtons />
           <Stack pt={4} spacing={7} direction="row">
             <Image
               ref={imgRef}
