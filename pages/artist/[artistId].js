@@ -32,6 +32,7 @@ import {
   Progress,
 } from "@chakra-ui/react";
 import { FiSearch, FiHeart } from "react-icons/fi";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import {
   BsFillPlayCircleFill,
   BsVolumeDownFill,
@@ -49,14 +50,16 @@ import {
   getArtistsTopTracks,
 } from "../../lib/api";
 import { timeToString, draw, getColors } from "../../lib/helpers";
+import { colorPicker } from "../../lib/color";
 
 export default function ArtistPage() {
   const [artistInfo, setArtistInfo] = useState({});
   const [artistTracks, setArtistTracks] = useState([]);
   const [artistAlbums, setArtistAlbums] = useState([]);
 
-  // const [bgColor, setBgColor] = useState("");
-  // const imgRef = useRef();
+  const [bgColor, setBgColor] = useState("");
+  const imgRef = useRef();
+
   const router = useRouter();
   const { artistId } = router.query;
 
@@ -83,139 +86,178 @@ export default function ArtistPage() {
     loadArtistInfo(artistId);
   }, [artistId]);
 
+  useEffect(() => {
+    imgRef.current.onload = () => {
+      console.log("my ref", imgRef.current);
+      // console.log("gradient anchor", draw(imgRef.current));
+
+      const dominantColor = colorPicker(imgRef.current);
+      setBgColor(dominantColor);
+      // console.log("here", dominantColor);
+      // setBgColor(draw(imgRef.current));
+    };
+  }, [artistInfo]);
+
   return (
     <Layout>
-      <Stack px={10} spacing={3}>
-        <Stack pb="24px" spacing={7} direction="row">
-          <Image
-            boxSize="232px"
-            borderRadius="full"
-            alt="track cover"
-            src={artistInfo?.image}
-          />
-          <Stack alignSelf="end" spacing={3} justify="end" px={3}>
-            <Text fontSize="sm" fontWeight={650}>
-              Verified Artist
-            </Text>
-            <Text
-              lineHeight="none"
-              letterSpacing="tight"
-              fontSize="8xl"
-              fontWeight={700}
-            >
-              {artistInfo?.name}
-            </Text>
-            <Text px="5px" pt="5px" fontSize="sm" fontWeight={500}>
-              {artistInfo?.followers} monthly listeners
-            </Text>
+      <Stack spacing={0}>
+        <Stack
+          px={10}
+          pb={6}
+          background={`-webkit-gradient(linear,left top,left bottom,from(transparent),to(rgba(0.1,0.3,0.5,.65))), ${bgColor}`}
+        >
+          <Stack pt={4} spacing={3} direction="row">
+            <IconButton
+              borderRadius="full"
+              bgColor="#00000070"
+              fontSize="20px"
+              icon={<IoIosArrowBack />}
+            ></IconButton>
+            <IconButton
+              fontSize="20px"
+              bgColor="#00000070"
+              borderRadius="full"
+              icon={<IoIosArrowForward />}
+            ></IconButton>
+          </Stack>
+          <Stack pt={4} spacing={7} direction="row">
+            <Image
+              ref={imgRef}
+              crossOrigin="Anonymous"
+              boxSize="232px"
+              borderRadius="full"
+              alt="track cover"
+              src={artistInfo?.image}
+            />
+            <Stack alignSelf="end" spacing={3} justify="end" px={3}>
+              <Text fontSize="sm" fontWeight={650}>
+                Verified Artist
+              </Text>
+              <Text
+                lineHeight="none"
+                letterSpacing="tight"
+                fontSize="8xl"
+                fontWeight={700}
+              >
+                {artistInfo?.name}
+              </Text>
+              <Text px="5px" pt="5px" fontSize="sm" fontWeight={500}>
+                {artistInfo?.followers} monthly listeners
+              </Text>
+            </Stack>
           </Stack>
         </Stack>
-        <Stack>
+        <Stack
+          px={8}
+          background={`linear-gradient(180deg, ${bgColor}1A 0%, ${bgColor}00 22%)`}
+        >
           <ActionPanel />
-          <Text py="5px" fontSize="22px" fontWeight={650}>
-            Popular
-          </Text>
+          <Stack>
+            <Text py="3px" fontSize="22px" fontWeight={650}>
+              Popular
+            </Text>
 
-          <Stack pt="8px" spacing={0}>
-            {artistTracks?.map((track, index) => {
-              return (
-                <Stack
-                  key={index}
-                  borderRadius="md"
-                  p={2}
-                  // bgColor="hsla(0, 0%, 35%, .1)"
-                  _hover={{
-                    textDecoration: "none",
-                    bgColor: "hsla(0, 0%, 45%, .14)",
-                  }}
-                  width="100%"
-                  justify="space-between"
-                  alignItems="center"
-                  direction="row"
-                >
+            <Stack pt="6px" spacing={0}>
+              {artistTracks?.map((track, index) => {
+                return (
                   <Stack
-                    pl={2}
-                    flex={2}
+                    key={index}
+                    borderRadius="md"
+                    p={2}
+                    // bgColor="hsla(0, 0%, 35%, .1)"
+                    _hover={{
+                      textDecoration: "none",
+                      bgColor: "hsla(0, 0%, 45%, .14)",
+                    }}
+                    width="100%"
+                    justify="space-between"
                     alignItems="center"
-                    spacing={4}
                     direction="row"
                   >
-                    <Text>{index + 1}</Text>
-                    <Image
-                      boxSize="38px"
-                      src={track.album.images[0].url}
-                      alt="track cover"
-                    ></Image>
-                    <Text fontSize="16px" fontWeight={450}>
-                      {track?.name}
+                    <Stack
+                      pl={2}
+                      flex={2}
+                      alignItems="center"
+                      spacing={4}
+                      direction="row"
+                    >
+                      <Text>{index + 1}</Text>
+                      <Image
+                        boxSize="38px"
+                        src={track.album.images[0].url}
+                        alt="track cover"
+                      ></Image>
+                      <Text fontSize="16px" fontWeight={450}>
+                        {track?.name}
+                      </Text>
+                    </Stack>
+                    <Text flex={1} fontSize="sm" color="whiteAlpha.700">
+                      112,999,000
                     </Text>
+                    <Stack spacing={4} alignItems="center" direction="row">
+                      <IconButton
+                        fontSize="18px"
+                        visibility="hidden"
+                        _hover={{
+                          color: "hsla(0, 0%, 100%, 1)",
+                          visibility: "visible",
+                        }}
+                        variant="ghost"
+                        color="whiteAlpha.700"
+                        icon={<FiHeart />}
+                      ></IconButton>
+                      <Text fontSize="sm" color="whiteAlpha.700">
+                        {timeToString(track.duration_ms)}
+                      </Text>
+                      <IconButton
+                        fontSize="18px"
+                        visibility="hidden"
+                        _hover={{
+                          color: "hsla(0, 0%, 100%, 1)",
+                          visibility: "visible",
+                        }}
+                        variant="ghost"
+                        color="whiteAlpha.700"
+                        icon={<BsThreeDots />}
+                      ></IconButton>
+                    </Stack>
                   </Stack>
-                  <Text flex={1} fontSize="sm" color="whiteAlpha.700">
-                    112,999,000
-                  </Text>
-                  <Stack spacing={4} alignItems="center" direction="row">
-                    <IconButton
-                      fontSize="18px"
-                      visibility="hidden"
-                      _hover={{
-                        color: "hsla(0, 0%, 100%, 1)",
-                        visibility: "visible",
-                      }}
-                      variant="ghost"
-                      color="whiteAlpha.700"
-                      icon={<FiHeart />}
-                    ></IconButton>
-                    <Text fontSize="sm" color="whiteAlpha.700">
-                      {timeToString(track.duration_ms)}
-                    </Text>
-                    <IconButton
-                      fontSize="18px"
-                      visibility="hidden"
-                      _hover={{
-                        color: "hsla(0, 0%, 100%, 1)",
-                        visibility: "visible",
-                      }}
-                      variant="ghost"
-                      color="whiteAlpha.700"
-                      icon={<BsThreeDots />}
-                    ></IconButton>
-                  </Stack>
-                </Stack>
-              );
-            })}
-          </Stack>
+                );
+              })}
+            </Stack>
 
-          <Stack
-            pt="16px"
-            align="baseline"
-            direction="row"
-            justify="space-between"
-          >
-            <Text fontSize="22px" fontWeight={650}>
-              Discography
-            </Text>
-            <Text
-              fontWeight={600}
-              color="whiteAlpha.700"
-              textTransform="uppercase"
-              fontSize="14px"
+            <Stack
+              py="20px"
+              align="baseline"
+              direction="row"
+              justify="space-between"
             >
-              See all
-            </Text>
+              <Text fontSize="22px" fontWeight={650}>
+                Discography
+              </Text>
+              <Text
+                fontWeight={600}
+                color="whiteAlpha.700"
+                textTransform="uppercase"
+                fontSize="14px"
+              >
+                See all
+              </Text>
+            </Stack>
+            <SimpleGrid columns={6} spacing={8}>
+              {artistAlbums?.map((album) => {
+                return (
+                  <AlbumCard
+                    key={album.id}
+                    albumId={album?.id}
+                    src={album?.images[0]?.url || ""}
+                    albumTitle={album?.name || ""}
+                    artist={album?.artists[0]?.name || ""}
+                  />
+                );
+              })}
+            </SimpleGrid>
           </Stack>
-          <SimpleGrid columns={6} spacing={8}>
-            {artistAlbums?.map((album) => {
-              return (
-                <AlbumCard
-                  key={album.id}
-                  albumId={album?.id}
-                  src={album?.images[0]?.url || ""}
-                  albumTitle={album?.name || ""}
-                  artist={album?.artists[0]?.name || ""}
-                />
-              );
-            })}
-          </SimpleGrid>
         </Stack>
       </Stack>
     </Layout>

@@ -33,20 +33,24 @@ import {
   propNames,
 } from "@chakra-ui/react";
 import Head from "next/head";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import axios from "axios";
 import shuffle from "lodash.shuffle";
 import { BiCategory } from "react-icons/bi";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Layout from "../components/layout";
 import AlbumCard from "../components/albumCard";
 import { getTopTracks, getLikedAlbums, getRelatedArtists } from "../lib/api";
+import { colorPicker } from "../lib/color";
 
 export default function Library() {
   const [recentAlbums, setRecentAlbums] = useState([]);
   const [relatedArtists, setRelatedArtists] = useState([]);
   const [likedAlbums, setLikedAlbums] = useState([]);
+  const [bgColor, setBgColor] = useState("#4c5441");
+  const imgRef = useRef();
   const router = useRouter();
 
   useEffect(() => {
@@ -92,54 +96,98 @@ export default function Library() {
     fetchSongsFeed();
   }, []);
 
+  // useEffect(() => {
+  //   imgRef.current.onload = () => {
+  //     console.log("my ref", imgRef.current);
+  //     // console.log("gradient anchor", draw(imgRef.current));
+
+  //     const dominantColor = colorPicker(imgRef.current);
+  //     setBgColor(dominantColor);
+  //     // console.log("here", dominantColor);
+  //     // setBgColor(draw(imgRef.current));
+  //   };
+  // }, [recentAlbums]);
+
+  function changeBgStyle() {
+    imgRef.current.onload = () => {
+      console.log("my ref", imgRef.current);
+      // console.log("gradient anchor", draw(imgRef.current));
+
+      const dominantColor = colorPicker(imgRef.current);
+      setBgColor(dominantColor);
+      // console.log("here", dominantColor);
+      // setBgColor(draw(imgRef.current));
+    };
+  }
+
   return (
     <Layout>
-      <Stack px={10} spacing={12}>
+      <Stack px={10} pb={6} spacing={12}>
         <Stack spacing={4}>
-          <Heading pb={3} fontSize="3xl">
-            Good evening
-          </Heading>
+          <Stack
+          // background-image={` linear-gradient(rgba(0,0,0,.6) 0, #121212 100%);`}
+          >
+            <Stack pt={6} spacing={3} direction="row">
+              <IconButton
+                borderRadius="full"
+                bgColor="#00000070"
+                fontSize="20px"
+                icon={<IoIosArrowBack />}
+              ></IconButton>
+              <IconButton
+                fontSize="20px"
+                bgColor="#00000070"
+                borderRadius="full"
+                icon={<IoIosArrowForward />}
+              ></IconButton>
+            </Stack>
+            <Heading pt={4} pb={3} fontSize="3xl">
+              Good evening
+            </Heading>
 
-          {/* recent albums */}
-          <SimpleGrid columns={3} rows={2} spacing={6}>
-            {recentAlbums.map((album) => {
-              return (
-                <NextLink key={album.id} href={`/album/${album.id}`}>
-                  <Link
-                    borderRadius="lg"
-                    overflow="hidden"
-                    height="100%"
-                    bgColor="hsla(0, 0%, 35%, .1)"
-                    _hover={{
-                      textDecoration: "none",
-                      bgColor: "hsla(0, 0%, 45%, .14)",
-                    }}
-                  >
-                    <Stack spacing={0} alignItems="center" direction="row">
-                      <Image
-                        boxSize="85px"
-                        src={album.images[0]?.url}
-                        // src=""
-                        alt={album.name}
-                      ></Image>
-                      <Stack
-                        px={4}
-                        width="100%"
-                        alignItems="center"
-                        direction="row"
-                        justifyContent="space-between"
-                      >
-                        <Text fontSize="md" fontWeight="600">
-                          {album.name}
-                          {/* Text */}
-                        </Text>
+            {/* recent albums */}
+            <SimpleGrid columns={3} rows={2} spacing={6}>
+              {recentAlbums.map((album) => {
+                return (
+                  <NextLink key={album.id} href={`/album/${album.id}`}>
+                    <Link
+                      borderRadius="lg"
+                      overflow="hidden"
+                      height="100%"
+                      bgColor="hsla(0, 0%, 35%, .1)"
+                      _hover={{
+                        textDecoration: "none",
+                        bgColor: "hsla(0, 0%, 45%, .14)",
+                      }}
+                    >
+                      <Stack spacing={0} alignItems="center" direction="row">
+                        <Image
+                          boxSize="85px"
+                          src={album.images[0]?.url}
+                          ref={imgRef}
+                          crossOrigin="Anonymous"
+                          // onMouseEnter={() => changeBgStyle()}
+                          alt={album.name}
+                        ></Image>
+                        <Stack
+                          px={4}
+                          width="100%"
+                          alignItems="center"
+                          direction="row"
+                          justifyContent="space-between"
+                        >
+                          <Text fontSize="md" fontWeight="600">
+                            {album.name}
+                            {/* Text */}
+                          </Text>
+                        </Stack>
                       </Stack>
-                    </Stack>
-                  </Link>
-                </NextLink>
-              );
-            })}
-          </SimpleGrid>
+                    </Link>
+                  </NextLink>
+                );
+              })}
+            </SimpleGrid>
+          </Stack>
 
           <Stack pt={6} spacing={6}>
             <Heading pt={5} fontSize="xl">

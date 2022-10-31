@@ -89,24 +89,24 @@ export default function AlbumPage() {
       <Stack spacing={0}>
         <Stack
           px={10}
-          pb={1}
-          background={`-webkit-gradient(linear,left top,left bottom,from(transparent),to(rgba(0.1,0.3,0.5,.625))), ${bgColor}`}
+          pb={6}
+          background={`-webkit-gradient(linear,left top,left bottom,from(transparent),to(rgba(0.1,0.3,0.5,.65))), ${bgColor}`}
         >
           <Stack pt={4} pb={0} spacing={3} direction="row">
             <IconButton
               borderRadius="full"
-              bgColor="black"
-              colorScheme="black"
+              bgColor="#00000070"
+              fontSize="20px"
               icon={<IoIosArrowBack />}
             ></IconButton>
             <IconButton
-              bgColor="black"
-              colorScheme="black"
+              fontSize="20px"
+              bgColor="#00000070"
               borderRadius="full"
               icon={<IoIosArrowForward />}
             ></IconButton>
           </Stack>
-          <Stack py={4} spacing={7} direction="row">
+          <Stack pt={4} spacing={7} direction="row">
             <Image
               ref={imgRef}
               boxSize="232px"
@@ -173,10 +173,11 @@ export default function AlbumPage() {
           </Stack>
         </Stack>
         <Stack
+          px={8}
           background={`linear-gradient(180deg, ${bgColor}1A 0%, ${bgColor}00 22%)`}
         >
           <ActionPanel uri={albumPage.uri} />
-          <Stack px={9} spacing={0}>
+          <Stack spacing={0}>
             <Stack pl={4} direction="row" spacing={4}>
               <Text
                 textTransform="uppercase"
@@ -200,7 +201,7 @@ export default function AlbumPage() {
           </Stack>
 
           {/* songs list in this stack */}
-          <Stack px={8} spacing={0}>
+          <Stack spacing={0}>
             {albumPage?.items?.map((track, index) => {
               return (
                 <Stack

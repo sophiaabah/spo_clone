@@ -37,7 +37,7 @@ export default function ActionPanel({ uri }) {
   }
 
   return (
-    <Stack px={10} py="28px" spacing={6} direction="row">
+    <Stack py="32px" spacing={6} direction="row">
       <IconButton
         _hover={{
           // fontSize: "42px",
