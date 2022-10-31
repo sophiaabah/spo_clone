@@ -34,7 +34,13 @@ import {
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 
-export default function AlbumCard({ albumId, src, albumTitle, artist }) {
+export default function AlbumCard({
+  albumId,
+  src,
+  albumTitle,
+  artist,
+  artistId,
+}) {
   return (
     <NextLink href={`/album/${albumId}`}>
       <Link
@@ -65,9 +71,11 @@ export default function AlbumCard({ albumId, src, albumTitle, artist }) {
             >
               {albumTitle || ""}
             </Text>
-            <Text fontSize="sm" fontWeight="400" color="whiteAlpha.600">
-              {artist || ""}
-            </Text>
+            <NextLink href={`/artist/${artistId}`}>
+              <Link fontSize="sm" fontWeight="400" color="whiteAlpha.600">
+                {artist || ""}
+              </Link>
+            </NextLink>
           </Stack>
         </Stack>
       </Link>

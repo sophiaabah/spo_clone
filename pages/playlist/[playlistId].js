@@ -37,6 +37,7 @@ import {
   BsThreeDots,
 } from "react-icons/bs";
 import { useRouter } from "next/router";
+import NextLink from "next/link";
 import { useEffect, useState, useRef } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Layout from "../../components/layout";
@@ -49,6 +50,9 @@ import { colorPicker } from "../../lib/color";
 
 export default function PlaylistPage() {
   const [playlistPage, setPlaylistPage] = useState({});
+  const [artistIds, setArtistIds] = useState([]);
+  const [albumIds, setAlbumIds] = useState([]);
+
   const [bgColor, setBgColor] = useState("");
 
   const router = useRouter();
@@ -70,6 +74,16 @@ export default function PlaylistPage() {
         owner: playlist.owner.display_name,
         tracks: playlist.tracks.items,
       });
+      setArtistIds(
+        playlist.tracks.items.map((track) => {
+          return track.track.artists[0].id;
+        })
+      );
+      setAlbumIds(
+        playlist.tracks.items.map((track) => {
+          return track.track.album.id;
+        })
+      );
     }
 
     getPlaylist(playlistId);
@@ -257,16 +271,20 @@ export default function PlaylistPage() {
                       <Text fontSize="15.5px" fontWeight={500}>
                         {track?.track?.name}
                       </Text>
-                      <Link color="whiteAlpha.700" fontSize="14px">
-                        {track?.track?.artists[0].name}
-                      </Link>
+                      <NextLink href={`/artist/${artistIds[index]}`}>
+                        <Link color="whiteAlpha.700" fontSize="14px">
+                          {track?.track?.artists[0].name}
+                        </Link>
+                      </NextLink>
                     </Stack>
                   </Stack>
                 </GridItem>
                 <GridItem rowSpan={1}>
-                  <Text color="whiteAlpha.700" fontSize="14px">
-                    {track?.track?.album?.name}
-                  </Text>
+                  <NextLink href={`/album/${albumIds[index]}`}>
+                    <Link color="whiteAlpha.700" fontSize="14px">
+                      {track?.track?.album?.name}
+                    </Link>
+                  </NextLink>
                 </GridItem>
                 <GridItem rowSpan={1}>
                   <Text color="whiteAlpha.700" fontSize="14px">

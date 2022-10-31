@@ -38,6 +38,7 @@ import {
 } from "react-icons/bs";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useRouter } from "next/router";
+import NextLink from "next/link";
 import { useEffect, useState, useRef } from "react";
 import Layout from "../../components/layout";
 import Heart from "../../components/heart";
@@ -49,6 +50,7 @@ import { colorPicker } from "../../lib/color";
 
 export default function AlbumPage() {
   const [albumPage, setAlbumPage] = useState({});
+  const [artistId, setArtistId] = useState("");
   const [bgColor, setBgColor] = useState("");
 
   const router = useRouter();
@@ -69,6 +71,7 @@ export default function AlbumPage() {
         items: album.tracks.items,
         uri: album.uri,
       });
+      setArtistId(album.artists[0].id);
     }
     loadAlbum(albumId);
   }, [albumId]);
@@ -123,9 +126,11 @@ export default function AlbumPage() {
                   src="https://i.scdn.co/image/ab6761610000e5ebfb7a0fe5a0e33cf5325fcd91"
                 ></Image>
                 <Stack spacing={1} alignItems="baseline" direction="row">
-                  <Link px="2px" fontWeight={600}>
-                    {albumPage?.artist}
-                  </Link>
+                  <NextLink href={`/artist/${artistId}`}>
+                    <Link px="2px" fontWeight={600}>
+                      {albumPage?.artist}
+                    </Link>
+                  </NextLink>
                   <chakra.div
                     alignSelf="center"
                     bgColor="white"
@@ -213,9 +218,11 @@ export default function AlbumPage() {
                         {track?.name}
                       </Text>
                       <Stack spacing="1px" direction="row">
-                        <Link color="whiteAlpha.700" fontSize="sm">
-                          {`${track?.artists[0]?.name}` || ""}
-                        </Link>
+                        <NextLink href={`/artist/${artistId}`}>
+                          <Link color="whiteAlpha.700" fontSize="sm">
+                            {`${track?.artists[0]?.name}` || ""}
+                          </Link>
+                        </NextLink>
 
                         {/* <Link color="whiteAlpha.700" fontSize="sm">
                         {`, ${track?.artists[1]?.name}` || ""}

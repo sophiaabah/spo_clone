@@ -260,6 +260,7 @@ export default function Library() {
                     src={album?.album.images[0].url}
                     albumTitle={album?.album.name}
                     artist={album?.album.artists[0]?.name}
+                    artistId={album?.album.artists[0]?.id}
                   />
                 );
               })}
