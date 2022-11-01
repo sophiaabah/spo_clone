@@ -123,10 +123,14 @@ export default function Library() {
 
   return (
     <Layout>
-      <Stack px={10} pb={6} spacing={12}>
+      <Stack pb={6} spacing={12}>
         <Stack spacing={4}>
           <Stack
-          // background-image={` linear-gradient(rgba(0,0,0,.6) 0, #121212 100%);`}
+            px={10}
+            background={`linear-gradient(180deg, rgba(69, 69, 69, 0.7) 0%, rgba(69, 69, 69, 0.5) 30.55%, rgba(69, 69, 69, 0.2) 50.8%, rgba(69, 69, 69, 0.03) 76.83%);`}
+            // background={` linear-gradient(rgba(0.6,0.2,0.7,0) 0, rgb(240, 0,0, 0.2) 10%);`}
+            // background={`-webkit-gradient(linear,left top,left bottom,from(transparent),to(rgba(0,0.3,0.4,0.8))),rgb(240, 0,0, 0.2)`}
+            // background-image={`linear-gradient(rgba(0,0,0,.6) 0, transparent 100%),rgb(240, 0,0)`}
           >
             <NavButtons />
 
@@ -178,7 +182,7 @@ export default function Library() {
             </SimpleGrid>
           </Stack>
 
-          <Stack pt={6} spacing={6}>
+          <Stack px={10} pt={6} spacing={6}>
             <Heading pt={5} fontSize="xl">
               Recommended for you
             </Heading>
