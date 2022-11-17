@@ -128,15 +128,18 @@ export default function Sidebar() {
             </Text>
           </Stack>
         </Link>
-        <Link opacity={0.6} _hover={{ textDecoration: "none", opacity: 1 }}>
-          <Stack spacing={4} alignItems="center" direction="row">
-            {/* <Image src="" alt="favorite songs" boxSize="21px"></Image> */}
-            <Heart borderRadius="sm" boxSize={7} />
-            <Text fontWeight={500} fontSize="0.925rem">
-              Liked Songs
-            </Text>
-          </Stack>
-        </Link>
+        <NextLink href="/favourites">
+          <Link opacity={0.6} _hover={{ textDecoration: "none", opacity: 1 }}>
+            <Stack spacing={4} alignItems="center" direction="row">
+              {/* <Image src="" alt="favorite songs" boxSize="21px"></Image> */}
+              <Heart fontSize="" borderRadius="sm" boxSize={7} />
+              <Text fontWeight={500} fontSize="0.925rem">
+                Liked Songs
+              </Text>
+            </Stack>
+          </Link>
+        </NextLink>
+
         <Divider pt={2} h="0.3px" borderColor="whiteAlpha.400" />
       </Stack>
 

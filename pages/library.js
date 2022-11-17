@@ -22,6 +22,7 @@ import {
   GridItem,
   Checkbox,
   ButtonGroup,
+  ModalOverlay,
   FormLabel,
   IconButton,
   Container,
@@ -120,6 +121,10 @@ export default function Library() {
       // setBgColor(draw(imgRef.current));
     };
   }
+
+  const PopUp = () => {
+    return <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(15px)" />;
+  };
 
   return (
     <Layout>
