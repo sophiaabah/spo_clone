@@ -29,6 +29,8 @@ import {
   WrapItem,
   chakra,
   FormControl,
+  LinkOverlay,
+  LinkBox,
   Icon,
   propNames,
 } from "@chakra-ui/react";
@@ -43,7 +45,7 @@ export default function AlbumCard({
 }) {
   return (
     <NextLink href={`/album/${albumId}`}>
-      <Link
+      <LinkBox
         borderRadius="lg"
         overflow="hidden"
         height="100%"
@@ -78,7 +80,7 @@ export default function AlbumCard({
             </NextLink>
           </Stack>
         </Stack>
-      </Link>
+      </LinkBox>
     </NextLink>
   );
 }
