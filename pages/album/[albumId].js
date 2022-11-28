@@ -105,19 +105,22 @@ export default function AlbumPage() {
               crossOrigin="Anonymous"
               src={albumPage?.image}
             ></Image>
-            <Stack spacing={0} alignSelf="end">
+            <Stack maxW="90%" spacing={0} alignSelf="end">
               <Text fontSize="sm" fontWeight={650} textTransform="uppercase">
                 Album
               </Text>
               <Text
-                lineHeight="none"
+                overflow="hidden"
+                textOverflow="ellipsis"
+                whiteSpace="nowrap"
+                lineHeight="normal"
                 letterSpacing="tight"
                 fontSize="8xl"
                 fontWeight={700}
               >
                 {albumPage?.name}
               </Text>
-              <Stack pt={8} spacing={1} alignItems="end" direction="row">
+              <Stack pt={3} spacing={1} alignItems="end" direction="row">
                 <Image
                   borderRadius="full"
                   width="1.5rem"
@@ -211,8 +214,14 @@ export default function AlbumPage() {
                   alignItems="center"
                   direction="row"
                 >
-                  <Stack pl={2} alignItems="center" spacing={5} direction="row">
-                    <Text>{index + 1}</Text>
+                  <Stack pl={0} alignItems="center" spacing={5} direction="row">
+                    <Text
+                      textAlign="right"
+                      fontVariantNumeric="tabular-nums"
+                      w="24px"
+                    >
+                      {index + 1}
+                    </Text>
                     <Stack spacing={0}>
                       <Text fontSize="15.5px" fontWeight={500}>
                         {track?.name}

@@ -133,9 +133,6 @@ export default function Library() {
           <Stack
             px={10}
             background={`linear-gradient(180deg, rgba(69, 69, 69, 0.7) 0%, rgba(69, 69, 69, 0.5) 30.55%, rgba(69, 69, 69, 0.2) 50.8%, rgba(69, 69, 69, 0.03) 76.83%);`}
-            // background={` linear-gradient(rgba(0.6,0.2,0.7,0) 0, rgb(240, 0,0, 0.2) 10%);`}
-            // background={`-webkit-gradient(linear,left top,left bottom,from(transparent),to(rgba(0,0.3,0.4,0.8))),rgb(240, 0,0, 0.2)`}
-            // background-image={`linear-gradient(rgba(0,0,0,.6) 0, transparent 100%),rgb(240, 0,0)`}
           >
             <NavButtons />
 
@@ -216,13 +213,15 @@ export default function Library() {
                         />
                         <Stack
                           minWidth="0px"
+                          maxW="95%"
                           overflow="hidden"
                           spacing="3px"
                           alignSelf="start"
                         >
                           <Text
-                            whiteSpace="nowrap"
+                            overflow="hidden"
                             textOverflow="ellipsis"
+                            whiteSpace="nowrap"
                             fontSize="md"
                             fontWeight="600"
                           >

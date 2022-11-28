@@ -135,13 +135,15 @@ export default function SearchPageByCategory() {
                       />
                       <Stack
                         minWidth="0px"
+                        maxW="95%"
                         overflow="hidden"
                         spacing="3px"
                         alignSelf="start"
                       >
                         <Text
-                          whiteSpace="nowrap"
+                          overflow="hidden"
                           textOverflow="ellipsis"
+                          whiteSpace="nowrap"
                           fontSize="md"
                           fontWeight="600"
                         >
@@ -190,13 +192,15 @@ export default function SearchPageByCategory() {
                       />
                       <Stack
                         minWidth="0px"
+                        maxW="95%"
                         overflow="hidden"
                         spacing={1}
                         alignSelf="start"
                       >
                         <Text
-                          whiteSpace="nowrap"
+                          overflow="hidden"
                           textOverflow="ellipsis"
+                          whiteSpace="nowrap"
                           fontSize="md"
                           fontWeight="600"
                         >

@@ -101,7 +101,7 @@ export default function ArtistPage() {
 
   return (
     <Layout>
-      <Stack spacing={0}>
+      <Stack pb={10} spacing={0}>
         <Stack
           px={10}
           pb={6}
@@ -117,11 +117,14 @@ export default function ArtistPage() {
               alt="track cover"
               src={artistInfo?.image}
             />
-            <Stack alignSelf="end" spacing={3} justify="end" px={3}>
+            <Stack maxW="90%" alignSelf="end" spacing={3} justify="end" px={3}>
               <Text fontSize="sm" fontWeight={650}>
                 Verified Artist
               </Text>
               <Text
+                overflow="hidden"
+                textOverflow="ellipsis"
+                whiteSpace="nowrap"
                 lineHeight="none"
                 letterSpacing="tight"
                 fontSize="8xl"

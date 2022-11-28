@@ -118,7 +118,7 @@ export default function PlaylistPage() {
               alt="Album cover"
               src={playlistPage?.image || ""}
             ></Image>
-            <Stack spacing={1} alignSelf="end">
+            <Stack maxW="90%" spacing={0} alignSelf="end">
               <Text
                 pl="4px"
                 fontSize="sm"
@@ -128,8 +128,11 @@ export default function PlaylistPage() {
                 Playlist
               </Text>
               <Text
+                overflow="hidden"
+                textOverflow="ellipsis"
+                whiteSpace="nowrap"
                 // minWidth="min-content"
-                lineHeight="none"
+                lineHeight="normal"
                 letterSpacing="tight"
                 fontSize="92px"
                 fontWeight={700}
@@ -262,19 +265,33 @@ export default function PlaylistPage() {
                 >
                   <GridItem rowSpan={1} colSpan={1}>
                     <Stack
-                      pl={4}
+                      pl={2}
                       alignItems="center"
                       spacing={4}
                       direction="row"
                     >
-                      <Text>{index + 1}</Text>
+                      <Text
+                        display="block"
+                        textAlign="right"
+                        fontVariantNumeric="tabular-nums"
+                        w="24px"
+                      >
+                        {index + 1}
+                      </Text>
+
                       <Image
                         alt="track"
                         src={track?.track?.album?.images[0]?.url}
                         boxSize="40px"
                       />
-                      <Stack spacing={0}>
-                        <Text fontSize="15.5px" fontWeight={500}>
+                      <Stack maxW="75%" spacing={0}>
+                        <Text
+                          overflow="hidden"
+                          textOverflow="ellipsis"
+                          whiteSpace="nowrap"
+                          fontSize="15.5px"
+                          fontWeight={500}
+                        >
                           {track?.track?.name}
                         </Text>
                         <NextLink href={`/artist/${artistIds[index]}`}>

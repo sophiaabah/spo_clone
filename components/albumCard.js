@@ -64,10 +64,17 @@ export default function AlbumCard({
             // src=""
             alt="album cover"
           />
-          <Stack minWidth="0px" overflow="hidden" spacing={1} alignSelf="start">
+          <Stack
+            minWidth="0px"
+            maxW="95%"
+            overflow="hidden"
+            spacing={1}
+            alignSelf="start"
+          >
             <Text
-              whiteSpace="nowrap"
+              overflow="hidden"
               textOverflow="ellipsis"
+              whiteSpace="nowrap"
               fontSize="md"
               fontWeight="600"
             >

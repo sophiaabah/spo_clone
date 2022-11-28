@@ -98,15 +98,16 @@ export default function Sidebar() {
             </Stack>
           </Link>
         </NextLink>
-
-        <Link opacity={0.6} _hover={{ textDecoration: "none", opacity: 1 }}>
-          <Stack spacing={4} alignItems="center" direction="row">
-            <Icon w={7} h={7} as={BiLibrary} />
-            <Text fontWeight={500} fontSize="0.925rem">
-              Your library
-            </Text>
-          </Stack>
-        </Link>
+        <NextLink href="/library">
+          <Link opacity={0.6} _hover={{ textDecoration: "none", opacity: 1 }}>
+            <Stack spacing={4} alignItems="center" direction="row">
+              <Icon w={7} h={7} as={BiLibrary} />
+              <Text fontWeight={500} fontSize="0.925rem">
+                Your library
+              </Text>
+            </Stack>
+          </Link>
+        </NextLink>
       </Stack>
 
       <Stack
