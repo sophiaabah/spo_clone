@@ -121,13 +121,6 @@ export default function AlbumPage() {
                 {albumPage?.name}
               </Text>
               <Stack pt={3} spacing={1} alignItems="end" direction="row">
-                <Image
-                  borderRadius="full"
-                  width="1.5rem"
-                  height="1.5rem"
-                  alt="Album cover"
-                  src="https://i.scdn.co/image/ab6761610000e5ebfb7a0fe5a0e33cf5325fcd91"
-                ></Image>
                 <Stack spacing={1} alignItems="baseline" direction="row">
                   <NextLink href={`/artist/${artistId}`}>
                     <Link px="2px" fontWeight={600}>

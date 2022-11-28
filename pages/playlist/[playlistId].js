@@ -36,6 +36,7 @@ import {
   BsVolumeDownFill,
   BsThreeDots,
 } from "react-icons/bs";
+import { FiMusic } from "react-icons/fi";
 import { useRouter } from "next/router";
 import NextLink from "next/link";
 import { useEffect, useState, useRef } from "react";
@@ -90,16 +91,20 @@ export default function PlaylistPage() {
   }, [router, playlistId]);
 
   useEffect(() => {
-    imgRef.current.onload = () => {
-      console.log("my ref", imgRef.current);
-      // console.log("gradient anchor", draw(imgRef.current));
+    if (playlistPage.image) {
+      imgRef.current.onload = () => {
+        console.log("my ref", imgRef.current);
+        // console.log("gradient anchor", draw(imgRef.current));
 
-      const dominantColor = colorPicker(imgRef.current);
-      setBgColor(dominantColor);
-      // console.log("here", dominantColor);
-      // setBgColor(draw(imgRef.current));
-    };
-  }, [playlistPage]);
+        const dominantColor = colorPicker(imgRef.current);
+        setBgColor(dominantColor);
+        // console.log("here", dominantColor);
+        // setBgColor(draw(imgRef.current));
+      };
+    } else {
+      setBgColor("");
+    }
+  }, [playlistPage, bgColor]);
 
   return (
     <Layout>
@@ -111,13 +116,19 @@ export default function PlaylistPage() {
         >
           <NavButtons />
           <Stack pt={4} pb={6} spacing={7} direction="row">
-            <Image
-              crossOrigin="Anonymous"
-              ref={imgRef}
-              boxSize="232px"
-              alt="Album cover"
-              src={playlistPage?.image || ""}
-            ></Image>
+            {!playlistPage?.image ? (
+              <Center bgColor="#282828" boxSize="232px">
+                <FiMusic fontSize="70px" />
+              </Center>
+            ) : (
+              <Image
+                crossOrigin="Anonymous"
+                ref={imgRef}
+                boxSize="232px"
+                alt="Album cover"
+                src={playlistPage?.image || ""}
+              ></Image>
+            )}
             <Stack maxW="90%" spacing={0} alignSelf="end">
               <Text
                 pl="4px"
