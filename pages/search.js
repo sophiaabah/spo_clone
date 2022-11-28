@@ -70,65 +70,6 @@ export default function SearchPage() {
   const ResultsLayout = () => {
     return (
       <>
-        <Stack spacing={2.5} pr={8} py={6} direction="row">
-          <Button
-            fontSize="14px"
-            height="32px"
-            fontWeight={400}
-            px="16px"
-            _hover={{ bgColor: "#FFFFFF12" }}
-            _active={{ bgColor: "white", color: "black" }}
-            bgColor="#FFFFFF12"
-            borderRadius="full"
-          >
-            All
-          </Button>
-          <Button
-            fontSize="14px"
-            height="32px"
-            fontWeight={400}
-            px="16px"
-            _hover={{ bgColor: "#FFFFFF12" }}
-            bgColor="#FFFFFF12"
-            borderRadius="full"
-          >
-            Playlists
-          </Button>
-          <Button
-            fontSize="14px"
-            fontWeight={400}
-            height="32px"
-            px="16px"
-            _hover={{ bgColor: "#FFFFFF12" }}
-            bgColor="#FFFFFF12"
-            borderRadius="full"
-          >
-            Tracks
-          </Button>
-          <Button
-            fontSize="14px"
-            fontWeight={400}
-            px="16px"
-            height="32px"
-            _hover={{ bgColor: "#FFFFFF12" }}
-            bgColor="#FFFFFF12"
-            borderRadius="full"
-          >
-            Artists
-          </Button>
-          <Button
-            fontSize="14px"
-            fontWeight={400}
-            height="32px"
-            px="16px"
-            _hover={{ bgColor: "#FFFFFF12" }}
-            bgColor="#FFFFFF12"
-            borderRadius="full"
-          >
-            Albums
-          </Button>
-        </Stack>
-
         <Stack width="100%" pt={2} direction="row" spacing={12}>
           <Stack width="100%" spacing={3} pr={10}>
             <Heading fontSize="24px">Songs</Heading>
@@ -332,7 +273,7 @@ export default function SearchPage() {
                           color="whiteAlpha.600"
                           textDecoration="none"
                         >
-                          {`By ${playlist?.owner.display_name}` || ""}
+                          {`By ${playlist?.owner?.display_name}` || ""}
                         </Text>
                         {/* </NextLink> */}
                       </Stack>
@@ -349,7 +290,7 @@ export default function SearchPage() {
 
   useEffect(() => {
     async function onSearch() {
-      const searchResults = await getSearchResults(debouncedValue);
+      const searchResults = await getSearchResults(debouncedValue, "all");
       console.log("the search results", searchResults);
       setTracks(searchResults?.tracks?.items.slice(0, 4));
       setArtists(searchResults?.artists?.items.slice(0, 6));
@@ -389,6 +330,72 @@ export default function SearchPage() {
               placeholder="What do you want to listen to?"
             />
           </InputGroup>
+        </Stack>
+        <Stack spacing={2.5} pr={8} py={6} direction="row">
+          <Button
+            fontSize="14px"
+            height="32px"
+            fontWeight={400}
+            px="16px"
+            _hover={{ bgColor: "#FFFFFF12" }}
+            _active={{ bgColor: "white", color: "black" }}
+            bgColor="#FFFFFF12"
+            borderRadius="full"
+          >
+            All
+          </Button>
+          <NextLink href="/search/playlist">
+            <Button
+              fontSize="14px"
+              height="32px"
+              fontWeight={400}
+              px="16px"
+              _hover={{ bgColor: "#FFFFFF12" }}
+              bgColor="#FFFFFF12"
+              borderRadius="full"
+            >
+              Playlists
+            </Button>
+          </NextLink>
+          <NextLink href="/search/track">
+            <Button
+              fontSize="14px"
+              fontWeight={400}
+              height="32px"
+              px="16px"
+              _hover={{ bgColor: "#FFFFFF12" }}
+              bgColor="#FFFFFF12"
+              borderRadius="full"
+            >
+              Tracks
+            </Button>
+          </NextLink>
+          <NextLink href="/search/artist">
+            <Button
+              fontSize="14px"
+              fontWeight={400}
+              px="16px"
+              height="32px"
+              _hover={{ bgColor: "#FFFFFF12" }}
+              bgColor="#FFFFFF12"
+              borderRadius="full"
+            >
+              Artists
+            </Button>
+          </NextLink>
+          <NextLink href="/search/album">
+            <Button
+              fontSize="14px"
+              fontWeight={400}
+              height="32px"
+              px="16px"
+              _hover={{ bgColor: "#FFFFFF12" }}
+              bgColor="#FFFFFF12"
+              borderRadius="full"
+            >
+              Albums
+            </Button>
+          </NextLink>
         </Stack>
         {searchValue && tracks ? (
           <ResultsLayout />

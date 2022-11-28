@@ -235,7 +235,7 @@ export default function Library() {
                             fontWeight="400"
                             color="whiteAlpha.600"
                           >
-                            {artist?.genres[0]}
+                            {artist?.genres[0] || "Artist"}
                             {/* text */}
                           </Text>
                         </Stack>
