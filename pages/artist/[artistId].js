@@ -179,9 +179,7 @@ export default function ArtistPage() {
                         {track?.name}
                       </Text>
                     </Stack>
-                    <Text flex={1} fontSize="sm" color="whiteAlpha.700">
-                      112,999,000
-                    </Text>
+
                     <Stack spacing={4} alignItems="center" direction="row">
                       <IconButton
                         fontSize="18px"

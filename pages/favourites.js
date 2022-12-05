@@ -42,7 +42,7 @@ import Layout from "../components/layout";
 import Heart from "../components/heart";
 import ActionPanel from "../components/actionPanel";
 import NavButtons from "../components/navButtons";
-import { getLikedSongs } from "../lib/api";
+import { getLikedSongs, getUserInfo } from "../lib/api";
 import { timeToString, renderArtists } from "../lib/helpers";
 import { colorPicker } from "../lib/color";
 
@@ -55,6 +55,11 @@ export default function FavouritesPage() {
       const fetchedLikedSongs = await getLikedSongs();
       console.log("liked songs", fetchedLikedSongs);
       setLikedSongs(fetchedLikedSongs.items);
+    }
+
+    async function getCurrentUser() {
+      const currentUser = await getUserInfo();
+      return currentUser.display_name;
     }
     fetchLikedSongs();
   }, []);
@@ -108,7 +113,7 @@ export default function FavouritesPage() {
                 direction="row"
               >
                 <Link px="2px" fontWeight={600}>
-                  obehi
+                  {getCurrentUser}
                   {/* {playlistPage?.owner} */}
                 </Link>
                 <chakra.div

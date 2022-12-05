@@ -146,13 +146,9 @@ export default function AlbumPage() {
                       {albumPage?.items?.length}
                     </Text>
                     <Text px="2px" fontSize="sm" fontWeight={500}>
-                      songs
+                      {albumPage?.items?.length > 1 ? "songs" : "song"}
                     </Text>
                   </Stack>
-
-                  <Text fontSize="sm" fontWeight={500} color="whiteAlpha.700">
-                    43 min 57 sec
-                  </Text>
                 </Stack>
               </Stack>
             </Stack>

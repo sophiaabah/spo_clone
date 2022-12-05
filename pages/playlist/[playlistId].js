@@ -46,7 +46,7 @@ import Heart from "../../components/heart";
 import ActionPanel from "../../components/actionPanel";
 import NavButtons from "../../components/navButtons";
 import { getAlbumInfo, getPlaylistInfo } from "../../lib/api";
-import { timeToString, renderArtists } from "../../lib/helpers";
+import { timeToString, renderArtists, formatDate } from "../../lib/helpers";
 import { colorPicker } from "../../lib/color";
 
 export default function PlaylistPage() {
@@ -171,10 +171,7 @@ export default function PlaylistPage() {
                   <></>
                 )}
                 <Text px="2px" fontSize="sm" fontWeight={500}>
-                  {playlistPage?.tracks?.length} songs,
-                </Text>
-                <Text fontSize="sm" fontWeight={500} color="whiteAlpha.700">
-                  43 min 57 sec
+                  {playlistPage?.tracks?.length} songs
                 </Text>
               </Stack>
             </Stack>
@@ -321,9 +318,7 @@ export default function PlaylistPage() {
                   </GridItem>
                   <GridItem rowSpan={1}>
                     <Text color="whiteAlpha.700" fontSize="14px">
-                      {dayjs(track?.added_at?.slice(0, 10)).format(
-                        "MMM D, YYYY"
-                      )}
+                      {formatDate(track?.added_at)}
                     </Text>
                   </GridItem>
                   <GridItem justifySelf="center" rowSpan={1}>

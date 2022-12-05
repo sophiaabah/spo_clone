@@ -98,9 +98,6 @@ export default function Library() {
       const usersLikedAlbums = await getLikedAlbums();
       console.log("liked albums", usersLikedAlbums);
       setLikedAlbums(usersLikedAlbums.slice(0, 6)); // put this at the bottom
-
-      const testing = await getInfoForTest();
-      console.log("my tests", testing);
     }
 
     fetchSongsFeed();
