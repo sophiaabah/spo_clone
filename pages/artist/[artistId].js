@@ -50,7 +50,7 @@ import {
   getArtistsAlbums,
   getArtistsTopTracks,
 } from "../../lib/api";
-import { timeToString, draw, getColors } from "../../lib/helpers";
+import { timeToString } from "../../lib/helpers";
 import { colorPicker } from "../../lib/color";
 
 export default function ArtistPage() {
@@ -90,12 +90,9 @@ export default function ArtistPage() {
   useEffect(() => {
     imgRef.current.onload = () => {
       console.log("my ref", imgRef.current);
-      // console.log("gradient anchor", draw(imgRef.current));
 
       const dominantColor = colorPicker(imgRef.current);
       setBgColor(dominantColor);
-      // console.log("here", dominantColor);
-      // setBgColor(draw(imgRef.current));
     };
   }, [artistInfo]);
 
@@ -142,7 +139,7 @@ export default function ArtistPage() {
           px={8}
           background={`linear-gradient(180deg, ${bgColor}1A 0%, ${bgColor}00 22%)`}
         >
-          <ActionPanel />
+          <ActionPanel optionsMenu={true} />
           <Stack>
             <Text py="3px" fontSize="22px" fontWeight={650}>
               Popular

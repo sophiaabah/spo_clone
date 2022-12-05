@@ -46,7 +46,7 @@ import Heart from "../../components/heart";
 import ActionPanel from "../../components/actionPanel";
 import NavButtons from "../../components/navButtons";
 import { getAlbumInfo, getPlaylistInfo } from "../../lib/api";
-import { timeToString, draw, getColors } from "../../lib/helpers";
+import { timeToString, renderArtists } from "../../lib/helpers";
 import { colorPicker } from "../../lib/color";
 
 export default function PlaylistPage() {
@@ -94,12 +94,9 @@ export default function PlaylistPage() {
     if (playlistPage.image) {
       imgRef.current.onload = () => {
         console.log("my ref", imgRef.current);
-        // console.log("gradient anchor", draw(imgRef.current));
 
         const dominantColor = colorPicker(imgRef.current);
         setBgColor(dominantColor);
-        // console.log("here", dominantColor);
-        // setBgColor(draw(imgRef.current));
       };
     } else {
       setBgColor("");
@@ -130,12 +127,7 @@ export default function PlaylistPage() {
               ></Image>
             )}
             <Stack maxW="90%" spacing={0} alignSelf="end">
-              <Text
-                pl="4px"
-                fontSize="sm"
-                fontWeight={650}
-                textTransform="uppercase"
-              >
+              <Text fontSize="sm" fontWeight={650} textTransform="uppercase">
                 Playlist
               </Text>
               <Text
@@ -143,14 +135,14 @@ export default function PlaylistPage() {
                 textOverflow="ellipsis"
                 whiteSpace="nowrap"
                 // minWidth="min-content"
-                lineHeight="normal"
+                lineHeight="1.35"
                 letterSpacing="tight"
                 fontSize="92px"
                 fontWeight={700}
               >
                 {playlistPage?.name}
               </Text>
-              <Text pt={6} pl={1} fontSize="15px" color="whiteAlpha.700">
+              <Text pt={4} pb={2} pl={1} fontSize="15px" color="whiteAlpha.700">
                 {playlistPage?.description}
               </Text>
               <Stack pl={1} spacing={1} alignItems="center" direction="row">
@@ -192,10 +184,10 @@ export default function PlaylistPage() {
           px={8}
           background={`linear-gradient(180deg, ${bgColor}1A 0%, ${bgColor}00 22%)`}
         >
-          <ActionPanel />
+          <ActionPanel uri={playlistPage.uri} optionsMenu={true} />
 
           <Grid
-            templateColumns="2.5fr 1.5fr 1fr 1fr"
+            templateColumns="2.5fr 1.75fr 1fr 0.65fr"
             templateRows="20px"
             // autoRows="56px"
 
@@ -269,12 +261,12 @@ export default function PlaylistPage() {
                   // alignItems="center"
                   // direction="row"
                   alignItems="center"
-                  templateColumns="2.5fr 1.5fr 1fr 1fr"
+                  templateColumns="2.5fr 1.75fr 1fr 0.65fr"
                   templateRows="54px" // do i need this property?
                   autoRows="54px"
                   gap={0}
                 >
-                  <GridItem rowSpan={1} colSpan={1}>
+                  <GridItem rowSpan={1}>
                     <Stack
                       pl={2}
                       alignItems="center"
@@ -306,8 +298,15 @@ export default function PlaylistPage() {
                           {track?.track?.name}
                         </Text>
                         <NextLink href={`/artist/${artistIds[index]}`}>
-                          <Link color="whiteAlpha.700" fontSize="14px">
-                            {track?.track?.artists[0].name}
+                          <Link
+                            overflow="hidden"
+                            textOverflow="ellipsis"
+                            whiteSpace="nowrap"
+                            color="whiteAlpha.700"
+                            fontSize="14px"
+                          >
+                            {renderArtists(track?.track?.artists)}
+                            {/* {track?.track?.artists[0].name} */}
                           </Link>
                         </NextLink>
                       </Stack>

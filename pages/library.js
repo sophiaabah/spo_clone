@@ -44,7 +44,12 @@ import shuffle from "lodash.shuffle";
 import Layout from "../components/layout";
 import AlbumCard from "../components/albumCard";
 import NavButtons from "../components/navButtons";
-import { getTopTracks, getLikedAlbums, getRelatedArtists } from "../lib/api";
+import {
+  getTopTracks,
+  getLikedAlbums,
+  getRelatedArtists,
+  getInfoForTest,
+} from "../lib/api";
 import { colorPicker } from "../lib/color";
 
 export default function Library() {
@@ -93,6 +98,9 @@ export default function Library() {
       const usersLikedAlbums = await getLikedAlbums();
       console.log("liked albums", usersLikedAlbums);
       setLikedAlbums(usersLikedAlbums.slice(0, 6)); // put this at the bottom
+
+      const testing = await getInfoForTest();
+      console.log("my tests", testing);
     }
 
     fetchSongsFeed();

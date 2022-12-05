@@ -13,7 +13,7 @@ import { BsFillPlayCircleFill, BsThreeDots } from "react-icons/bs";
 import { useState } from "react";
 import { playNewContext, handlePlay } from "../lib/api";
 
-export default function ActionPanel({ uri }) {
+export default function ActionPanel({ uri, optionsMenu }) {
   const [isContextAvailable, setContextAvailable] = useState(false);
   const [isPlaying, setPlaying] = useState(true);
 
@@ -49,24 +49,30 @@ export default function ActionPanel({ uri }) {
         fontSize="55px"
         icon={<BsFillPlayCircleFill />}
       ></IconButton>
-      <IconButton
-        fontSize="35px"
-        _hover={{
-          color: "hsla(0, 0%, 100%, 1)",
-        }}
-        variant="ghost"
-        color="whiteAlpha.700"
-        icon={<FiHeart />}
-      ></IconButton>
-      <IconButton
-        fontSize="25px"
-        _hover={{
-          color: "hsla(0, 0%, 100%, 1)",
-        }}
-        variant="ghost"
-        color="whiteAlpha.700"
-        icon={<BsThreeDots />}
-      ></IconButton>
+      {optionsMenu ? (
+        <>
+          <IconButton
+            fontSize="35px"
+            _hover={{
+              color: "hsla(0, 0%, 100%, 1)",
+            }}
+            variant="ghost"
+            color="whiteAlpha.700"
+            icon={<FiHeart />}
+          ></IconButton>
+          <IconButton
+            fontSize="25px"
+            _hover={{
+              color: "hsla(0, 0%, 100%, 1)",
+            }}
+            variant="ghost"
+            color="whiteAlpha.700"
+            icon={<BsThreeDots />}
+          ></IconButton>
+        </>
+      ) : (
+        <></>
+      )}
     </Stack>
   );
 }

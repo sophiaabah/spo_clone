@@ -45,7 +45,7 @@ import Heart from "../../components/heart";
 import ActionPanel from "../../components/actionPanel";
 import NavButtons from "../../components/navButtons";
 import { getAlbumInfo } from "../../lib/api";
-import { timeToString, draw, getColors } from "../../lib/helpers";
+import { timeToString, renderArtists } from "../../lib/helpers";
 import { colorPicker } from "../../lib/color";
 
 export default function AlbumPage() {
@@ -79,12 +79,9 @@ export default function AlbumPage() {
   useEffect(() => {
     imgRef.current.onload = () => {
       console.log("my ref", imgRef.current);
-      // console.log("gradient anchor", draw(imgRef.current));
 
       const dominantColor = colorPicker(imgRef.current);
       setBgColor(dominantColor);
-      // console.log("here", dominantColor);
-      // setBgColor(draw(imgRef.current));
     };
   }, [albumPage]);
 
@@ -165,7 +162,7 @@ export default function AlbumPage() {
           px={8}
           background={`linear-gradient(180deg, ${bgColor}1A 0%, ${bgColor}00 22%)`}
         >
-          <ActionPanel uri={albumPage.uri} />
+          <ActionPanel uri={albumPage.uri} optionsMenu={true} />
           <Stack spacing={0}>
             <Stack pl={4} direction="row" spacing={4}>
               <Text
@@ -222,7 +219,7 @@ export default function AlbumPage() {
                       <Stack spacing="1px" direction="row">
                         <NextLink href={`/artist/${artistId}`}>
                           <Link color="whiteAlpha.700" fontSize="sm">
-                            {`${track?.artists[0]?.name}` || ""}
+                            {renderArtists(track?.artists) || ""}
                           </Link>
                         </NextLink>
 

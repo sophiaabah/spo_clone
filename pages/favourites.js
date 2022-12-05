@@ -128,7 +128,7 @@ export default function FavouritesPage() {
           px={8}
           background={`linear-gradient(180deg, #8000800D 0%, #80008000 26%)`}
         >
-          <ActionPanel />
+          <ActionPanel uri={likedSongs.uri} optionsMenu={false} />
 
           <Grid
             templateColumns="2.6fr 1.4fr 1fr 1fr"
