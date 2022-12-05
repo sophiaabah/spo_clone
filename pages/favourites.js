@@ -43,7 +43,7 @@ import Heart from "../components/heart";
 import ActionPanel from "../components/actionPanel";
 import NavButtons from "../components/navButtons";
 import { getLikedSongs } from "../lib/api";
-import { timeToString, draw, getColors } from "../lib/helpers";
+import { timeToString, renderArtists } from "../lib/helpers";
 import { colorPicker } from "../lib/color";
 
 export default function FavouritesPage() {
@@ -233,20 +233,22 @@ export default function FavouritesPage() {
                         >
                           {track?.track?.name}
                         </Text>
-                        {/* <NextLink href={`/artist/${artistIds[index]}`}> */}
-                        <Link color="whiteAlpha.700" fontSize="14px">
-                          {track?.track?.artists[0].name}
-                        </Link>
-                        {/* </NextLink> */}
+                        <NextLink
+                          href={`/artist/${track?.track?.artists[0].id}`}
+                        >
+                          <Link color="whiteAlpha.700" fontSize="14px">
+                            {renderArtists(track?.track?.artists)}
+                          </Link>
+                        </NextLink>
                       </Stack>
                     </Stack>
                   </GridItem>
                   <GridItem rowSpan={1}>
-                    {/* <NextLink href={`/album/${albumIds[index]}`}> */}
-                    <Link color="whiteAlpha.700" fontSize="14px">
-                      {track?.track?.album?.name}
-                    </Link>
-                    {/* </NextLink> */}
+                    <NextLink href={`/album/${track?.track?.album?.id}`}>
+                      <Link color="whiteAlpha.700" fontSize="14px">
+                        {track?.track?.album?.name}
+                      </Link>
+                    </NextLink>
                   </GridItem>
                   <GridItem rowSpan={1}>
                     <Text color="whiteAlpha.700" fontSize="14px">
