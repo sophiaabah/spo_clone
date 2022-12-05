@@ -130,7 +130,7 @@ export default function ArtistPage() {
                 {artistInfo?.name}
               </Text>
               <Text px="5px" pt="5px" fontSize="sm" fontWeight={500}>
-                {artistInfo?.followers} monthly listeners
+                {artistInfo?.followers?.toLocaleString()} monthly listeners
               </Text>
             </Stack>
           </Stack>

@@ -37,7 +37,7 @@ import { useRouter } from "next/router";
 import NextLink from "next/link";
 import { useEffect, useState, useRef } from "react";
 import { FiSearch, FiHeart, FiClock } from "react-icons/fi";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import dayjs from "dayjs";
 import Layout from "../components/layout";
 import Heart from "../components/heart";
 import ActionPanel from "../components/actionPanel";
@@ -252,7 +252,9 @@ export default function FavouritesPage() {
                   </GridItem>
                   <GridItem rowSpan={1}>
                     <Text color="whiteAlpha.700" fontSize="14px">
-                      {track?.added_at?.slice(0, 10)}
+                      {dayjs(track?.added_at?.slice(0, 10)).format(
+                        "MMM D, YYYY"
+                      )}
                     </Text>
                   </GridItem>
                   <GridItem justifySelf="center" rowSpan={1}>

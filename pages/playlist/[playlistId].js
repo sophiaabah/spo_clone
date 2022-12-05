@@ -40,7 +40,7 @@ import { FiMusic } from "react-icons/fi";
 import { useRouter } from "next/router";
 import NextLink from "next/link";
 import { useEffect, useState, useRef } from "react";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import dayjs from "dayjs";
 import Layout from "../../components/layout";
 import Heart from "../../components/heart";
 import ActionPanel from "../../components/actionPanel";
@@ -158,7 +158,7 @@ export default function PlaylistPage() {
                 {playlistPage?.followers ? (
                   <>
                     <Text px="2px" fontSize="sm" fontWeight={500}>
-                      {playlistPage?.followers} likes
+                      {playlistPage?.followers?.toLocaleString()} likes
                     </Text>
                     <chakra.div
                       bgColor="white"
@@ -321,7 +321,9 @@ export default function PlaylistPage() {
                   </GridItem>
                   <GridItem rowSpan={1}>
                     <Text color="whiteAlpha.700" fontSize="14px">
-                      {track?.added_at?.slice(0, 10)}
+                      {dayjs(track?.added_at?.slice(0, 10)).format(
+                        "MMM D, YYYY"
+                      )}
                     </Text>
                   </GridItem>
                   <GridItem justifySelf="center" rowSpan={1}>
