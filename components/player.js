@@ -55,7 +55,7 @@ import { VscListFlat } from "react-icons/vsc";
 import { MdPauseCircleFilled } from "react-icons/md";
 import { timeToString } from "../lib/helpers";
 import { changeRepeatMode, toggleShuffle } from "../lib/api";
-import { useLoadPlayer } from "../lib/hooks";
+import { useLoadPlayer, usePlayer } from "../lib/hooks";
 
 const track = {
   name: "",
@@ -76,7 +76,7 @@ export default function Player() {
   const [isShuffled, setShuffled] = useState(false);
 
   const router = useRouter();
-  const player = useLoadPlayer();
+  const player = usePlayer();
 
   const RepeatComponent = {
     0: <TbRepeatOff />,
@@ -85,60 +85,37 @@ export default function Player() {
   };
 
   useEffect(() => {
-    if (player.length < 1) return;
-    function loadSdk() {
-      player.addListener("ready", ({ device_id }) => {
-        deviceId = device_id;
-        console.log("Ready with Device ID", device_id);
-      });
+    if (!player) return;
 
-      player.addListener("not_ready", ({ device_id }) => {
-        console.log("Device ID has gone offline", device_id);
-      });
-
-      player.addListener("initialization_error", ({ message }) => {
-        console.error(message);
-      });
-
-      player.addListener("authentication_error", ({ message }) => {
-        console.error(message);
-      });
-
-      player.addListener("account_error", ({ message }) => {
-        console.error(message);
-      });
-
-      player.addListener("player_state_changed", (state) => {
-        if (!state) {
-          console.log(state);
-          return;
-        }
-        console.log(state);
-        setTrack(state.track_window.current_track);
-        setPaused(state.paused);
-        setPlaybackState({
-          context: state.context,
-          duration: state.duration,
-          position: state.position,
-          xxx: state.repeat_mode,
-          shuffle: state.shuffle,
-          timestap: state.timestamp,
-        });
-        setRepeatMode(state.repeat_mode);
-      });
-
-      player.connect();
-      console.log("player", player);
-      return () => {
-        player.removeListener("ready");
-        player.removeListener("not_ready");
-        player.removeListener("initialization_error");
-        player.removeListener("account_error");
-        player.removeListener("player_state_changed");
-      };
+    async function getPlayerState() {
+      const state = await player.getCurrentState();
+      console.log("player state", state);
     }
-    loadSdk();
-    sessionStorage.setItem("player", JSON.stringify(player));
+    getPlayerState();
+
+    player.addListener("player_state_changed", (state) => {
+      if (!state) {
+        console.log("no state available", state);
+        return;
+      }
+
+      console.log(state);
+      setTrack(state.track_window.current_track);
+      setPaused(state.paused);
+      setRepeatMode(state.repeat_mode);
+      setPlaybackState({
+        context: state.context,
+        duration: state.duration,
+        position: state.position,
+        xxx: state.repeat_mode,
+        shuffle: state.shuffle,
+        timestap: state.timestamp,
+      });
+    });
+
+    return () => {
+      player.removeListener("player_state_changed");
+    };
   }, [player]);
 
   useEffect(() => {
