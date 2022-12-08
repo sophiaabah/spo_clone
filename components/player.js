@@ -314,15 +314,6 @@ export default function Player() {
         spacing={0}
         direction="row"
       >
-        <IconButton
-          _hover={{
-            color: "hsla(0, 0%, 100%, 1)",
-          }}
-          variant="ghost"
-          color="whiteAlpha.600"
-          fontSize="18px"
-          icon={<TbMicrophone2 />}
-        ></IconButton>
         <NextLink href="/queue">
           <IconButton
             _hover={{
@@ -344,7 +335,22 @@ export default function Player() {
           fontSize="25px"
           icon={<BsVolumeDownFill />}
         ></IconButton>
-        <Progress w="20%" value={0} size="xs" colorScheme="pink" />
+        <Slider
+          // value={player.volume}
+          min={0}
+          // max={playbackState?.duration || 0}
+          onChange={(value) => {
+            console.log("value", value);
+            // console.log("argument", playbackState.duration * (value / 100));
+            player.setVolume(value / 100);
+          }}
+          width="30%"
+        >
+          <SliderTrack bg="gray">
+            <SliderFilledTrack bg="white" />
+          </SliderTrack>
+          <SliderThumb boxSize={2}></SliderThumb>
+        </Slider>
 
         <IconButton
           _hover={{

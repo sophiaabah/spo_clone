@@ -42,7 +42,7 @@ import Layout from "../components/layout";
 import Heart from "../components/heart";
 import ActionPanel from "../components/actionPanel";
 import NavButtons from "../components/navButtons";
-import { getLikedSongs, getUserInfo } from "../lib/api";
+import { getLikedSongs, getCurrentUser } from "../lib/api";
 import { timeToString, renderArtists } from "../lib/helpers";
 import { colorPicker } from "../lib/color";
 
