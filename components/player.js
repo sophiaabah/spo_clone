@@ -65,15 +65,13 @@ const track = {
   artists: [{ name: "" }],
 };
 
-let deviceId;
-
 export default function Player() {
   const [is_paused, setPaused] = useState(true);
   const [is_active, setActive] = useState(false);
   const [current_track, setTrack] = useState(track);
   const [playbackState, setPlaybackState] = useState({});
-  const [repeatMode, setRepeatMode] = useState(undefined);
-  const [isShuffled, setShuffled] = useState(false);
+  const [repeatMode, setRepeatMode] = useState(1);
+  const [isShuffled, setShuffled] = useState(undefined);
 
   const router = useRouter();
   const player = usePlayer();
@@ -103,11 +101,12 @@ export default function Player() {
       setTrack(state.track_window.current_track);
       setPaused(state.paused);
       setRepeatMode(state.repeat_mode);
+      setShuffled(state.shuffle);
       setPlaybackState({
         context: state.context,
         duration: state.duration,
         position: state.position,
-        xxx: state.repeat_mode,
+        stateRepeatMode: state.repeat_mode,
         shuffle: state.shuffle,
         timestap: state.timestamp,
       });
@@ -132,7 +131,7 @@ export default function Player() {
 
   async function repeatModeHandler() {
     if (!playbackState) return;
-    changeRepeatMode(repeatMode, deviceId).finally(() => {
+    changeRepeatMode(repeatMode).finally(() => {
       switch (repeatMode) {
         case 0:
           setRepeatMode(1);
@@ -147,8 +146,8 @@ export default function Player() {
     });
   }
 
-  async function toggleShuffleHandler(isShuffled) {
-    await toggleShuffle(isShuffled);
+  async function toggleShuffleHandler() {
+    await toggleShuffle(!isShuffled);
     setShuffled((prev) => !prev);
   }
 
@@ -208,11 +207,14 @@ export default function Player() {
       <Stack flex={1}>
         <Stack alignSelf="center" spacing={1} direction="row">
           <IconButton
+            onClick={() => {
+              toggleShuffleHandler();
+            }}
             _hover={{
               color: "hsla(0, 0%, 100%, 1)",
             }}
             variant="ghost"
-            color="whiteAlpha.600"
+            color={isShuffled ? "green.500" : "whiteAlpha.600"}
             fontSize="22px"
             icon={<TiArrowShuffle />}
           ></IconButton>
@@ -267,7 +269,7 @@ export default function Player() {
               color: "hsla(0, 0%, 100%, 1)",
             }}
             variant="ghost"
-            color="whiteAlpha.600"
+            color={player ? "green.500" : "whiteAlpha.600"}
             fontSize="19px"
             icon={RepeatComponent[repeatMode]}
           ></IconButton>
