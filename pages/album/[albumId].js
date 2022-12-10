@@ -158,7 +158,7 @@ export default function AlbumPage() {
           px={8}
           background={`linear-gradient(180deg, ${bgColor}1A 0%, ${bgColor}00 22%)`}
         >
-          <ActionPanel uri={albumPage.uri} optionsMenu={true} />
+          <ActionPanel uri={albumPage.uri} />
           <Stack spacing={0}>
             <Stack pl={4} direction="row" spacing={4}>
               <Text

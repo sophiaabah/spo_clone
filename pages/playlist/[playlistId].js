@@ -74,6 +74,7 @@ export default function PlaylistPage() {
         name: playlist.name,
         owner: playlist.owner.display_name,
         tracks: playlist.tracks.items,
+        uri: playlist.uri,
       });
       setArtistIds(
         playlist.tracks.items.map((track) => {
@@ -181,7 +182,7 @@ export default function PlaylistPage() {
           px={8}
           background={`linear-gradient(180deg, ${bgColor}1A 0%, ${bgColor}00 22%)`}
         >
-          <ActionPanel uri={playlistPage.uri} optionsMenu={true} />
+          <ActionPanel uri={playlistPage.uri} />
 
           <Grid
             templateColumns="2.5fr 1.75fr 1fr 0.65fr"

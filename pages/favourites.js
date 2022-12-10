@@ -42,12 +42,13 @@ import Layout from "../components/layout";
 import Heart from "../components/heart";
 import ActionPanel from "../components/actionPanel";
 import NavButtons from "../components/navButtons";
-import { getLikedSongs, getCurrentUser } from "../lib/api";
+import { getLikedSongs, getUserInfo } from "../lib/api";
 import { timeToString, renderArtists } from "../lib/helpers";
 import { colorPicker } from "../lib/color";
 
 export default function FavouritesPage() {
   const [likedSongs, setLikedSongs] = useState([]);
+  const [username, setUsername] = useState("");
   const [bgColor, setBgColor] = useState("");
 
   useEffect(() => {
@@ -59,9 +60,11 @@ export default function FavouritesPage() {
 
     async function getCurrentUser() {
       const currentUser = await getUserInfo();
-      return currentUser.display_name;
+      setUsername(currentUser.display_name);
+      console.log(currentUser);
     }
     fetchLikedSongs();
+    getCurrentUser();
   }, []);
 
   //   useEffect(() => {
@@ -113,8 +116,7 @@ export default function FavouritesPage() {
                 direction="row"
               >
                 <Link px="2px" fontWeight={600}>
-                  {getCurrentUser}
-                  {/* {playlistPage?.owner} */}
+                  {username}
                 </Link>
                 <chakra.div
                   bgColor="white"
@@ -131,10 +133,9 @@ export default function FavouritesPage() {
         </Stack>
         <Stack
           px={8}
+          pt={10}
           background={`linear-gradient(180deg, #8000800D 0%, #80008000 26%)`}
         >
-          <ActionPanel uri={likedSongs.uri} optionsMenu={false} />
-
           <Grid
             templateColumns="2.6fr 1.4fr 1fr 1fr"
             templateRows="20px"
@@ -205,6 +206,7 @@ export default function FavouritesPage() {
                     textDecoration: "none",
                     bgColor: "hsla(0, 0%, 45%, .14)",
                   }}
+                  role="group"
                   // width="100%"
                   // justify="space-between"
                   // alignItems="center"

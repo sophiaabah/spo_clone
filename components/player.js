@@ -55,7 +55,7 @@ import { VscListFlat } from "react-icons/vsc";
 import { MdPauseCircleFilled } from "react-icons/md";
 import { timeToString } from "../lib/helpers";
 import { changeRepeatMode, toggleShuffle } from "../lib/api";
-import { useLoadPlayer, usePlayer } from "../lib/hooks";
+import { usePlayer } from "../lib/hooks";
 
 const track = {
   name: "",
