@@ -266,17 +266,12 @@ export default function PlaylistPage() {
                 >
                   <GridItem rowSpan={1}>
                     <Stack
-                      pl={2}
+                      pl={4}
                       alignItems="center"
                       spacing={4}
                       direction="row"
                     >
-                      <Text
-                        display="block"
-                        textAlign="right"
-                        fontVariantNumeric="tabular-nums"
-                        w="24px"
-                      >
+                      <Text display="block" textAlign="right" w="max-content">
                         {index + 1}
                       </Text>
 

@@ -53,24 +53,6 @@ export default function ActionPanel({ uri }) {
         fontSize="55px"
         icon={<BsFillPlayCircleFill />}
       ></IconButton>
-      <IconButton
-        fontSize="35px"
-        _hover={{
-          color: "hsla(0, 0%, 100%, 1)",
-        }}
-        variant="ghost"
-        color="whiteAlpha.700"
-        icon={<FiHeart />}
-      ></IconButton>
-      <IconButton
-        fontSize="25px"
-        _hover={{
-          color: "hsla(0, 0%, 100%, 1)",
-        }}
-        variant="ghost"
-        color="whiteAlpha.700"
-        icon={<BsThreeDots />}
-      ></IconButton>
     </Stack>
   );
 }

@@ -200,12 +200,8 @@ export default function AlbumPage() {
                   alignItems="center"
                   direction="row"
                 >
-                  <Stack pl={0} alignItems="center" spacing={5} direction="row">
-                    <Text
-                      textAlign="right"
-                      fontVariantNumeric="tabular-nums"
-                      w="24px"
-                    >
+                  <Stack pl={4} alignItems="center" spacing={5} direction="row">
+                    <Text textAlign="right" w="max-context">
                       {index + 1}
                     </Text>
                     <Stack spacing={0}>
@@ -225,32 +221,15 @@ export default function AlbumPage() {
                       </Stack>
                     </Stack>
                   </Stack>
-                  <Stack spacing={4} alignItems="center" direction="row">
-                    <IconButton
-                      fontSize="18px"
-                      // visibility="hidden"
-                      _hover={{
-                        color: "hsla(0, 0%, 100%, 1)",
-                        visibility: "visible",
-                      }}
-                      variant="ghost"
-                      color="whiteAlpha.700"
-                      icon={<FiHeart />}
-                    ></IconButton>
+                  <Stack
+                    pr={10}
+                    spacing={4}
+                    alignItems="center"
+                    direction="row"
+                  >
                     <Text fontSize="sm" color="whiteAlpha.700">
                       {timeToString(track.duration_ms)}
                     </Text>
-                    <IconButton
-                      fontSize="18px"
-                      // visibility="hidden"
-                      _hover={{
-                        color: "hsla(0, 0%, 100%, 1)",
-                        visibility: "visible",
-                      }}
-                      variant="ghost"
-                      color="whiteAlpha.700"
-                      icon={<BsThreeDots />}
-                    ></IconButton>
                   </Stack>
                 </Stack>
               );
