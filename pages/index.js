@@ -108,10 +108,15 @@ function App() {
         isLoading={isLoading}
         loadingText="Logging in"
         borderRadius="full"
-        px={8}
+        px={6}
         py={7}
         fontWeight={700}
         lineHeight="1.25rem"
+        width="xs"
+        _hover={{
+          bgColor: "#23f16d",
+        }}
+        _active={{ bgColor: "#23f16d" }}
         fontSize="1rem"
         bgColor="#1ed760"
         color="black"

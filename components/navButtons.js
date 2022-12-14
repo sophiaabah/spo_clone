@@ -46,6 +46,11 @@ export default function NavButtons() {
       <IconButton
         borderRadius="full"
         bgColor="#00000070"
+        boxSize="40px"
+        _hover={{
+          bgColor: "#00000070",
+        }}
+        _active={{ bgColor: "#00000070" }}
         onClick={() => window.history.back()}
         fontSize="20px"
         icon={<IoIosArrowBack />}
@@ -53,6 +58,10 @@ export default function NavButtons() {
       <IconButton
         fontSize="20px"
         bgColor="#00000070"
+        _hover={{
+          bgColor: "#00000070",
+        }}
+        _active={{ bgColor: "#00000070" }}
         onClick={() => window.history.forward()}
         borderRadius="full"
         icon={<IoIosArrowForward />}

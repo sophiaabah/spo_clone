@@ -75,8 +75,6 @@ export default function Player() {
   const [repeatMode, setRepeatMode] = useState(0);
   const [isShuffled, setShuffled] = useState(undefined);
 
-  const { isOpen, onToggle } = useDisclosure();
-
   const router = useRouter();
   const player = usePlayer();
 
@@ -134,7 +132,7 @@ export default function Player() {
   }, [player, is_paused, playbackState]);
 
   async function repeatModeHandler() {
-    if (!playbackState) return;
+    if (!playbackState.context) return;
     changeRepeatMode(repeatMode).finally(() => {
       switch (repeatMode) {
         case 0:
@@ -151,6 +149,7 @@ export default function Player() {
   }
 
   async function toggleShuffleHandler() {
+    if (!playbackState.context) return;
     await toggleShuffle(!isShuffled);
     setShuffled((prev) => !prev);
   }
@@ -177,7 +176,6 @@ export default function Player() {
           src="https://sdk.scdn.co/spotify-player.js"
           strategy="afterInteractive"
         ></Script>
-        {/* <Skeleton isLoaded={!current_track}> */}
         <Stack flex={1} px={5} spacing={4} alignItems="center" direction="row">
           <Skeleton height="55px" isLoaded={current_track.album.images[0].url}>
             <Image
@@ -203,16 +201,7 @@ export default function Player() {
               </Link>
             </Skeleton>
           </Stack>
-          <IconButton
-            _hover={{
-              color: "hsla(0, 0%, 100%, 1)",
-            }}
-            variant="ghost"
-            color="gray"
-            icon={<FiHeart />}
-          ></IconButton>
         </Stack>
-        {/* </Skeleton> */}
         <Stack flex={1}>
           <Stack alignSelf="center" spacing={1} direction="row">
             <IconButton
@@ -221,8 +210,10 @@ export default function Player() {
               }}
               _hover={{
                 color: "hsla(0, 0%, 100%, 1)",
+                bgColor: "transparent",
               }}
-              variant="ghost"
+              bgColor="transparent"
+              _active={{ bgColor: "transparent" }}
               color={isShuffled ? "green.500" : "whiteAlpha.600"}
               fontSize="22px"
               icon={<TiArrowShuffle />}
@@ -234,7 +225,10 @@ export default function Player() {
                 }}
                 _hover={{
                   color: "hsla(0, 0%, 100%, 1)",
+                  bgColor: "transparent",
                 }}
+                bgColor="transparent"
+                _active={{ bgColor: "transparent" }}
                 variant="ghost"
                 color="whiteAlpha.700"
                 fontSize="25px"
@@ -245,9 +239,11 @@ export default function Player() {
                   player.togglePlay();
                 }}
                 _hover={{
-                  // fontSize: "42px",
                   color: "hsla(0, 0%, 100%, 1)",
+                  bgColor: "transparent",
                 }}
+                bgColor="transparent"
+                _active={{ bgColor: "transparent" }}
                 variant="ghost"
                 color="whiteAlpha.800"
                 fontSize="40px"
@@ -260,9 +256,11 @@ export default function Player() {
                   player.nextTrack();
                 }}
                 _hover={{
-                  // fontSize: "42px",
                   color: "hsla(0, 0%, 100%, 1)",
+                  bgColor: "transparent",
                 }}
+                bgColor="transparent"
+                _active={{ bgColor: "transparent" }}
                 variant="ghost"
                 color="whiteAlpha.700"
                 fontSize="25px"
@@ -274,10 +272,12 @@ export default function Player() {
                 repeatModeHandler();
               }}
               _hover={{
-                // fontSize: "42px",
                 color: "hsla(0, 0%, 100%, 1)",
+                bgColor: "transparent",
               }}
               variant="ghost"
+              bgColor="transparent"
+              _active={{ bgColor: "transparent" }}
               color={repeatMode ? "green.500" : "whiteAlpha.600"}
               fontSize="19px"
               icon={RepeatComponent[repeatMode]}
@@ -285,7 +285,6 @@ export default function Player() {
           </Stack>
           <Stack width="" alignItems="center" direction="row">
             <Text fontSize="xs" fontWeight="400" color="whiteAlpha.600">
-              {/* 0:00 */}
               {playbackState.position
                 ? timeToString(playbackState?.position)
                 : "0:00"}
@@ -296,10 +295,8 @@ export default function Player() {
                 (playbackState?.position / playbackState.duration) * 100 || 0
               }
               min={0}
-              // max={playbackState?.duration || 0}
               onChange={(value) => {
                 console.log("value", value);
-                // console.log("argument", playbackState.duration * (value / 100));
                 player.seek(playbackState.duration * (value / 100));
               }}
             >
@@ -309,7 +306,6 @@ export default function Player() {
               <SliderThumb boxSize={2}></SliderThumb>
             </Slider>
             <Text fontSize="xs" fontWeight="400" color="whiteAlpha.600">
-              {/* 2:56 */}
               {playbackState.position
                 ? timeToString(playbackState?.duration)
                 : "0:00"}
@@ -318,7 +314,7 @@ export default function Player() {
         </Stack>
 
         <Stack
-          pr={4}
+          pr={8}
           justify="flex-end"
           flex={1}
           alignItems="center"
@@ -331,28 +327,26 @@ export default function Player() {
                 color: "hsla(0, 0%, 100%, 1)",
               }}
               as="a"
+              bgColor="transparent"
+              _active={{ bgColor: "transparent" }}
               variant="ghost"
               color="whiteAlpha.600"
               fontSize="20px"
               icon={<VscListFlat />}
             ></IconButton>
           </NextLink>
-          <IconButton
+          <Icon
             _hover={{
               color: "hsla(0, 0%, 100%, 1)",
             }}
-            variant="ghost"
-            color="whiteAlpha.600"
+            color="hsla(0, 0%, 100%, 1)"
             fontSize="25px"
-            icon={<BsVolumeDownFill />}
-          ></IconButton>
+            as={BsVolumeDownFill}
+          />
           <Slider
-            // value={player.volume}
             min={0}
-            // max={playbackState?.duration || 0}
             onChange={(value) => {
               console.log("value", value);
-              // console.log("argument", playbackState.duration * (value / 100));
               player.setVolume(value / 100);
             }}
             width="30%"
@@ -362,16 +356,6 @@ export default function Player() {
             </SliderTrack>
             <SliderThumb boxSize={2}></SliderThumb>
           </Slider>
-
-          <IconButton
-            _hover={{
-              color: "hsla(0, 0%, 100%, 1)",
-            }}
-            variant="ghost"
-            color="whiteAlpha.600"
-            fontSize="20px"
-            icon={<AiOutlineFullscreen />}
-          ></IconButton>
         </Stack>
       </Stack>
     </Slide>

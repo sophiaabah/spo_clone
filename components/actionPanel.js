@@ -46,9 +46,12 @@ export default function ActionPanel({ uri }) {
         _hover={{
           // fontSize: "42px",
           color: "hsla(0, 0%, 100%, 1)",
+          bgColor: "transparent",
         }}
         onClick={() => handleContextPlay(uri)}
         variant="ghost"
+        bgColor="transparent"
+        _active={{ bgColor: "transparent" }}
         color="whiteAlpha.800"
         fontSize="55px"
         icon={<BsFillPlayCircleFill />}
