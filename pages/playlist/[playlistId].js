@@ -147,9 +147,9 @@ export default function PlaylistPage() {
                 {playlistPage?.description}
               </Text>
               <Stack pl={1} spacing={1} alignItems="center" direction="row">
-                <Link px="2px" fontWeight={600}>
+                <Text px="2px" fontWeight={600}>
                   {playlistPage?.owner}
-                </Link>
+                </Text>
                 <chakra.div
                   bgColor="white"
                   borderRadius="full"

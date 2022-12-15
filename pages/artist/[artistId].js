@@ -221,14 +221,6 @@ export default function ArtistPage() {
               <Text fontSize="22px" fontWeight={650}>
                 Discography
               </Text>
-              <Text
-                fontWeight={600}
-                color="whiteAlpha.700"
-                textTransform="uppercase"
-                fontSize="14px"
-              >
-                See all
-              </Text>
             </Stack>
             <SimpleGrid columns={6} spacing={8}>
               {artistAlbums?.map((album) => {

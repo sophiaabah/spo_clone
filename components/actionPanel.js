@@ -45,14 +45,14 @@ export default function ActionPanel({ uri }) {
       <IconButton
         _hover={{
           // fontSize: "42px",
-          color: "hsla(0, 0%, 100%, 1)",
+          color: "#1ed760",
           bgColor: "transparent",
         }}
         onClick={() => handleContextPlay(uri)}
         variant="ghost"
         bgColor="transparent"
         _active={{ bgColor: "transparent" }}
-        color="whiteAlpha.800"
+        color="#1ed760"
         fontSize="55px"
         icon={<BsFillPlayCircleFill />}
       ></IconButton>

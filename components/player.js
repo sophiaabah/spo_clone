@@ -36,6 +36,7 @@ import {
   chakra,
   FormControl,
   useDisclosure,
+  useToast,
   Icon,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
@@ -77,6 +78,7 @@ export default function Player() {
 
   const router = useRouter();
   const player = usePlayer();
+  const toast = useToast();
 
   const RepeatComponent = {
     0: <TbRepeatOff />,
@@ -85,7 +87,17 @@ export default function Player() {
   };
 
   useEffect(() => {
-    if (!player) return;
+    if (!player) {
+      // toast({
+      //   title: "Player not yet connected.",
+      //   description:
+      //     "To play music, please connect this web app as a device in your spotify app.",
+      //   status: "warning",
+      //   duration: 9000,
+      //   isClosable: true,
+      // });
+      return;
+    }
 
     async function getPlayerState() {
       const state = await player.getCurrentState();
@@ -156,16 +168,14 @@ export default function Player() {
 
   return (
     <Slide
-      direction="bottom"
-      in={playbackState.context ? isOpen : ""}
       style={{ zIndex: 10 }}
+      direction="bottom"
+      in={!!playbackState.context}
     >
       <Stack
         justify="space-between"
-        position="fixed"
         bottom={0}
         left={0}
-        zIndex={2}
         width="100%"
         direction="row"
         justifyItems="center"
@@ -177,29 +187,23 @@ export default function Player() {
           strategy="afterInteractive"
         ></Script>
         <Stack flex={1} px={5} spacing={4} alignItems="center" direction="row">
-          <Skeleton height="55px" isLoaded={current_track.album.images[0].url}>
-            <Image
-              width="55px"
-              src={current_track.album.images[0].url || ""}
-              alt="album cover"
-            />
-          </Skeleton>
+          <Image
+            width="55px"
+            src={current_track.album.images[0].url || ""}
+            alt="album cover"
+          />
           <Stack pb={2} spacing="0.5rem">
-            <Skeleton height="12px" isLoaded={current_track.name}>
-              <Link color="white" fontSize="14px" fontWeight="600">
-                {current_track.name || "dummy track"}
-              </Link>
-            </Skeleton>
-            <Skeleton height="12px" isLoaded={current_track.artists[0].name}>
-              <Link
-                // pt="20px"
-                fontSize="11px"
-                fontWeight="400"
-                color="whiteAlpha.600"
-              >
-                {current_track.artists[0].name || "dummy link"}
-              </Link>
-            </Skeleton>
+            <Link color="white" fontSize="14px" fontWeight="600">
+              {current_track.name || ""}
+            </Link>
+            <Link
+              // pt="20px"
+              fontSize="11px"
+              fontWeight="400"
+              color="whiteAlpha.600"
+            >
+              {current_track.artists[0].name || ""}
+            </Link>
           </Stack>
         </Stack>
         <Stack flex={1}>
@@ -221,7 +225,9 @@ export default function Player() {
             <Stack direction="row" spacing={3}>
               <IconButton
                 onClick={() => {
-                  player.previousTrack();
+                  if (playbackState.context) {
+                    player.previousTrack();
+                  }
                 }}
                 _hover={{
                   color: "hsla(0, 0%, 100%, 1)",
@@ -236,7 +242,9 @@ export default function Player() {
               ></IconButton>
               <IconButton
                 onClick={() => {
-                  player.togglePlay();
+                  if (playbackState.context) {
+                    player.togglePlay();
+                  }
                 }}
                 _hover={{
                   color: "hsla(0, 0%, 100%, 1)",
@@ -253,7 +261,9 @@ export default function Player() {
               ></IconButton>
               <IconButton
                 onClick={() => {
-                  player.nextTrack();
+                  if (playbackState.context) {
+                    player.nextTrack();
+                  }
                 }}
                 _hover={{
                   color: "hsla(0, 0%, 100%, 1)",
@@ -296,8 +306,9 @@ export default function Player() {
               }
               min={0}
               onChange={(value) => {
-                console.log("value", value);
-                player.seek(playbackState.duration * (value / 100));
+                if (playbackState.duration) {
+                  player.seek(playbackState.duration * (value / 100));
+                }
               }}
             >
               <SliderTrack bg="gray">
@@ -321,7 +332,7 @@ export default function Player() {
           spacing={0}
           direction="row"
         >
-          <NextLink href="/queue">
+          <NextLink href={router.pathname === "/queue" ? "/library" : "/queue"}>
             <IconButton
               _hover={{
                 color: "hsla(0, 0%, 100%, 1)",
@@ -346,8 +357,9 @@ export default function Player() {
           <Slider
             min={0}
             onChange={(value) => {
-              console.log("value", value);
-              player.setVolume(value / 100);
+              if (playbackState.context) {
+                player.setVolume(value / 100);
+              }
             }}
             width="30%"
           >

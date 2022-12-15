@@ -47,8 +47,9 @@ export default function Layout({ children }) {
         `}
         gridTemplateRows={"1fr 70px"}
         gridTemplateColumns={"240px 1fr"}
-        height="90vh"
+        height="100vh"
         position="relative"
+        overflow="hidden"
       >
         {/* sidebar */}
         <GridItem
@@ -63,8 +64,7 @@ export default function Layout({ children }) {
 
         {/* main */}
         <GridItem
-          marginBottom="90px"
-          height="90%"
+          height="100%"
           overflowY="auto"
           sx={{
             "::-webkit-scrollbar": {
@@ -75,6 +75,7 @@ export default function Layout({ children }) {
           area={"main"}
           position="relative"
           bgColor="#121212"
+          pb={14}
         >
           {children}
         </GridItem>

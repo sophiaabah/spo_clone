@@ -35,6 +35,7 @@ import {
 } from "@chakra-ui/react";
 import { BiCategory } from "react-icons/bi";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { BsFillPlayCircleFill } from "react-icons/bs";
 import Head from "next/head";
 import React, { useEffect, useState, useRef } from "react";
 import NextLink from "next/link";
@@ -97,39 +98,20 @@ export default function Library() {
 
       const usersLikedAlbums = await getLikedAlbums();
       console.log("liked albums", usersLikedAlbums);
-      setLikedAlbums(usersLikedAlbums.slice(0, 6)); // put this at the bottom
+      setLikedAlbums(usersLikedAlbums.slice(0, 6));
     }
 
     fetchSongsFeed();
   }, []);
 
-  // useEffect(() => {
-  //   imgRef.current.onload = () => {
-  //     console.log("my ref", imgRef.current);
-  //     // console.log("gradient anchor", draw(imgRef.current));
-
-  //     const dominantColor = colorPicker(imgRef.current);
-  //     setBgColor(dominantColor);
-  //     // console.log("here", dominantColor);
-  //     // setBgColor(draw(imgRef.current));
-  //   };
-  // }, [recentAlbums]);
-
   function changeBgStyle() {
     imgRef.current.onload = () => {
       console.log("my ref", imgRef.current);
-      // console.log("gradient anchor", draw(imgRef.current));
 
       const dominantColor = colorPicker(imgRef.current);
       setBgColor(dominantColor);
-      // console.log("here", dominantColor);
-      // setBgColor(draw(imgRef.current));
     };
   }
-
-  const PopUp = () => {
-    return <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(15px)" />;
-  };
 
   return (
     <Layout>
@@ -160,13 +142,18 @@ export default function Library() {
                         bgColor: "hsla(0, 0%, 45%, .14)",
                       }}
                     >
-                      <Stack spacing={0} alignItems="center" direction="row">
+                      <Stack
+                        position="relative"
+                        role="group"
+                        spacing={0}
+                        alignItems="center"
+                        direction="row"
+                      >
                         <Image
                           boxSize="85px"
                           src={album.images[0]?.url}
                           ref={imgRef}
                           crossOrigin="Anonymous"
-                          // onMouseEnter={() => changeBgStyle()}
                           alt={album.name}
                         ></Image>
                         <Stack
@@ -178,9 +165,27 @@ export default function Library() {
                         >
                           <Text fontSize="md" fontWeight="600">
                             {album.name}
-                            {/* Text */}
                           </Text>
                         </Stack>
+                        <IconButton
+                          bottom="22px"
+                          right="21px"
+                          position="absolute"
+                          _hover={{
+                            color: "#1ed760",
+                            display: "block",
+                            bgColor: "transparent",
+                          }}
+                          _groupHover={{ display: "block" }}
+                          onClick={() => handleContextPlay(uri)}
+                          variant="ghost"
+                          display="none"
+                          bgColor="transparent"
+                          _active={{ bgColor: "transparent" }}
+                          color="#1ed760"
+                          fontSize="40px"
+                          icon={<BsFillPlayCircleFill />}
+                        ></IconButton>
                       </Stack>
                     </Link>
                   </NextLink>

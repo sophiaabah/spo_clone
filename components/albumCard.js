@@ -35,6 +35,7 @@ import {
   propNames,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
+import { BsFillPlayCircleFill } from "react-icons/bs";
 
 export default function AlbumCard({
   albumId,
@@ -56,7 +57,14 @@ export default function AlbumCard({
           bgColor: "hsla(0, 0%, 43%, .14)",
         }}
       >
-        <Stack p={4} pb={8} spacing={3} alignItems="center">
+        <Stack
+          position="relative"
+          role="group"
+          p={4}
+          pb={8}
+          spacing={3}
+          alignItems="center"
+        >
           <Image
             width="170px"
             borderRadius="md"
@@ -64,6 +72,25 @@ export default function AlbumCard({
             // src=""
             alt="album cover"
           />
+          <IconButton
+            position="absolute"
+            top="105px"
+            right="21px"
+            _hover={{
+              color: "#1ed760",
+              display: "block",
+              bgColor: "transparent",
+            }}
+            _groupHover={{ display: "block" }}
+            onClick={() => handleContextPlay(uri)}
+            variant="ghost"
+            display="none"
+            bgColor="transparent"
+            _active={{ bgColor: "transparent" }}
+            color="#1ed760"
+            fontSize="40px"
+            icon={<BsFillPlayCircleFill />}
+          ></IconButton>
           <Stack
             minWidth="0px"
             maxW="95%"
