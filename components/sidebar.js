@@ -156,7 +156,7 @@ export default function Sidebar() {
         pl={6}
         py={3}
         // pb="5rem"
-        height="55vh"
+        height="58.5vh"
         overflowY="auto"
         spacing={2}
       >

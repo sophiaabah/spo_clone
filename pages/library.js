@@ -49,7 +49,8 @@ import {
   getTopTracks,
   getLikedAlbums,
   getRelatedArtists,
-  getInfoForTest,
+  handlePlay,
+  playNewContext,
 } from "../lib/api";
 import { colorPicker } from "../lib/color";
 
@@ -58,6 +59,9 @@ export default function Library() {
   const [relatedArtists, setRelatedArtists] = useState([]);
   const [likedAlbums, setLikedAlbums] = useState([]);
   const [bgColor, setBgColor] = useState("#4c5441");
+  const [currentUri, setCurrentUri] = useState("");
+  const [isPlaying, setPlaying] = useState(true);
+
   const imgRef = useRef();
   const router = useRouter();
 
@@ -111,6 +115,21 @@ export default function Library() {
       const dominantColor = colorPicker(imgRef.current);
       setBgColor(dominantColor);
     };
+  }
+
+  async function handleContextPlay(uri) {
+    if (currentUri !== uri) {
+      playNewContext(uri);
+      setCurrentUri(uri);
+    }
+    if (currentUri === uri && isPlaying) {
+      await handlePlay("pause");
+      setPlaying(false);
+    }
+    if (!isPlaying) {
+      await handlePlay("play");
+      setPlaying(true);
+    }
   }
 
   return (
@@ -177,7 +196,10 @@ export default function Library() {
                             bgColor: "transparent",
                           }}
                           _groupHover={{ display: "block" }}
-                          onClick={() => handleContextPlay(uri)}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleContextPlay(album.uri);
+                          }}
                           variant="ghost"
                           display="none"
                           bgColor="transparent"
@@ -279,6 +301,7 @@ export default function Library() {
                     albumTitle={album?.album.name}
                     artist={album?.album.artists[0]?.name}
                     artistId={album?.album.artists[0]?.id}
+                    uri={album?.album.uri}
                   />
                 );
               })}

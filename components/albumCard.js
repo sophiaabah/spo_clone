@@ -34,16 +34,36 @@ import {
   Icon,
   propNames,
 } from "@chakra-ui/react";
+import React, { useEffect, useState, useRef } from "react";
 import NextLink from "next/link";
 import { BsFillPlayCircleFill } from "react-icons/bs";
+import { handlePlay, playNewContext } from "../lib/api";
 
 export default function AlbumCard({
   albumId,
   src,
+  uri,
   albumTitle,
   artist,
   artistId,
 }) {
+  const [currentUri, setCurrentUri] = useState("");
+  const [isPlaying, setPlaying] = useState(true);
+
+  async function handleContextPlay(uri) {
+    if (currentUri !== uri) {
+      playNewContext(uri);
+      setCurrentUri(uri);
+    }
+    if (currentUri === uri && isPlaying) {
+      await handlePlay("pause");
+      setPlaying(false);
+    }
+    if (!isPlaying) {
+      await handlePlay("play");
+      setPlaying(true);
+    }
+  }
   return (
     <NextLink href={`/album/${albumId}`}>
       <LinkBox
@@ -79,14 +99,19 @@ export default function AlbumCard({
             _hover={{
               color: "#1ed760",
               display: "block",
-              bgColor: "transparent",
+              bgColor: "black",
             }}
             _groupHover={{ display: "block" }}
-            onClick={() => handleContextPlay(uri)}
+            onClick={(e) => {
+              e.preventDefault();
+              handleContextPlay(uri);
+            }}
             variant="ghost"
             display="none"
-            bgColor="transparent"
-            _active={{ bgColor: "transparent" }}
+            overflow="hidden"
+            borderRadius="full"
+            bgColor="black"
+            _active={{ bgColor: "black" }}
             color="#1ed760"
             fontSize="40px"
             icon={<BsFillPlayCircleFill />}
