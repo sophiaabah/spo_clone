@@ -143,7 +143,7 @@ export default function Library() {
             <NavButtons />
 
             <Heading pt={4} pb={3} fontSize="3xl">
-              Good evening
+              Hello there
             </Heading>
 
             {/* recent albums */}

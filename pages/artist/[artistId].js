@@ -114,7 +114,7 @@ export default function ArtistPage() {
               alt="track cover"
               src={artistInfo?.image}
             />
-            <Stack maxW="90%" alignSelf="end" spacing={3} justify="end" px={3}>
+            <Stack maxW="90%" alignSelf="end" spacing={0} justify="end" px={3}>
               <Text fontSize="sm" fontWeight={650}>
                 Verified Artist
               </Text>
@@ -122,7 +122,7 @@ export default function ArtistPage() {
                 overflow="hidden"
                 textOverflow="ellipsis"
                 whiteSpace="nowrap"
-                lineHeight="none"
+                lineHeight="1.35"
                 letterSpacing="tight"
                 fontSize="8xl"
                 fontWeight={700}
@@ -139,7 +139,7 @@ export default function ArtistPage() {
           px={8}
           background={`linear-gradient(180deg, ${bgColor}1A 0%, ${bgColor}00 22%)`}
         >
-          <ActionPanel optionsMenu={true} />
+          <ActionPanel />
           <Stack>
             <Text py="3px" fontSize="22px" fontWeight={650}>
               Popular
