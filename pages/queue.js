@@ -62,7 +62,7 @@ export default function QueuePage() {
   const [queue, setQueue] = useState({});
   const [player, setPlayer] = useState({});
 
-  useState(() => {
+  useEffect(() => {
     async function loadUsersQueue() {
       setPlayer(JSON.parse(sessionStorage.getItem("player")));
       if (player.length < 1) return;
