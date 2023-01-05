@@ -208,16 +208,38 @@ export default function AlbumPage() {
                       <Text fontSize="15.5px" fontWeight={500}>
                         {track?.name}
                       </Text>
-                      <Stack spacing="1px" direction="row">
-                        <NextLink href={`/artist/${artistId}`}>
-                          <Link color="whiteAlpha.700" fontSize="sm">
-                            {renderArtists(track?.artists) || ""}
-                          </Link>
-                        </NextLink>
-
-                        {/* <Link color="whiteAlpha.700" fontSize="sm">
-                        {`, ${track?.artists[1]?.name}` || ""}
-                      </Link> */}
+                      <Stack
+                        direction="row"
+                        spacing={1}
+                        divider={
+                          <span
+                            style={{
+                              color: "whiteAlpha.700",
+                              fontSize: "14px",
+                              marginInlineStart: "1px",
+                              marginInlineEnd: "3px",
+                            }}
+                          >
+                            ,
+                          </span>
+                        }
+                      >
+                        {track?.artists?.map((artist, index) => {
+                          return (
+                            <NextLink href={`/artist/${artist.id}`} key={index}>
+                              <Link
+                                maxW="100%"
+                                overflow="hidden"
+                                textOverflow="ellipsis"
+                                whiteSpace="nowrap"
+                                color="whiteAlpha.700"
+                                fontSize="14px"
+                              >
+                                {artist.name}
+                              </Link>
+                            </NextLink>
+                          );
+                        })}
                       </Stack>
                     </Stack>
                   </Stack>

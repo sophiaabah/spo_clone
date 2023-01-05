@@ -240,13 +240,42 @@ export default function FavouritesPage() {
                         >
                           {track?.track?.name}
                         </Text>
-                        <NextLink
-                          href={`/artist/${track?.track?.artists[0].id}`}
+                        <Stack
+                          direction="row"
+                          spacing={1}
+                          divider={
+                            <span
+                              style={{
+                                color: "whiteAlpha.700",
+                                fontSize: "14px",
+                                marginInlineStart: "1px",
+                                marginInlineEnd: "3px",
+                              }}
+                            >
+                              ,
+                            </span>
+                          }
                         >
-                          <Link color="whiteAlpha.700" fontSize="14px">
-                            {renderArtists(track?.track?.artists)}
-                          </Link>
-                        </NextLink>
+                          {track?.track?.artists?.map((artist, index) => {
+                            return (
+                              <NextLink
+                                href={`/artist/${artist.id}`}
+                                key={index}
+                              >
+                                <Link
+                                  maxW="100%"
+                                  overflow="hidden"
+                                  textOverflow="ellipsis"
+                                  whiteSpace="nowrap"
+                                  color="whiteAlpha.700"
+                                  fontSize="14px"
+                                >
+                                  {artist.name}
+                                </Link>
+                              </NextLink>
+                            );
+                          })}
+                        </Stack>
                       </Stack>
                     </Stack>
                   </GridItem>

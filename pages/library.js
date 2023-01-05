@@ -276,20 +276,8 @@ export default function Library() {
                 );
               })}
             </SimpleGrid>
-            <Stack
-              alignItems="baseline"
-              direction="row"
-              justify="space-between"
-            >
+            <Stack alignItems="baseline" direction="row">
               <Heading fontSize="xl">Jump back in</Heading>
-              <Link
-                fontSize="sm"
-                color="whiteAlpha.700"
-                fontWeight={500}
-                textTransform="uppercase"
-              >
-                See All
-              </Link>
             </Stack>
             <SimpleGrid columns={6} spacing={8}>
               {likedAlbums?.map((album) => {

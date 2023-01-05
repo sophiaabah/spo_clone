@@ -166,7 +166,7 @@ export default function Sidebar() {
               <Link
                 opacity={0.6}
                 _hover={{ textDecoration: "none", opacity: 1 }}
-                fontSize="15px"
+                fontSize="0.9rem"
               >
                 {playlist.name}
                 {/* Text */}

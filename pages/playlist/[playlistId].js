@@ -52,6 +52,7 @@ import { colorPicker } from "../../lib/color";
 export default function PlaylistPage() {
   const [playlistPage, setPlaylistPage] = useState({});
   const [artistIds, setArtistIds] = useState([]);
+  const [ids, setIds] = useState([]);
   const [albumIds, setAlbumIds] = useState([]);
 
   const [bgColor, setBgColor] = useState("");
@@ -74,6 +75,7 @@ export default function PlaylistPage() {
         name: playlist.name,
         owner: playlist.owner.display_name,
         tracks: playlist.tracks.items,
+        next: playlist.tracks.next,
         uri: playlist.uri,
       });
       setArtistIds(
@@ -88,7 +90,32 @@ export default function PlaylistPage() {
       );
     }
 
-    getPlaylist(playlistId);
+    function fetchMorePlaylistItems() {
+      if (playlistPage.next !== null) {
+        fetch(playlistPage.next, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((response) => {
+            console.log(response);
+            setPlaylistPage((prev) => ({
+              ...prev,
+              tracks: prev.tracks.concat(response.items),
+              next: response.next,
+            }));
+            if (response.next !== null) {
+              fetchMorePlaylistItems();
+            }
+          });
+      }
+    }
+
+    getPlaylist(playlistId).finally(() => fetchMorePlaylistItems());
   }, [router, playlistId]);
 
   useEffect(() => {
@@ -249,15 +276,10 @@ export default function PlaylistPage() {
                   key={index}
                   borderRadius="md"
                   py="2px"
-                  // bgColor="hsla(0, 0%, 35%, .1)"
                   _hover={{
                     textDecoration: "none",
                     bgColor: "hsla(0, 0%, 45%, .14)",
                   }}
-                  // width="100%"
-                  // justify="space-between"
-                  // alignItems="center"
-                  // direction="row"
                   alignItems="center"
                   templateColumns="2.5fr 1.75fr 1fr 0.65fr"
                   templateRows="54px" // do i need this property?
@@ -290,18 +312,42 @@ export default function PlaylistPage() {
                         >
                           {track?.track?.name}
                         </Text>
-                        <NextLink href={`/artist/${artistIds[index]}`}>
-                          <Link
-                            overflow="hidden"
-                            textOverflow="ellipsis"
-                            whiteSpace="nowrap"
-                            color="whiteAlpha.700"
-                            fontSize="14px"
-                          >
-                            {renderArtists(track?.track?.artists)}
-                            {/* {track?.track?.artists[0].name} */}
-                          </Link>
-                        </NextLink>
+                        <Stack
+                          direction="row"
+                          spacing={1}
+                          divider={
+                            <span
+                              style={{
+                                color: "whiteAlpha.700",
+                                fontSize: "14px",
+                                marginInlineStart: "1px",
+                                marginInlineEnd: "3px",
+                              }}
+                            >
+                              ,
+                            </span>
+                          }
+                        >
+                          {track?.track?.artists?.map((artist, index) => {
+                            return (
+                              <NextLink
+                                href={`/artist/${artist.id}`}
+                                key={index}
+                              >
+                                <Link
+                                  maxW="100%"
+                                  overflow="hidden"
+                                  textOverflow="ellipsis"
+                                  whiteSpace="nowrap"
+                                  color="whiteAlpha.700"
+                                  fontSize="14px"
+                                >
+                                  {artist.name}
+                                </Link>
+                              </NextLink>
+                            );
+                          })}
+                        </Stack>
                       </Stack>
                     </Stack>
                   </GridItem>
