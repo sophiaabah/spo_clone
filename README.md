@@ -4,7 +4,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 This app uses Spotify's API and SDK to display a user's content and initialize an instance of the Spotify Player to stream music in real time from the clone, creating a similar experience. 
 
-If you want to preview the webpage, note that Spotify requires users to be registered in my developer dashboard, before it can be used with your spotify account. 
+If you want to preview the webpage, note that Spotify requires users to be registered in my developer dashboard, before this app can be used with your Spotify account. 
 
 
 https://user-images.githubusercontent.com/100762271/227971329-3d85bf11-9e59-489b-ba36-41a0cd946c2f.mp4
